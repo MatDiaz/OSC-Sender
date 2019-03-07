@@ -10,6 +10,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "UserInterfaceClass.h"
+#include "MainComponent.h"
 
 //==============================================================================
 UserInterfaceClass::UserInterfaceClass()
@@ -46,7 +47,7 @@ void UserInterfaceClass::paint (Graphics& g)
 void UserInterfaceClass::resized()
 {
     auto area = getLocalBounds();
-    area.removeFromBottom (getHeight() * 0.8);
+    area.removeFromBottom (getHeight() * 0.2);
     fileSearch->setBounds(area);
 }
 
@@ -60,12 +61,28 @@ void UserInterfaceClass::filenameComponentChanged (FilenameComponent *fileCompon
             FileInputStream dataStream (inputFile);
             if (dataStream.openedOk())
             {
+                int size = 0;
+                
+                while (!dataStream.isExhausted())
+                {
+                    dataStream.readNextLine();
+                    size++;
+                }
+                
+                if (arrayToPass != nullptr)
+                    delete [] arrayToPass;
+                
+                arrayToPass = new float[size];
+                dataStream.setPosition(0);
+                size = 0;
+                
                 while (!dataStream.isExhausted())
                 {
                     auto Line = dataStream.readNextLine();
-                    Line = Line.removeCharacters(" ");
-                    Line = Line.removeCharacters(",");
+                    arrayToPass[size++] = Line.getFloatValue();
                 }
+                
+                fatherComponent->receiveArray(arrayToPass, size);
             }
         }
     }
