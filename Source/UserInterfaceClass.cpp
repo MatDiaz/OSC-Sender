@@ -40,7 +40,7 @@ void UserInterfaceClass::addReference(MainComponent& parentComponent)
 void UserInterfaceClass::paint (Graphics& g)
 {
     
-    g.fillAll (Colour(Colours::darkgrey));
+    g.fillAll (Colour(Colours::black));
     
 }
 

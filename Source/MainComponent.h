@@ -46,11 +46,15 @@ public:
 private:
     
     std::unique_ptr<Slider> mainSlider;
-    std::unique_ptr<Button> mainButton;
+    std::unique_ptr<TextButton> mainButton;
     std::unique_ptr<TextEditor> addressEnter;
+	std::unique_ptr<Label> portLabel;
+	std::unique_ptr<Label> statusLabel;
+
     UserInterfaceClass mainLoader;
     OwnedArray<float> dataSets;
     OSCSender sender;
+	bool isConnected = false;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };
