@@ -10,6 +10,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "UserInterfaceClass.h"
+#include "Plot.h"
 
 //==============================================================================
 /*
@@ -53,6 +54,7 @@ private:
     UserInterfaceClass mainLoader;
     OwnedArray<float> dataSets;
     OSCSender sender;
+	Plot mainPlot;
 	bool isConnected = false;
 	bool isLoaded = false;
 

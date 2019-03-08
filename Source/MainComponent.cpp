@@ -70,6 +70,11 @@ MainComponent::MainComponent()
 	statusLabel->setColour (Label::textColourId, Colour(Colours::darkred));
 	statusLabel->setBounds (area.removeFromLeft(area.getWidth() * 0.3));
 
+	//==============================================================================
+
+	addAndMakeVisible (mainPlot);
+	mainPlot.setBounds(0, getHeight() * 0.25, getWidth(), getHeight() * 0.75);
+
 
     setAudioChannels (2, 2);
 }
@@ -101,7 +106,8 @@ void MainComponent::receiveArray(float *newDataSet, int dataSetSize)
     dataSets.add (newDataSet);
 	mainSlider->setRange(0, (dataSetSize - 1), 1);
 	dataSetTam = dataSetSize;
-    repaint();
+	  
+	mainPlot.updatePlot (newDataSet, dataSetSize, true);
 }
 
 
@@ -123,7 +129,7 @@ void MainComponent::buttonClicked(Button *button)
 	{
 		if (!isConnected)
 		{
-			if (sender.connect("192.168.250.1", addressEnter->getText().getFloatValue()))
+			if (sender.connect("10.0.8.162", addressEnter->getText().getFloatValue()))
 			{
 				statusLabel->setColour(Label::textColourId, Colour(Colours::darkgreen));
 				statusLabel->setText("Conectado", dontSendNotification);
@@ -139,27 +145,7 @@ void MainComponent::buttonClicked(Button *button)
 void MainComponent::paint(Graphics& g)
 {
 	g.fillAll(Colour(Colours::black));
-	g.setColour(Colour((uint8)250, (uint8)250, (uint8)250, (uint8)35));
-	Rectangle<float> windowRectangle(0, getHeight() * 0.25, getWidth(), getHeight() * 0.75);
-	g.fillRoundedRectangle(windowRectangle, 0.5);
 
-	if (isLoaded)
-	{
-		Path dataSetPlot;
-
-		g.setColour(Colour(Colours::darkred));
-
-		dataSetPlot.startNewSubPath(0, getHeight()*0.625);
-
-		float divX = getWidth() / dataSetTam;
-
-		for (int i = 0; i < dataSetTam; ++i)
-		{
-			dataSetPlot.lineTo(i, getHeight()*0.625);
-		}
-
-		g.strokePath(dataSetPlot, PathStrokeType(1.0f));
-	}	
 }
 
 void MainComponent::resized()
