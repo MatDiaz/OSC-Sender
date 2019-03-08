@@ -29,6 +29,9 @@ MainComponent::MainComponent()
     mainSlider->setRange (0, 1, 0);
     mainSlider->setSliderSnapsToMousePosition(true);
     mainSlider->setBounds (area.removeFromTop((int) area.getHeight() *  0.1));
+	mainSlider->setColour(Slider::thumbColourId, Colour(Colours::dimgrey));
+	mainSlider->setColour(Slider::backgroundColourId, Colour(Colours::white));
+	mainSlider->setColour(Slider::trackColourId, Colour(Colours::darkgrey));
     mainSlider->addListener (this);
     
     //==============================================================================
@@ -97,8 +100,10 @@ void MainComponent::receiveArray(float *newDataSet, int dataSetSize)
 {
     dataSets.add (newDataSet);
 	mainSlider->setRange(0, (dataSetSize - 1), 1);
+	dataSetTam = dataSetSize;
     repaint();
 }
+
 
 void MainComponent::sliderValueChanged(juce::Slider *slider)
 {
@@ -106,8 +111,8 @@ void MainComponent::sliderValueChanged(juce::Slider *slider)
 	{
 		if (isConnected)
 		{	
-			int dataValue = (int) mainSlider->getValue();
-			sender.send("/juce/valeverga", dataValue);
+			float dataValue = dataSets[0][(int) mainSlider->getValue()];
+			sender.send("/juce/message", dataValue);
 		}
 	}
 }
@@ -118,7 +123,7 @@ void MainComponent::buttonClicked(Button *button)
 	{
 		if (!isConnected)
 		{
-			if (sender.connect("127.0.0.1", addressEnter->getText().getFloatValue()))
+			if (sender.connect("192.168.250.1", addressEnter->getText().getFloatValue()))
 			{
 				statusLabel->setColour(Label::textColourId, Colour(Colours::darkgreen));
 				statusLabel->setText("Conectado", dontSendNotification);
@@ -131,9 +136,30 @@ void MainComponent::buttonClicked(Button *button)
 }
 
 //==============================================================================
-void MainComponent::paint (Graphics& g)
+void MainComponent::paint(Graphics& g)
 {
-    g.fillAll(Colour(Colours::black));
+	g.fillAll(Colour(Colours::black));
+	g.setColour(Colour((uint8)250, (uint8)250, (uint8)250, (uint8)35));
+	Rectangle<float> windowRectangle(0, getHeight() * 0.25, getWidth(), getHeight() * 0.75);
+	g.fillRoundedRectangle(windowRectangle, 0.5);
+
+	if (isLoaded)
+	{
+		Path dataSetPlot;
+
+		g.setColour(Colour(Colours::darkred));
+
+		dataSetPlot.startNewSubPath(0, getHeight()*0.625);
+
+		float divX = getWidth() / dataSetTam;
+
+		for (int i = 0; i < dataSetTam; ++i)
+		{
+			dataSetPlot.lineTo(i, getHeight()*0.625);
+		}
+
+		g.strokePath(dataSetPlot, PathStrokeType(1.0f));
+	}	
 }
 
 void MainComponent::resized()

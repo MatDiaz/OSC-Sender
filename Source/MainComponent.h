@@ -41,7 +41,6 @@ public:
     //==============================================================================
     
     void receiveArray(float* newDataSet, int dataSetSize);
-    
 
 private:
     
@@ -55,6 +54,9 @@ private:
     OwnedArray<float> dataSets;
     OSCSender sender;
 	bool isConnected = false;
+	bool isLoaded = false;
+
+	int dataSetTam = 1;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };
