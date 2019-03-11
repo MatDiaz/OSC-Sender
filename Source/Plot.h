@@ -21,10 +21,13 @@ class Plot    : public Component
 public:
     Plot()
     {
+        addAndMakeVisible (mainDataCursor);
+        mainDataCursor.setBounds(300, 300, 100, 100);
     }
 
     ~Plot()
     {
+        pointsArray.clearQuick(false);
     }
 
 	void paint(Graphics& g) override
@@ -48,21 +51,22 @@ public:
 			auto height = Min < 0 ? getHeight() / 2 : getHeight();
 
 			for (auto i = 0; i < dataSetSize; ++i)
-			{	
-				Point<float> kPoint((i * divX) * 1.005, height - ((dataSetToPlot[i] / Max) * height));
+			{
+				pointsArray.add(new Point<float>);
 
-				pointsArray.add(&kPoint);
+                pointsArray[i]->addXY((i * divX) * 1.005, height - ((dataSetToPlot[i] / Max) * height));
 
 				if (!i)
-					dataSetPlot.startNewSubPath (kPoint);
+                    dataSetPlot.startNewSubPath (*pointsArray[i]);
 				else
-					dataSetPlot.lineTo (kPoint);
+                    dataSetPlot.lineTo (*pointsArray[i]);
 			}
 
 			g.strokePath (dataSetPlot, PathStrokeType(2.0f));
-
-			/*createDataCursor(pointsArray);*/
-
+            
+            mainDataCursor.setBounds(pointsArray[3]->getX() - 5, pointsArray[3]->getY() - 5, 10, 10);
+            mainDataCursor.shouldPaint = true;
+            isLoaded = false;
 		}
     }
 
@@ -73,17 +77,26 @@ public:
 		dataSetToPlot = dataSet;
 		repaint();
 	}
-
+    
+    void mouseDown (const MouseEvent& e) override
+    {
+        
+    }
+    
+    void mouseDrag (const MouseEvent& e) override
+    {
+        if(e.mods.isLeftButtonDown())
+        {
+            int position = ((float)e.getMouseDownX() / (float)getWidth()) * dataSetSize;
+            
+            mainDataCursor.setBounds(pointsArray[position]->getX() - 5, pointsArray[position]->getY() - 5, 10, 10);
+        }
+    }
+    
     void resized() override
     {
         
     }
-
-	void createDataCursor(OwnedArray<Point<float>> &pointsToPass)
-	{
-		addAndMakeVisible(mainDataCursor);
-		mainDataCursor.setBounds(getBounds());
-	}
 
 	OwnedArray<Point<float>> pointsArray;
 

@@ -129,7 +129,7 @@ void MainComponent::buttonClicked(Button *button)
 	{
 		if (!isConnected)
 		{
-			if (sender.connect("10.0.8.162", addressEnter->getText().getFloatValue()))
+			if (sender.connect("192.168.1.74", addressEnter->getText().getFloatValue()))
 			{
 				statusLabel->setColour(Label::textColourId, Colour(Colours::darkgreen));
 				statusLabel->setText("Conectado", dontSendNotification);
