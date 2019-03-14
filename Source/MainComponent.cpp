@@ -21,6 +21,7 @@ MainComponent::MainComponent()
     auto area = getBounds();
     
     mainLoader.setBounds (area.removeFromTop ((int)area.getHeight() * 0.05));
+
     
     //==============================================================================
     
@@ -35,46 +36,65 @@ MainComponent::MainComponent()
     mainSlider->addListener (this);
     
     //==============================================================================
-    
-    area.removeFromBottom((int) area.getHeight() *  0.95);
-	area.removeFromLeft((int)area.getWidth() * 0.15);
+   
+
+	hostLabel.reset(new Label());
+	addAndMakeVisible(hostLabel.get());
+	hostLabel->setText("Host: ", dontSendNotification);
+	hostLabel->setColour(Label::textColourId, Colour(Colours::white));
+	hostLabel->setBounds(getWidth() * 0.1, getHeight() * 0.15, getWidth() * 0.1, getHeight() * 0.05);
+	hostLabel->setJustificationType(juce::Justification::centred);
+
+	//==============================================================================
+
+	hostEnter.reset(new TextEditor());
+	addAndMakeVisible(hostEnter.get());
+	hostEnter->setColour(TextEditor::backgroundColourId, Colour((uint8)255, (uint8)255, (uint8)250, (uint8)50));
+	hostEnter->setBounds(getWidth() * 0.2, getHeight() * 0.15, getWidth() * 0.15, getHeight() * 0.05);
+	hostEnter->setText("127.0.0.1", false);
+	hostEnter->setJustification(juce::Justification::centred);
+	
+	//==============================================================================
 
 	portLabel.reset (new Label());
 	addAndMakeVisible (portLabel.get());
 	portLabel->setText ("Puerto: ", dontSendNotification);
 	portLabel->setColour (Label::textColourId, Colour(Colours::white));
-	portLabel->setBounds (area.removeFromLeft(area.getWidth() * 0.1));
+	portLabel->setBounds (getWidth() * 0.35, getHeight() * 0.15, getWidth() * 0.1, getHeight() * 0.05);
+	portLabel->setJustificationType(juce::Justification::centred);
+
+	//==============================================================================
     
     addressEnter.reset (new TextEditor());
     addAndMakeVisible (addressEnter.get());
-    addressEnter->setBounds (area.removeFromLeft(area.getWidth() * 0.2));
 	addressEnter->setColour (TextEditor::backgroundColourId, Colour((uint8) 255, (uint8) 255, (uint8) 250, (uint8) 50));
-    
+	addressEnter->setBounds (getWidth() * 0.45, getHeight() * 0.15, getWidth() * 0.15, getHeight() * 0.05);
+	addressEnter->setText("9001", false);
+	addressEnter->setJustification(juce::Justification::centred);
+
 	//==============================================================================
-	area.removeFromLeft((int)area.getWidth() * 0.125);
 
 	mainButton.reset (new TextButton());
 	addAndMakeVisible (mainButton.get());
 	mainButton->setButtonText ("Conectar");
-	mainButton->setColour(TextButton::buttonColourId, Colour((uint8)255, (uint8)255, (uint8)250, (uint8)50));
-	mainButton->setBounds(area.removeFromLeft(area.getWidth() * 0.25));
+	mainButton->setColour (TextButton::buttonColourId, Colour((uint8)255, (uint8)255, (uint8)250, (uint8)50));
+	mainButton->setBounds (getWidth() * 0.65, getHeight() * 0.15, getWidth() * 0.1, getHeight() * 0.05 );
 	mainButton->addListener(this);
 
 	//==============================================================================
 
-	area.removeFromLeft ((int)area.getWidth() * 0.125);
 	statusLabel.reset (new Label);
 	addAndMakeVisible (statusLabel.get());
 	statusLabel->setText ("Desconectado", dontSendNotification);
 	statusLabel->setFont (Font(18.0f, 0));
 	statusLabel->setColour (Label::textColourId, Colour(Colours::darkred));
-	statusLabel->setBounds (area.removeFromLeft(area.getWidth() * 0.3));
+	statusLabel->setBounds (getWidth() * 0.80, getHeight() * 0.15, getWidth() * 0.15, getHeight() * 0.05);
+	statusLabel->setJustificationType(juce::Justification::centredLeft);
 
 	//==============================================================================
 
 	addAndMakeVisible (mainPlot);
 	mainPlot.setBounds(0, getHeight() * 0.25, getWidth(), getHeight() * 0.75);
-
 
     setAudioChannels (2, 2);
 }
@@ -129,7 +149,7 @@ void MainComponent::buttonClicked(Button *button)
 	{
 		if (!isConnected)
 		{
-			if (sender.connect("192.168.1.74", addressEnter->getText().getFloatValue()))
+			if (sender.connect(hostEnter->getText(), addressEnter->getText().getFloatValue()))
 			{
 				statusLabel->setColour(Label::textColourId, Colour(Colours::darkgreen));
 				statusLabel->setText("Conectado", dontSendNotification);

@@ -18,6 +18,9 @@
 class DataCursor    : public Component
 {
 public:
+
+	ComponentBoundsConstrainer constrainer;
+
     DataCursor()
     {	
 		
@@ -32,19 +35,12 @@ public:
         if (shouldPaint)
         {
             g.setColour (Colour (Colours::dimgrey));
-            g.fillEllipse (0, 0, 10, 10);
+            g.fillEllipse (0, 0, 15, 15);
+			int X = getWidth() * 0.5;
+			int Y = getHeight() * 0.5;
         }
     }
-    
-    void mouseDown (const MouseEvent& e) override
-    {
-//        myDragger.startDraggingComponent(this, e);
-    }
-    
-    void mouseDrag (const MouseEvent& e) override
-    {
-//        myDragger.dragComponent(this, e, nullptr);
-    }
+  
 
     void resized() override
     {
@@ -53,7 +49,6 @@ public:
     bool shouldPaint = false;
     
 private:
-    ComponentDragger myDragger;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DataCursor)
 };

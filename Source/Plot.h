@@ -79,25 +79,22 @@ public:
 		repaint();
 	}
     
-    void mouseDown (const MouseEvent& e) override
-    {
-        
-    }
-    
     void mouseDrag (const MouseEvent& e) override
     {
-        if(e.mods.isLeftButtonDown())
+        if(e.mods.isLeftButtonDown() && (e.getPosition().getX() >= 0))
         {
             float position = (((float) e.getPosition().getX() / (float)getWidth()) * dataSetSize);
 
-			int prevPosition = floor(position);
-			int nextPosition = ceil(position);
+			int prevPosition = (int)floor(position) >= dataSetSize ? dataSetSize - 1 : (int)floor(position);
+
+			int nextPosition = (int)ceil(position) >= dataSetSize ? dataSetSize - 1 : (int)ceil(position);
+
 			float fraction = position - prevPosition;
 
-			float realPositionX = (pointsArray[nextPosition]->getX() * fraction) + (pointsArray[prevPosition]->getX() * (1 - fraction)) - 5;
-			float realPositionY = (pointsArray[nextPosition]->getY() * fraction) + (pointsArray[prevPosition]->getY() * (1 - fraction)) - 5;
+			int realPositionX = (pointsArray[nextPosition]->getX() * fraction) + (pointsArray[prevPosition]->getX() * (1 - fraction)) - 7.5;
+			int realPositionY = (pointsArray[nextPosition]->getY() * fraction) + (pointsArray[prevPosition]->getY() * (1 - fraction)) - 7.5;
 
-            mainDataCursor.setBounds(realPositionX, realPositionY, 10, 10);
+            mainDataCursor.setBounds(realPositionX, realPositionY, 20, 20);
         }
     }
     
