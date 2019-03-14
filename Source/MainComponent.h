@@ -48,7 +48,9 @@ private:
     std::unique_ptr<Slider> mainSlider;
     std::unique_ptr<TextButton> mainButton;
     std::unique_ptr<TextEditor> addressEnter;
+	std::unique_ptr<TextEditor> hostEnter;
 	std::unique_ptr<Label> portLabel;
+	std::unique_ptr<Label> hostLabel;
 	std::unique_ptr<Label> statusLabel;
 
     UserInterfaceClass mainLoader;

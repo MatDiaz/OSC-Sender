@@ -22,7 +22,6 @@ public:
     Plot()
     {
         addAndMakeVisible (mainDataCursor);
-        mainDataCursor.setBounds(300, 300, 100, 100);
     }
 
     ~Plot()
@@ -42,20 +41,8 @@ public:
 
 			g.setColour(Colour(Colours::white));
 
-			float divX = getWidth() / (dataSetSize - 1);
-
-			float Min, Max;
-
-			findMinAndMax(dataSetToPlot, dataSetSize, Min, Max);
-
-			auto height = Min < 0 ? getHeight() / 2 : getHeight();
-
 			for (auto i = 0; i < dataSetSize; ++i)
 			{
-				pointsArray.add(new Point<float>);
-
-                pointsArray[i]->addXY((i * divX) * 1.005, height - ((dataSetToPlot[i] / Max) * height));
-
 				if (!i)
                     dataSetPlot.startNewSubPath (*pointsArray[i]);
 				else
@@ -63,10 +50,8 @@ public:
 			}
 
 			g.strokePath (dataSetPlot, PathStrokeType(2.0f));
-            
-            mainDataCursor.setBounds(pointsArray[3]->getX() - 5, pointsArray[3]->getY() - 5, 10, 10);
+           
             mainDataCursor.shouldPaint = true;
-            isLoaded = false;
 		}
     }
 
@@ -75,6 +60,22 @@ public:
 		isLoaded = Loaded;
 		dataSetSize = dataSize;
 		dataSetToPlot = dataSet;
+
+		float divX = getWidth() / (dataSetSize - 1);
+
+		float Min, Max;
+
+		findMinAndMax(dataSetToPlot, dataSetSize, Min, Max);
+
+		auto height = Min < 0 ? getHeight() / 2 : getHeight();
+
+		for (auto i = 0; i < dataSetSize; ++i)
+		{
+			pointsArray.add(new Point<float>);
+
+			pointsArray[i]->addXY((i * divX) * 1.01, height - ((dataSetToPlot[i] / Max) * height));
+		}
+
 		repaint();
 	}
     
@@ -87,9 +88,16 @@ public:
     {
         if(e.mods.isLeftButtonDown())
         {
-            int position = ((float)e.getMouseDownX() / (float)getWidth()) * dataSetSize;
-            
-            mainDataCursor.setBounds(pointsArray[position]->getX() - 5, pointsArray[position]->getY() - 5, 10, 10);
+            float position = (((float) e.getPosition().getX() / (float)getWidth()) * dataSetSize);
+
+			int prevPosition = floor(position);
+			int nextPosition = ceil(position);
+			float fraction = position - prevPosition;
+
+			float realPositionX = (pointsArray[nextPosition]->getX() * fraction) + (pointsArray[prevPosition]->getX() * (1 - fraction)) - 5;
+			float realPositionY = (pointsArray[nextPosition]->getY() * fraction) + (pointsArray[prevPosition]->getY() * (1 - fraction)) - 5;
+
+            mainDataCursor.setBounds(realPositionX, realPositionY, 10, 10);
         }
     }
     
