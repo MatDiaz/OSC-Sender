@@ -15,6 +15,11 @@
 //==============================================================================
 UserInterfaceClass::UserInterfaceClass()
 {
+	getLookAndFeel().setColour (ComboBox::backgroundColourId, Colour(0x81361b45));
+	getLookAndFeel().setColour(PopupMenu::backgroundColourId, Colour(0x81361b45));
+	getLookAndFeel().setColour(PopupMenu::highlightedBackgroundColourId, Colour(0x54373636));
+	getLookAndFeel().setColour(TextButton::buttonColourId, Colour(0x81361b45));
+
     fileSearch.reset(new FilenameComponent("fileSearch",
                                            {},
                                            false,
@@ -25,7 +30,7 @@ UserInterfaceClass::UserInterfaceClass()
                                            "Seletsioname"));
     fileSearch->setColour(TextEditor::backgroundColourId, Colour(Colours::white));
     addAndMakeVisible(fileSearch.get());
-    fileSearch->addListener(this);
+	fileSearch->addListener(this);
 }
 
 UserInterfaceClass::~UserInterfaceClass()

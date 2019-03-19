@@ -31,14 +31,14 @@ public:
 
 	void paint(Graphics& g) override
 	{
-		g.setColour(Colour((uint8)250, (uint8)250, (uint8)250, (uint8)35));
+		g.setColour(Colour((uint8)230, (uint8)230, (uint8)230, (uint8)15));
 
 		g.fillRoundedRectangle(0, 0, getWidth(), getHeight(), 1.0f);
 
 		if (isLoaded)
 		{
 			Path dataSetPlot;
-
+			 
 			g.setColour(Colour(Colours::white));
 
 			for (auto i = 0; i < dataSetSize; ++i)
@@ -49,7 +49,7 @@ public:
                     dataSetPlot.lineTo (*pointsArray[i]);
 			}
 
-			g.strokePath (dataSetPlot, PathStrokeType(2.0f));
+			g.strokePath (dataSetPlot, PathStrokeType(0.5f));
            
             mainDataCursor.shouldPaint = true;
 		}
@@ -91,8 +91,8 @@ public:
 
 			float fraction = position - prevPosition;
 
-			int realPositionX = (pointsArray[nextPosition]->getX() * fraction) + (pointsArray[prevPosition]->getX() * (1 - fraction)) - 7.5;
-			int realPositionY = (pointsArray[nextPosition]->getY() * fraction) + (pointsArray[prevPosition]->getY() * (1 - fraction)) - 7.5;
+			int realPositionX = (pointsArray[nextPosition]->getX() * fraction) + (pointsArray[prevPosition]->getX() * (1 - fraction)) - 5;
+			int realPositionY = (pointsArray[nextPosition]->getY() * fraction) + (pointsArray[prevPosition]->getY() * (1 - fraction)) - 5;
 
             mainDataCursor.setBounds(realPositionX, realPositionY, 20, 20);
         }

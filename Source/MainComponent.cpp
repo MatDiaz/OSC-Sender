@@ -32,7 +32,8 @@ MainComponent::MainComponent()
     mainSlider->setBounds (area.removeFromTop((int) area.getHeight() *  0.1));
 	mainSlider->setColour(Slider::thumbColourId, Colour(Colours::dimgrey));
 	mainSlider->setColour(Slider::backgroundColourId, Colour(Colours::white));
-	mainSlider->setColour(Slider::trackColourId, Colour(Colours::darkgrey));
+	mainSlider->setColour(Slider::trackColourId, Colour(0x81361b45));
+	mainSlider->setEnabled(false);
     mainSlider->addListener (this);
     
     //==============================================================================
@@ -52,6 +53,8 @@ MainComponent::MainComponent()
 	hostEnter->setColour(TextEditor::backgroundColourId, Colour((uint8)255, (uint8)255, (uint8)250, (uint8)50));
 	hostEnter->setBounds(getWidth() * 0.2, getHeight() * 0.15, getWidth() * 0.15, getHeight() * 0.05);
 	hostEnter->setText("127.0.0.1", false);
+	hostEnter->setColour(TextEditor::backgroundColourId, Colour(0x81361b45));
+	hostEnter->setEnabled(false);
 	hostEnter->setJustification(juce::Justification::centred);
 	
 	//==============================================================================
@@ -70,6 +73,8 @@ MainComponent::MainComponent()
 	addressEnter->setColour (TextEditor::backgroundColourId, Colour((uint8) 255, (uint8) 255, (uint8) 250, (uint8) 50));
 	addressEnter->setBounds (getWidth() * 0.45, getHeight() * 0.15, getWidth() * 0.15, getHeight() * 0.05);
 	addressEnter->setText("9001", false);
+	addressEnter->setEnabled(false);
+	addressEnter->setColour(TextEditor::backgroundColourId, Colour(0x81361b45));
 	addressEnter->setJustification(juce::Justification::centred);
 
 	//==============================================================================
@@ -79,6 +84,8 @@ MainComponent::MainComponent()
 	mainButton->setButtonText ("Conectar");
 	mainButton->setColour (TextButton::buttonColourId, Colour((uint8)255, (uint8)255, (uint8)250, (uint8)50));
 	mainButton->setBounds (getWidth() * 0.65, getHeight() * 0.15, getWidth() * 0.1, getHeight() * 0.05 );
+	mainButton->setEnabled(false);
+	mainButton->setColour(TextButton::buttonColourId, Colour(0x81361b45));
 	mainButton->addListener(this);
 
 	//==============================================================================
@@ -95,6 +102,8 @@ MainComponent::MainComponent()
 
 	addAndMakeVisible (mainPlot);
 	mainPlot.setBounds(0, getHeight() * 0.25, getWidth(), getHeight() * 0.75);
+	
+	mainPlot.setEnabled(false);
 
     setAudioChannels (2, 2);
 }
@@ -126,7 +135,12 @@ void MainComponent::receiveArray(float *newDataSet, int dataSetSize)
     dataSets.add (newDataSet);
 	mainSlider->setRange(0, (dataSetSize - 1), 1);
 	dataSetTam = dataSetSize;
-	  
+
+	mainSlider->setEnabled(true);
+	hostEnter->setEnabled(true);
+	addressEnter->setEnabled(true);
+	mainButton->setEnabled(true);
+
 	mainPlot.updatePlot (newDataSet, dataSetSize, true);
 }
 

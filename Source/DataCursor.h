@@ -19,8 +19,6 @@ class DataCursor    : public Component
 {
 public:
 
-	ComponentBoundsConstrainer constrainer;
-
     DataCursor()
     {	
 		
@@ -35,7 +33,7 @@ public:
         if (shouldPaint)
         {
             g.setColour (Colour (Colours::dimgrey));
-            g.fillEllipse (0, 0, 15, 15);
+            g.fillEllipse (0, 0, 10, 10);
 			int X = getWidth() * 0.5;
 			int Y = getHeight() * 0.5;
         }
