@@ -53,6 +53,7 @@ MainComponent::MainComponent()
 	hostEnter->setColour(TextEditor::backgroundColourId, Colour((uint8)255, (uint8)255, (uint8)250, (uint8)50));
 	hostEnter->setBounds(getWidth() * 0.2, getHeight() * 0.15, getWidth() * 0.15, getHeight() * 0.05);
 	hostEnter->setText("127.0.0.1", false);
+    hostEnter->setReadOnly(true);
 	hostEnter->setColour(TextEditor::backgroundColourId, Colour(0x81361b45));
 	hostEnter->setEnabled(false);
 	hostEnter->setJustification(juce::Justification::centred);
@@ -74,6 +75,7 @@ MainComponent::MainComponent()
 	addressEnter->setBounds (getWidth() * 0.45, getHeight() * 0.15, getWidth() * 0.15, getHeight() * 0.05);
 	addressEnter->setText("9001", false);
 	addressEnter->setEnabled(false);
+    addressEnter->setReadOnly(true);
 	addressEnter->setColour(TextEditor::backgroundColourId, Colour(0x81361b45));
 	addressEnter->setJustification(juce::Justification::centred);
 
@@ -135,13 +137,20 @@ void MainComponent::receiveArray(float *newDataSet, int dataSetSize)
     dataSets.add (newDataSet);
 	mainSlider->setRange(0, (dataSetSize - 1), 1);
 	dataSetTam = dataSetSize;
-
+    
 	mainSlider->setEnabled(true);
 	hostEnter->setEnabled(true);
+    hostEnter->setReadOnly(false);
 	addressEnter->setEnabled(true);
+    addressEnter->setReadOnly(false);
 	mainButton->setEnabled(true);
 
 	mainPlot.updatePlot (newDataSet, dataSetSize, true);
+    
+    float Min, Max;
+    findMinAndMax(newDataSet, dataSetSize, Min, Max);
+    normFactor = jmax(abs(Min), Max);
+    
 }
 
 
@@ -150,9 +159,18 @@ void MainComponent::sliderValueChanged(juce::Slider *slider)
 	if (slider == mainSlider.get())
 	{
 		if (isConnected)
-		{	
-			float dataValue = dataSets[0][(int) mainSlider->getValue()];
+		{
+            
+			float dataValue = (dataSets[0][(int) mainSlider->getValue()]) / normFactor;
+            
 			sender.send("/juce/message", dataValue);
+            
+            int globPos = mainSlider->getValue();
+            
+            int posX = mainPlot.pointsArray[globPos]->getX();
+            int posY = mainPlot.pointsArray[globPos]->getY();
+            
+            mainPlot.setCursorPosition(posX, posY);
 		}
 	}
 }
@@ -168,9 +186,7 @@ void MainComponent::buttonClicked(Button *button)
 				statusLabel->setColour(Label::textColourId, Colour(Colours::darkgreen));
 				statusLabel->setText("Conectado", dontSendNotification);
 			}
-
 			isConnected = true;
-		
 		}
 	}
 }

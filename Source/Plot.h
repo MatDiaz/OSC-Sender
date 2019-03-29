@@ -49,7 +49,7 @@ public:
                     dataSetPlot.lineTo (*pointsArray[i]);
 			}
 
-			g.strokePath (dataSetPlot, PathStrokeType(0.5f));
+			g.strokePath (dataSetPlot, PathStrokeType(1.0f));
            
             mainDataCursor.shouldPaint = true;
 		}
@@ -60,8 +60,8 @@ public:
 		isLoaded = Loaded;
 		dataSetSize = dataSize;
 		dataSetToPlot = dataSet;
-
-		float divX = getWidth() / (dataSetSize - 1);
+        
+		float divX = getWidth() / ((float)dataSetSize - 1);
 
 		float Min, Max;
 
@@ -73,7 +73,7 @@ public:
 		{
 			pointsArray.add(new Point<float>);
 
-			pointsArray[i]->addXY((i * divX) * 1.01, height - ((dataSetToPlot[i] / Max) * height));
+			pointsArray[i]->addXY((i * divX), (height*0.75 - ((dataSetToPlot[i] / Max)* 0.5 * height)));
 		}
 
 		repaint();
@@ -94,8 +94,13 @@ public:
 			int realPositionX = (pointsArray[nextPosition]->getX() * fraction) + (pointsArray[prevPosition]->getX() * (1 - fraction)) - 5;
 			int realPositionY = (pointsArray[nextPosition]->getY() * fraction) + (pointsArray[prevPosition]->getY() * (1 - fraction)) - 5;
 
-            mainDataCursor.setBounds(realPositionX, realPositionY, 20, 20);
+            setCursorPosition(realPositionX, realPositionY);
         }
+    }
+    
+    void setCursorPosition (int posX, int posY)
+    {
+        mainDataCursor.setBounds(posX, posY, 20, 20);
     }
     
     void resized() override

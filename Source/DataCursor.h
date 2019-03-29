@@ -32,10 +32,8 @@ public:
     {
         if (shouldPaint)
         {
-            g.setColour (Colour (Colours::dimgrey));
+            g.setColour (Colour (Colours::white));
             g.fillEllipse (0, 0, 10, 10);
-			int X = getWidth() * 0.5;
-			int Y = getHeight() * 0.5;
         }
     }
   

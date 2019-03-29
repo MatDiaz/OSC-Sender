@@ -57,6 +57,7 @@ private:
     OwnedArray<float> dataSets;
     OSCSender sender;
 	Plot mainPlot;
+    float normFactor = 1;
 	bool isConnected = false;
 	bool isLoaded = false;
 
