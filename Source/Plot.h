@@ -67,13 +67,20 @@ public:
 
 		findMinAndMax(dataSetToPlot, dataSetSize, Min, Max);
 
-		auto height = Min < 0 ? getHeight() / 2 : getHeight();
+		Max = jmax(abs(Min), Max);
+
+		float Height = getHeight();
+
+		if (Min < 0)
+		{
+			Height *= 0.5;
+		}
 
 		for (auto i = 0; i < dataSetSize; ++i)
 		{
 			pointsArray.add(new Point<float>);
 
-			pointsArray[i]->addXY((i * divX), (height*0.75 - ((dataSetToPlot[i] / Max)* 0.5 * height)));
+			pointsArray[i]->addXY((i * divX), (getHeight() - ((dataSetToPlot[i] / Max) * getHeight())));
 		}
 
 		repaint();
@@ -81,7 +88,7 @@ public:
     
     void mouseDrag (const MouseEvent& e) override
     {
-        if(e.mods.isLeftButtonDown() && (e.getPosition().getX() >= 0))
+        if(e.mods.isLeftButtonDown() && (e.getPosition().getX() >= 0) && isConnected)
         {
             float position = (((float) e.getPosition().getX() / (float)getWidth()) * dataSetSize);
 
@@ -110,7 +117,7 @@ public:
 
 	OwnedArray<Point<float>> pointsArray;
 
-	bool isLoaded = false;
+	bool isLoaded = false, isConnected = false;
 
 	int dataSetSize = 0;
 

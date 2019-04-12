@@ -137,8 +137,7 @@ void MainComponent::receiveArray(float *newDataSet, int dataSetSize)
     dataSets.add (newDataSet);
 	mainSlider->setRange(0, (dataSetSize - 1), 1);
 	dataSetTam = dataSetSize;
-    
-	mainSlider->setEnabled(true);
+
 	hostEnter->setEnabled(true);
     hostEnter->setReadOnly(false);
 	addressEnter->setEnabled(true);
@@ -149,8 +148,7 @@ void MainComponent::receiveArray(float *newDataSet, int dataSetSize)
     
     float Min, Max;
     findMinAndMax(newDataSet, dataSetSize, Min, Max);
-    normFactor = jmax(abs(Min), Max);
-    
+    normFactor = jmax(abs(Min), Max); 
 }
 
 
@@ -160,7 +158,6 @@ void MainComponent::sliderValueChanged(juce::Slider *slider)
 	{
 		if (isConnected)
 		{
-            
 			float dataValue = (dataSets[0][(int) mainSlider->getValue()]) / normFactor;
             
 			sender.send("/juce/message", dataValue);
@@ -182,11 +179,24 @@ void MainComponent::buttonClicked(Button *button)
 		if (!isConnected)
 		{
 			if (sender.connect(hostEnter->getText(), addressEnter->getText().getFloatValue()))
-			{
+			{	
+				isConnected = true;
+				mainPlot.isConnected = true;
 				statusLabel->setColour(Label::textColourId, Colour(Colours::darkgreen));
 				statusLabel->setText("Conectado", dontSendNotification);
+				mainSlider->setEnabled(true);
 			}
-			isConnected = true;
+		}
+		else
+		{
+			if (sender.disconnect())
+			{
+				isConnected = false;
+				mainPlot.isConnected = false;
+				statusLabel->setColour(Label::textColourId, Colour(Colours::darkred));
+				statusLabel->setText("Desconectado", dontSendNotification);
+				mainSlider->setEnabled(false);
+			}
 		}
 	}
 }
@@ -195,7 +205,6 @@ void MainComponent::buttonClicked(Button *button)
 void MainComponent::paint(Graphics& g)
 {
 	g.fillAll(Colour(Colours::black));
-
 }
 
 void MainComponent::resized()
