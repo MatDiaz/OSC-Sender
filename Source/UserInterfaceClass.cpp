@@ -66,6 +66,7 @@ void UserInterfaceClass::filenameComponentChanged (FilenameComponent *fileCompon
             FileInputStream dataStream (inputFile);
             if (dataStream.openedOk())
             {
+                arrayToPass = nullptr;
                 int size = 0;
                 
                 while (!dataStream.isExhausted())
@@ -73,9 +74,6 @@ void UserInterfaceClass::filenameComponentChanged (FilenameComponent *fileCompon
                     dataStream.readNextLine();
                     size++;
                 }
-                
-                if (arrayToPass != nullptr)
-                    delete [] arrayToPass;
                 
                 arrayToPass = new float[size];
                 dataStream.setPosition(0);

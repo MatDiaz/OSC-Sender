@@ -68,19 +68,14 @@ public:
 		findMinAndMax(dataSetToPlot, dataSetSize, Min, Max);
 
 		Max = jmax(abs(Min), Max);
-
-		float Height = getHeight();
-
-		if (Min < 0)
-		{
-			Height *= 0.5;
-		}
+        
+        float Height = Min < 0 ? getHeight() / 2 : getHeight();
 
 		for (auto i = 0; i < dataSetSize; ++i)
 		{
-			pointsArray.add(new Point<float>);
+            pointsArray.insert(i, new Point<float>);
 
-			pointsArray[i]->addXY((i * divX), (getHeight() - ((dataSetToPlot[i] / Max) * getHeight())));
+			pointsArray[i]->addXY((i * divX), (Height - ((dataSetToPlot[i] / Max) * Height)));
 		}
 
 		repaint();
