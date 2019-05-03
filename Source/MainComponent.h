@@ -19,7 +19,8 @@
 */
 class MainComponent   : public AudioAppComponent,
                         public Slider::Listener,
-                        public Button::Listener
+                        public Button::Listener,
+                        public ComponentListener
 {
 public:
     //==============================================================================
@@ -39,13 +40,17 @@ public:
     
     void buttonClicked (Button *button) override;
     
+    void mouseDrag (const MouseEvent& e) override;
+    
+    void updateSliderPosistion (float newPosition);
+    
     //==============================================================================
     
     void receiveArray(float* newDataSet, int dataSetSize);
+    std::unique_ptr<Slider> mainSlider;
 
 private:
     
-    std::unique_ptr<Slider> mainSlider;
     std::unique_ptr<TextButton> mainButton;
     std::unique_ptr<TextEditor> addressEnter;
 	std::unique_ptr<TextEditor> hostEnter;

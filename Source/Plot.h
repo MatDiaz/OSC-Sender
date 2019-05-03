@@ -10,12 +10,15 @@
 
 #pragma once
 
+class MainComponent;
+
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "DataCursor.h"
 
 //==============================================================================
 /*
 */
+
 class Plot    : public Component
 {
 public:
@@ -77,7 +80,7 @@ public:
 
 			pointsArray[i]->addXY((i * divX), (Height - ((dataSetToPlot[i] / Max) * Height)));
 		}
-
+        
 		repaint();
 	}
     
@@ -86,23 +89,26 @@ public:
         if(e.mods.isLeftButtonDown() && (e.getPosition().getX() >= 0) && isConnected)
         {
             float position = (((float) e.getPosition().getX() / (float)getWidth()) * dataSetSize);
-
-			int prevPosition = (int)floor(position) >= dataSetSize ? dataSetSize - 1 : (int)floor(position);
-
-			int nextPosition = (int)ceil(position) >= dataSetSize ? dataSetSize - 1 : (int)ceil(position);
-
-			float fraction = position - prevPosition;
-
-			int realPositionX = (pointsArray[nextPosition]->getX() * fraction) + (pointsArray[prevPosition]->getX() * (1 - fraction)) - 5;
-			int realPositionY = (pointsArray[nextPosition]->getY() * fraction) + (pointsArray[prevPosition]->getY() * (1 - fraction)) - 5;
-
-            setCursorPosition(realPositionX, realPositionY);
+            
+            dataValue = position;
+            
+            interpolatePosition(position);
         }
     }
     
-    void setCursorPosition (int posX, int posY)
+    void interpolatePosition(float position)
     {
-        mainDataCursor.setBounds(posX, posY, 20, 20);
+        int prevPosition = (int)floor(position) >= dataSetSize ? dataSetSize - 1 : (int)floor(position);
+        
+        int nextPosition = (int)ceil(position) >= dataSetSize ? dataSetSize - 1 : (int)ceil(position);
+        
+        float fraction = position - prevPosition;
+        
+        int realPositionX = (pointsArray[nextPosition]->getX() * fraction) + (pointsArray[prevPosition]->getX() * (1 - fraction)) - 5;
+        int realPositionY = (pointsArray[nextPosition]->getY() * fraction) + (pointsArray[prevPosition]->getY() * (1 - fraction)) - 5;
+        
+        mainDataCursor.setBounds(realPositionX, realPositionY, 20, 20);
+        
     }
     
     void resized() override
@@ -113,6 +119,8 @@ public:
 	OwnedArray<Point<float>> pointsArray;
 
 	bool isLoaded = false, isConnected = false;
+    
+    float dataValue = 0;
 
 	int dataSetSize = 0;
 
@@ -121,5 +129,6 @@ public:
 	DataCursor mainDataCursor;
 
 private:
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Plot)
 };

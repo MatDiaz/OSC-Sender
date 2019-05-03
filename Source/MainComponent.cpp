@@ -14,6 +14,8 @@ MainComponent::MainComponent()
     
     setSize (800, 600);
     
+    addMouseListener(this, true);
+    
     addAndMakeVisible (mainLoader);
 
     mainLoader.addReference(*this);
@@ -33,6 +35,7 @@ MainComponent::MainComponent()
 	mainSlider->setColour(Slider::thumbColourId, Colour(Colours::dimgrey));
 	mainSlider->setColour(Slider::backgroundColourId, Colour(Colours::white));
 	mainSlider->setColour(Slider::trackColourId, Colour(0x81361b45));
+    mainSlider->setTextBoxStyle(Slider::NoTextBox, true, 1, 1);
 	mainSlider->setEnabled(false);
     mainSlider->addListener (this);
     
@@ -104,7 +107,6 @@ MainComponent::MainComponent()
 
 	addAndMakeVisible (mainPlot);
 	mainPlot.setBounds(0, getHeight() * 0.25, getWidth(), getHeight() * 0.75);
-	
 	mainPlot.setEnabled(false);
 
     setAudioChannels (2, 2);
@@ -135,7 +137,7 @@ void MainComponent::releaseResources()
 void MainComponent::receiveArray(float *newDataSet, int dataSetSize)
 {
     dataSets.add (newDataSet);
-	mainSlider->setRange(0, (dataSetSize - 1), 1);
+	mainSlider->setRange(0, (dataSetSize - 1), 0);
 	dataSetTam = dataSetSize;
 
 	hostEnter->setEnabled(true);
@@ -151,6 +153,10 @@ void MainComponent::receiveArray(float *newDataSet, int dataSetSize)
     normFactor = jmax(abs(Min), Max); 
 }
 
+void MainComponent::updateSliderPosistion (float newPosition)
+{
+    
+}
 
 void MainComponent::sliderValueChanged(juce::Slider *slider)
 {
@@ -164,13 +170,20 @@ void MainComponent::sliderValueChanged(juce::Slider *slider)
             
             int globPos = mainSlider->getValue();
             
-            int posX = mainPlot.pointsArray[globPos]->getX();
-            int posY = mainPlot.pointsArray[globPos]->getY();
-            
-            mainPlot.setCursorPosition(posX, posY);
+            mainPlot.interpolatePosition(globPos);
 		}
 	}
 }
+
+
+void MainComponent::mouseDrag (const MouseEvent& e)
+{
+    if ( e.originalComponent == &mainPlot && isConnected)
+    {
+        mainSlider->setValue(mainPlot.dataValue);
+    }
+}
+
 
 void MainComponent::buttonClicked(Button *button)
 {
