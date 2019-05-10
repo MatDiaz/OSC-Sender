@@ -166,7 +166,7 @@ void MainComponent::sliderValueChanged(juce::Slider *slider)
 		{
 			float dataValue = (dataSets[0][(int) mainSlider->getValue()]) / normFactor;
             
-			sender.send("/juce/message", dataValue);
+			sender.send("/test", dataValue);
             
             int globPos = mainSlider->getValue();
             
