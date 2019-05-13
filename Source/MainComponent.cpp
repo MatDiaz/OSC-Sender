@@ -12,7 +12,7 @@
 MainComponent::MainComponent()
 {
     
-    setSize (800, 600);
+    setSize (900, 700);
     
     addMouseListener(this, true);
     
@@ -24,20 +24,14 @@ MainComponent::MainComponent()
     
     mainLoader.setBounds (area.removeFromTop ((int)area.getHeight() * 0.05));
 
-    
     //==============================================================================
     
-    mainSlider.reset (new Slider());
-    addAndMakeVisible (mainSlider.get());
-    mainSlider->setRange (0, 1, 0);
-    mainSlider->setSliderSnapsToMousePosition(true);
-    mainSlider->setBounds (area.removeFromTop((int) area.getHeight() *  0.1));
-	mainSlider->setColour(Slider::thumbColourId, Colour(Colours::dimgrey));
-	mainSlider->setColour(Slider::backgroundColourId, Colour(Colours::white));
-	mainSlider->setColour(Slider::trackColourId, Colour(0x81361b45));
-    mainSlider->setTextBoxStyle(Slider::NoTextBox, true, 1, 1);
-	mainSlider->setEnabled(false);
-    mainSlider->addListener (this);
+    autoButton.reset(new TextButton());
+    addAndMakeVisible(autoButton.get());
+    autoButton->setBoundsRelative(0.5, 0.075, 0.1, 0.05);
+    autoButton->setButtonText("Auto-Play");
+    autoButton->setEnabled(false);
+    autoButton->addListener(this);
     
     //==============================================================================
    
@@ -137,7 +131,6 @@ void MainComponent::releaseResources()
 void MainComponent::receiveArray(float *newDataSet, int dataSetSize)
 {
     dataSets.add (newDataSet);
-	mainSlider->setRange(0, (dataSetSize - 1), 0);
 	dataSetTam = dataSetSize;
 
 	hostEnter->setEnabled(true);
@@ -158,29 +151,11 @@ void MainComponent::updateSliderPosistion (float newPosition)
     
 }
 
-void MainComponent::sliderValueChanged(juce::Slider *slider)
-{
-	if (slider == mainSlider.get())
-	{
-		if (isConnected)
-		{
-			float dataValue = (dataSets[0][(int) mainSlider->getValue()]) / normFactor;
-            
-			sender.send("/test", dataValue);
-            
-            int globPos = mainSlider->getValue();
-            
-            mainPlot.interpolatePosition(globPos);
-		}
-	}
-}
-
-
 void MainComponent::mouseDrag (const MouseEvent& e)
 {
     if ( e.originalComponent == &mainPlot && isConnected)
     {
-        mainSlider->setValue(mainPlot.dataValue);
+        sender.send("/test", (mainPlot.dataValue / normFactor));
     }
 }
 
@@ -195,9 +170,9 @@ void MainComponent::buttonClicked(Button *button)
 			{	
 				isConnected = true;
 				mainPlot.isConnected = true;
+                autoButton->setEnabled(true);
 				statusLabel->setColour(Label::textColourId, Colour(Colours::darkgreen));
 				statusLabel->setText("Conectado", dontSendNotification);
-				mainSlider->setEnabled(true);
 			}
 		}
 		else
@@ -206,15 +181,19 @@ void MainComponent::buttonClicked(Button *button)
 			{
 				isConnected = false;
 				mainPlot.isConnected = false;
+                autoButton->setEnabled(false);
 				statusLabel->setColour(Label::textColourId, Colour(Colours::darkred));
 				statusLabel->setText("Desconectado", dontSendNotification);
-				mainSlider->setEnabled(false);
 			}
 		}
 	}
+    else if (button == autoButton.get())
+    {
+        startTimer(1000);
+    }
 }
 
-//==============================================================================
+// ==============================================================================
 void MainComponent::paint(Graphics& g)
 {
 	g.fillAll(Colour(Colours::black));
@@ -223,4 +202,16 @@ void MainComponent::paint(Graphics& g)
 void MainComponent::resized()
 {
     
+}
+// ==============================================================================
+void MainComponent::timerCallback()
+{
+    float autoStep = getWidth() / 10000;
+    float position = cursorPosition / ((float)getWidth() * mainPlot.dataSetSize);
+    mainPlot.interpolatePosition(position);
+    cursorPosition += autoStep;
+    if (cursorPosition >= getWidth())
+    {
+        stopTimer();
+    }
 }

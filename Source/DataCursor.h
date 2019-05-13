@@ -32,7 +32,7 @@ public:
     {
         if (shouldPaint)
         {
-            g.setColour (Colour (Colours::white));
+            g.setColour (Colour (Colours::purple));
             g.fillEllipse (0, 0, 10, 10);
         }
     }

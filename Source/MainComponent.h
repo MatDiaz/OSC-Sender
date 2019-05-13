@@ -18,9 +18,8 @@
     your controls and content.
 */
 class MainComponent   : public AudioAppComponent,
-                        public Slider::Listener,
                         public Button::Listener,
-                        public ComponentListener
+                        public Timer
 {
 public:
     //==============================================================================
@@ -36,22 +35,22 @@ public:
     void paint (Graphics& g) override;
     void resized() override;
     
-    void sliderValueChanged (Slider *slider) override;
-    
     void buttonClicked (Button *button) override;
     
     void mouseDrag (const MouseEvent& e) override;
     
     void updateSliderPosistion (float newPosition);
     
+    void timerCallback() override;
+    
     //==============================================================================
     
     void receiveArray(float* newDataSet, int dataSetSize);
-    std::unique_ptr<Slider> mainSlider;
 
 private:
     
     std::unique_ptr<TextButton> mainButton;
+    std::unique_ptr<TextButton> autoButton;
     std::unique_ptr<TextEditor> addressEnter;
 	std::unique_ptr<TextEditor> hostEnter;
 	std::unique_ptr<Label> portLabel;
@@ -65,7 +64,8 @@ private:
     float normFactor = 1;
 	bool isConnected = false;
 	bool isLoaded = false;
-
+    bool isAuto = false;
+    float cursorPosition = 0;
 	int dataSetTam = 1;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
