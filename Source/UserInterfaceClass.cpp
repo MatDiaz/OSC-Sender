@@ -27,7 +27,7 @@ UserInterfaceClass::UserInterfaceClass()
                                            false,
                                            "*.txt; *.dat",
                                            {},
-                                           "Seletsioname"));
+                                           "Archivos"));
     fileSearch->setColour(TextEditor::backgroundColourId, Colour(Colours::white));
     addAndMakeVisible(fileSearch.get());
 	fileSearch->addListener(this);

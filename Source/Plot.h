@@ -22,8 +22,9 @@ class MainComponent;
 class Plot    : public Component
 {
 public:
-    Plot()
+    Plot() // Constructor
     {
+        // Create data cursor
         addAndMakeVisible (mainDataCursor);
     }
 
@@ -34,7 +35,8 @@ public:
 
 	void paint(Graphics& g) override
 	{
-		g.setColour(Colour((uint8)230, (uint8)230, (uint8)230, (uint8)15));
+        // Set data to plot colour
+		g.setColour(Colour((uint8)220, (uint8)220, (uint8)220, (uint8)15));
 
 		g.fillRoundedRectangle(0, 0, getWidth(), getHeight(), 1.0f);
 
@@ -57,7 +59,7 @@ public:
             mainDataCursor.shouldPaint = true;
 		}
     }
-
+    // This method will receive data from parent component
 	void updatePlot(float* dataSet, int dataSize, bool Loaded)
 	{
 		isLoaded = Loaded;
@@ -83,6 +85,31 @@ public:
         
 		repaint();
 	}
+    // This should be called when resizing in parent component happens
+    // and dataSetToPlot is already in use
+    void updatePlot()
+    {
+        if (dataSetToPlot != nullptr)
+        {
+            float divX = getWidth() / ((float)dataSetSize - 1);
+            
+            float Min, Max;
+            
+            findMinAndMax(dataSetToPlot, dataSetSize, Min, Max);
+            
+            Max = jmax(abs(Min), Max);
+            
+            float Height = Min < 0 ? getHeight() / 2 : getHeight();
+            
+            for (auto i = 0; i < dataSetSize; ++i)
+            {
+                pointsArray.insert(i, new Point<float>);
+                
+                pointsArray[i]->addXY((i * divX), (Height - ((dataSetToPlot[i] / Max) * Height)));
+            }
+            repaint();
+        }
+    }
     
     void mouseDrag (const MouseEvent& e) override
     {
@@ -108,12 +135,11 @@ public:
         int realPositionY = (pointsArray[nextPosition]->getY() * fraction) + (pointsArray[prevPosition]->getY() * (1 - fraction)) - 5;
         
         mainDataCursor.setBounds(realPositionX, realPositionY, 20, 20);
-        
     }
     
     void resized() override
     {
-        
+        repaint();
     }
 
 	OwnedArray<Point<float>> pointsArray;

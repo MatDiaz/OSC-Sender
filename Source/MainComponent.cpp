@@ -7,40 +7,55 @@
 */
 
 #include "MainComponent.h"
+using namespace std;
 
 //==============================================================================
 MainComponent::MainComponent()
 {
-    
-    setSize (900, 700);
-    
     addMouseListener(this, true);
-    
-    addAndMakeVisible (mainLoader);
-
-    mainLoader.addReference(*this);
-    
-    auto area = getBounds();
-    
-    mainLoader.setBounds (area.removeFromTop ((int)area.getHeight() * 0.05));
 
     //==============================================================================
     
     autoButton.reset(new TextButton());
     addAndMakeVisible(autoButton.get());
-    autoButton->setBoundsRelative(0.5, 0.075, 0.1, 0.05);
     autoButton->setButtonText("Auto-Play");
+    autoButton->setColour(TextButton::buttonOnColourId, Colour(Colours::grey));
     autoButton->setEnabled(false);
     autoButton->addListener(this);
+    autoButton->setClickingTogglesState(true);
+    
+    //==============================================================================
+    
+    messageEnter.reset(new TextEditor());
+    addAndMakeVisible(messageEnter.get());
+    messageEnter->setText("/juce/message");
+    messageEnter->setReadOnly(true);
+    messageEnter->setEnabled(false);
+    messageEnter->setColour(TextEditor::backgroundColourId, Colour(0x81361b45));
+    messageEnter->setJustification(juce::Justification::centred);
+    
+    //==============================================================================
+    
+    messageLabel.reset(new Label());
+    addAndMakeVisible(messageLabel.get());
+    messageLabel->setText("Mensaje OSC: ", dontSendNotification);
+    messageLabel->setColour(Label::textColourId, Colour(Colours::white));
+    messageLabel->setJustificationType(juce::Justification::centred);
+    
+    //==============================================================================
+    
+    fileName.reset (new Label());
+    addAndMakeVisible (fileName.get());
+    fileName->setText ("Nombre: ", dontSendNotification);
+    fileName->setColour (Label::textColourId, Colour(Colours::white));
+    fileName->setJustificationType(juce::Justification::centred);
     
     //==============================================================================
    
-
 	hostLabel.reset(new Label());
 	addAndMakeVisible(hostLabel.get());
 	hostLabel->setText("Host: ", dontSendNotification);
 	hostLabel->setColour(Label::textColourId, Colour(Colours::white));
-	hostLabel->setBounds(getWidth() * 0.1, getHeight() * 0.15, getWidth() * 0.1, getHeight() * 0.05);
 	hostLabel->setJustificationType(juce::Justification::centred);
 
 	//==============================================================================
@@ -48,7 +63,6 @@ MainComponent::MainComponent()
 	hostEnter.reset(new TextEditor());
 	addAndMakeVisible(hostEnter.get());
 	hostEnter->setColour(TextEditor::backgroundColourId, Colour((uint8)255, (uint8)255, (uint8)250, (uint8)50));
-	hostEnter->setBounds(getWidth() * 0.2, getHeight() * 0.15, getWidth() * 0.15, getHeight() * 0.05);
 	hostEnter->setText("127.0.0.1", false);
     hostEnter->setReadOnly(true);
 	hostEnter->setColour(TextEditor::backgroundColourId, Colour(0x81361b45));
@@ -61,7 +75,6 @@ MainComponent::MainComponent()
 	addAndMakeVisible (portLabel.get());
 	portLabel->setText ("Puerto: ", dontSendNotification);
 	portLabel->setColour (Label::textColourId, Colour(Colours::white));
-	portLabel->setBounds (getWidth() * 0.35, getHeight() * 0.15, getWidth() * 0.1, getHeight() * 0.05);
 	portLabel->setJustificationType(juce::Justification::centred);
 
 	//==============================================================================
@@ -69,7 +82,6 @@ MainComponent::MainComponent()
     addressEnter.reset (new TextEditor());
     addAndMakeVisible (addressEnter.get());
 	addressEnter->setColour (TextEditor::backgroundColourId, Colour((uint8) 255, (uint8) 255, (uint8) 250, (uint8) 50));
-	addressEnter->setBounds (getWidth() * 0.45, getHeight() * 0.15, getWidth() * 0.15, getHeight() * 0.05);
 	addressEnter->setText("9001", false);
 	addressEnter->setEnabled(false);
     addressEnter->setReadOnly(true);
@@ -82,7 +94,6 @@ MainComponent::MainComponent()
 	addAndMakeVisible (mainButton.get());
 	mainButton->setButtonText ("Conectar");
 	mainButton->setColour (TextButton::buttonColourId, Colour((uint8)255, (uint8)255, (uint8)250, (uint8)50));
-	mainButton->setBounds (getWidth() * 0.65, getHeight() * 0.15, getWidth() * 0.1, getHeight() * 0.05 );
 	mainButton->setEnabled(false);
 	mainButton->setColour(TextButton::buttonColourId, Colour(0x81361b45));
 	mainButton->addListener(this);
@@ -94,15 +105,19 @@ MainComponent::MainComponent()
 	statusLabel->setText ("Desconectado", dontSendNotification);
 	statusLabel->setFont (Font(18.0f, 0));
 	statusLabel->setColour (Label::textColourId, Colour(Colours::darkred));
-	statusLabel->setBounds (getWidth() * 0.80, getHeight() * 0.15, getWidth() * 0.15, getHeight() * 0.05);
 	statusLabel->setJustificationType(juce::Justification::centredLeft);
 
 	//==============================================================================
 
 	addAndMakeVisible (mainPlot);
-	mainPlot.setBounds(0, getHeight() * 0.25, getWidth(), getHeight() * 0.75);
 	mainPlot.setEnabled(false);
+    
+    //==============================================================================
+    
+    addAndMakeVisible (mainLoader);
+    mainLoader.addReference(*this);
 
+    setSize (900, 700);
     setAudioChannels (2, 2);
 }
 
@@ -135,30 +150,35 @@ void MainComponent::receiveArray(float *newDataSet, int dataSetSize)
 
 	hostEnter->setEnabled(true);
     hostEnter->setReadOnly(false);
+	
 	addressEnter->setEnabled(true);
     addressEnter->setReadOnly(false);
+	
+	messageEnter->setEnabled(true);
+	messageEnter->setReadOnly(false);
+	
 	mainButton->setEnabled(true);
 
 	mainPlot.updatePlot (newDataSet, dataSetSize, true);
+    isLoaded = true;
     
     float Min, Max;
     findMinAndMax(newDataSet, dataSetSize, Min, Max);
     normFactor = jmax(abs(Min), Max); 
 }
 
-void MainComponent::updateSliderPosistion (float newPosition)
-{
-    
-}
-
 void MainComponent::mouseDrag (const MouseEvent& e)
 {
     if ( e.originalComponent == &mainPlot && isConnected)
     {
-        sender.send("/test", (mainPlot.dataValue / normFactor));
+		float normValue = 0;
+		
+		if (mainPlot.dataValue >= 0 && mainPlot.dataValue <= dataSetTam)
+			normValue = (dataSets[0][(int)mainPlot.dataValue] / normFactor);
+		
+        sender.send(messageEnter->getTextValue().toString(), normValue);
     }
 }
-
 
 void MainComponent::buttonClicked(Button *button)
 {
@@ -173,6 +193,7 @@ void MainComponent::buttonClicked(Button *button)
                 autoButton->setEnabled(true);
 				statusLabel->setColour(Label::textColourId, Colour(Colours::darkgreen));
 				statusLabel->setText("Conectado", dontSendNotification);
+                mainButton->setButtonText("Desconectar");
 			}
 		}
 		else
@@ -184,12 +205,20 @@ void MainComponent::buttonClicked(Button *button)
                 autoButton->setEnabled(false);
 				statusLabel->setColour(Label::textColourId, Colour(Colours::darkred));
 				statusLabel->setText("Desconectado", dontSendNotification);
+                mainButton->setButtonText("Conectar");
 			}
 		}
 	}
     else if (button == autoButton.get())
     {
-        startTimer(1000);
+        if (autoButton->getToggleState())
+        {
+            startTimer(30);
+        }
+        else
+        {
+            stopTimer();
+        }
     }
 }
 
@@ -201,17 +230,40 @@ void MainComponent::paint(Graphics& g)
 
 void MainComponent::resized()
 {
+    hostLabel->setBoundsRelative(0.05, 0.05, 0.1, 0.05);
+    hostEnter->setBoundsRelative(0.15, 0.05, 0.15, 0.05);
     
+    messageLabel->setBoundsRelative(0.35, 0.05, 0.1, 0.05);
+    messageEnter->setBoundsRelative(0.45, 0.05, 0.15, 0.05);
+    
+    portLabel->setBoundsRelative(0.65, 0.05, 0.1, 0.05);
+    addressEnter->setBoundsRelative(0.75, 0.05, 0.15, 0.05);
+
+    autoButton->setBoundsRelative(0.05, 0.125, 0.1, 0.05);
+
+    mainButton->setBoundsRelative(0.65, 0.125, 0.1, 0.05);
+    statusLabel->setBoundsRelative(0.8, 0.125, 0.15, 0.05);
+    
+    fileName->setBoundsRelative(0.05, 0.2, 0.1, 0.05);
+    
+    mainPlot.setBoundsRelative(0, 0.25, 1, 0.75);
+    mainLoader.setBoundsRelative(0, 0, 1.0f, 0.05);
+    if(isLoaded)
+    {
+        mainPlot.updatePlot();
+    }
 }
 // ==============================================================================
 void MainComponent::timerCallback()
 {
-    float autoStep = getWidth() / 10000;
-    float position = cursorPosition / ((float)getWidth() * mainPlot.dataSetSize);
-    mainPlot.interpolatePosition(position);
-    cursorPosition += autoStep;
-    if (cursorPosition >= getWidth())
-    {
-        stopTimer();
-    }
+	mainPlot.interpolatePosition(cursorPosition);
+	cursorPosition += 0.05;
+	
+	cursorPosition = cursorPosition > dataSetTam ? 0 : cursorPosition;
+	
+	float normValue = 0;
+	
+	normValue = (dataSets[0][(int)cursorPosition] / normFactor);
+	
+	sender.send(messageEnter->getTextValue().toString(), normValue);
 }
