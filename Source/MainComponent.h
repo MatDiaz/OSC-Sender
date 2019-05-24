@@ -51,6 +51,7 @@ private:
     
     std::unique_ptr<TextButton> mainButton;
     std::unique_ptr<TextButton> autoButton;
+	std::unique_ptr<Slider> playbackSpeedSlider;
     
     std::unique_ptr<TextEditor> messageEnter;
     std::unique_ptr<TextEditor> addressEnter;

@@ -23,6 +23,16 @@ MainComponent::MainComponent()
     autoButton->setEnabled(false);
     autoButton->addListener(this);
     autoButton->setClickingTogglesState(true);
+
+	//=============================================================================
+
+	playbackSpeedSlider.reset(new Slider());
+	addAndMakeVisible(playbackSpeedSlider.get());
+	playbackSpeedSlider->setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+	playbackSpeedSlider->setColour(Slider::thumbColourId, Colour(Colours::grey));
+	playbackSpeedSlider->setColour(Slider::trackColourId, Colour(Colours::darkgrey));
+	playbackSpeedSlider->setColour(Slider::ColourIds::rotarySliderFillColourId, Colour(Colours::grey));
+	playbackSpeedSlider->setRange(0, 1, 0);
     
     //==============================================================================
     
@@ -240,14 +250,16 @@ void MainComponent::resized()
     addressEnter->setBoundsRelative(0.75, 0.05, 0.15, 0.05);
 
     autoButton->setBoundsRelative(0.05, 0.125, 0.1, 0.05);
+	playbackSpeedSlider->setBoundsRelative(0.2, 0.125, 0.4, 0.05);
 
     mainButton->setBoundsRelative(0.65, 0.125, 0.1, 0.05);
-    statusLabel->setBoundsRelative(0.8, 0.125, 0.15, 0.05);
+    statusLabel->setBoundsRelative(0.8, 0.125, 0.1, 0.05);
     
     fileName->setBoundsRelative(0.05, 0.2, 0.1, 0.05);
     
     mainPlot.setBoundsRelative(0, 0.25, 1, 0.75);
     mainLoader.setBoundsRelative(0, 0, 1.0f, 0.05);
+
     if(isLoaded)
     {
         mainPlot.updatePlot();
@@ -257,7 +269,7 @@ void MainComponent::resized()
 void MainComponent::timerCallback()
 {
 	mainPlot.interpolatePosition(cursorPosition);
-	cursorPosition += 0.05;
+	cursorPosition += 0.1;
 	
 	cursorPosition = cursorPosition > dataSetTam ? 0 : cursorPosition;
 	
