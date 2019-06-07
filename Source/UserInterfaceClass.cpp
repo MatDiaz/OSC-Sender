@@ -82,7 +82,10 @@ void UserInterfaceClass::filenameComponentChanged (FilenameComponent *fileCompon
                 while (!dataStream.isExhausted())
                 {
                     auto Line = dataStream.readNextLine();
-                    arrayToPass[size++] = Line.getFloatValue();
+					if (Line.getFloatValue() > 1000 || Line.getFloatValue() < -1000)
+						arrayToPass[size++] = 0;
+					else
+						arrayToPass[size++] = Line.getFloatValue();
                 }
                 
                 fatherComponent->receiveArray(arrayToPass, size);

@@ -73,6 +73,7 @@ private:
 	bool isLoaded = false;
     bool isAuto = false;
     float cursorPosition = 0;
+	int numCycles = 0;
 	int dataSetTam = 1;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
