@@ -8,9 +8,12 @@
   ==============================================================================
 */
 
+#include "MainComponent.h"
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "UserInterfaceClass.h"
-#include "MainComponent.h"
+#include <iostream>
+#include <fstream>
+
 
 //==============================================================================
 UserInterfaceClass::UserInterfaceClass()
@@ -63,7 +66,10 @@ void UserInterfaceClass::filenameComponentChanged (FilenameComponent *fileCompon
         File inputFile (fileSearch->getCurrentFile());
         if (inputFile.exists())
         {
-            FileInputStream dataStream (inputFile);
+			std::string fileName = inputFile.getFullPathName().toStdString();
+			std::ifstream F(fileName);
+			/*std::ifstream dataStream(inputFile.getFullPathName());*/
+            /*FileInputStream dataStream (inputFile);
             if (dataStream.openedOk())
             {
                 arrayToPass = nullptr;
@@ -86,10 +92,10 @@ void UserInterfaceClass::filenameComponentChanged (FilenameComponent *fileCompon
 						arrayToPass[size++] = 0;
 					else
 						arrayToPass[size++] = Line.getFloatValue();
-                }
+                }*/
                 
-                fatherComponent->receiveArray(arrayToPass, size);
-            }
+                /*fatherComponent->receiveArray(arrayToPass, size);*/
+            /*}*/
         }
     }
 }

@@ -61,8 +61,8 @@ private:
 	std::unique_ptr<Label> hostLabel;
 	std::unique_ptr<Label> statusLabel;
     std::unique_ptr<Label> messageLabel;
-    
     std::unique_ptr<Label> fileName;
+	std::unique_ptr<Label> speedLabel, speedLabel_Two, speedLabel_Three;
 
     UserInterfaceClass mainLoader;
     OwnedArray<float> dataSets;
