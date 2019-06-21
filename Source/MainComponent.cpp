@@ -32,8 +32,7 @@ MainComponent::MainComponent()
 	playbackSpeedSlider->setColour(Slider::thumbColourId, Colour(Colours::grey));
 	playbackSpeedSlider->setColour(Slider::trackColourId, Colour(Colours::darkgrey));
 	playbackSpeedSlider->setColour(Slider::ColourIds::rotarySliderFillColourId, Colour(Colours::grey));
-	playbackSpeedSlider->setRange(0, 1, 0);
-    
+	playbackSpeedSlider->setRange(0.5, 2, 0);
     //==============================================================================
     
     messageEnter.reset(new TextEditor());
@@ -223,7 +222,7 @@ void MainComponent::buttonClicked(Button *button)
     {
         if (autoButton->getToggleState())
         {
-            startTimer(30);
+            startTimer(16);
         }
         else
         {
@@ -269,13 +268,17 @@ void MainComponent::resized()
 void MainComponent::timerCallback()
 {
 	mainPlot.interpolatePosition(cursorPosition);
-	cursorPosition += 0.1;
+	
+	Logger::writeToLog(String(playbackSpeedSlider->getValue()));
+
+	const float cycleTime = (1000.0f * playbackSpeedSlider->getValue() * 60.0f) / 16.0f;
+
+	cursorPosition += (float) dataSetTam / (float) cycleTime;
 	
 	cursorPosition = cursorPosition > dataSetTam ? 0 : cursorPosition;
 	
-	float normValue = 0;
-	
-	normValue = (dataSets[0][(int)cursorPosition] / normFactor);
+	float normValue = (dataSets[0][(int)cursorPosition] / normFactor);
 	
 	sender.send(messageEnter->getTextValue().toString(), normValue);
+
 }
