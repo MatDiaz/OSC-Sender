@@ -16,25 +16,46 @@ MainComponent::MainComponent()
 
     //==============================================================================
     
-    autoButton.reset(new TextButton());
-    addAndMakeVisible(autoButton.get());
-    autoButton->setButtonText("Auto-Play");
-    autoButton->setColour(TextButton::buttonOnColourId, Colour(Colours::grey));
-    autoButton->setEnabled(false);
-    autoButton->addListener(this);
-    autoButton->setClickingTogglesState(true);
+    autoButton.reset (new TextButton());
+    addAndMakeVisible (autoButton.get());
+    autoButton->setButtonText ("Auto-Play");
+    autoButton->setColour (TextButton::buttonOnColourId, Colour(Colours::grey));
+    autoButton->setEnabled (false);
+    autoButton->addListener (this);
+    autoButton->setClickingTogglesState (true);
 
 	//=============================================================================
 
-	playbackSpeedSlider.reset(new Slider());
+	playbackSpeedSlider.reset (new Slider());
 	addAndMakeVisible(playbackSpeedSlider.get());
-	playbackSpeedSlider->setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
-	playbackSpeedSlider->setColour(Slider::thumbColourId, Colour(Colours::grey));
-	playbackSpeedSlider->setColour(Slider::trackColourId, Colour(Colours::darkgrey));
-	playbackSpeedSlider->setColour(Slider::ColourIds::rotarySliderFillColourId, Colour(Colours::grey));
-	playbackSpeedSlider->setRange(0.5, 2, 0);
+	playbackSpeedSlider->setTextBoxStyle (Slider::NoTextBox, false, 0, 0);
+	playbackSpeedSlider->setColour (Slider::thumbColourId, Colour(Colours::grey));
+	playbackSpeedSlider->setColour (Slider::trackColourId, Colour(Colours::darkgrey));
+	playbackSpeedSlider->setColour (Slider::ColourIds::rotarySliderFillColourId, Colour(Colours::grey));	
+	playbackSpeedSlider->setRange (0.25, 4, 0);
+	playbackSpeedSlider->setSkewFactorFromMidPoint(1.0f);
+	playbackSpeedSlider->setValue(1.0f, dontSendNotification);
     //==============================================================================
-    
+
+	speedLabel.reset (new Label());
+	addAndMakeVisible (speedLabel.get());
+	speedLabel->setText("0.25x", dontSendNotification);
+	speedLabel->setColour(Label::textColourId, Colour(Colours::white));
+	speedLabel->setJustificationType(juce::Justification::horizontallyJustified);
+
+	speedLabel_Two.reset (new Label());
+	addAndMakeVisible(speedLabel_Two.get());
+	speedLabel_Two->setText("1.0x", dontSendNotification);
+	speedLabel_Two->setColour(Label::textColourId, Colour(Colours::white));
+	speedLabel_Two->setJustificationType(juce::Justification::horizontallyJustified);
+
+	speedLabel_Three.reset(new Label());
+	addAndMakeVisible(speedLabel_Three.get());
+	speedLabel_Three->setText("4.0x", dontSendNotification);
+	speedLabel_Three->setColour(Label::textColourId, Colour(Colours::white));
+	speedLabel_Three->setJustificationType(juce::Justification::centredRight);
+
+	//==============================================================================
     messageEnter.reset(new TextEditor());
     addAndMakeVisible(messageEnter.get());
     messageEnter->setText("/juce/message");
@@ -248,8 +269,12 @@ void MainComponent::resized()
     portLabel->setBoundsRelative(0.65, 0.05, 0.1, 0.05);
     addressEnter->setBoundsRelative(0.75, 0.05, 0.15, 0.05);
 
-    autoButton->setBoundsRelative(0.05, 0.125, 0.1, 0.05);
-	playbackSpeedSlider->setBoundsRelative(0.2, 0.125, 0.4, 0.05);
+    autoButton->setBoundsRelative (0.05, 0.125, 0.1, 0.05);
+	playbackSpeedSlider->setBoundsRelative (0.2, 0.125, 0.4, 0.05);
+
+	speedLabel->setBoundsRelative(0.2, 0.1, 0.25, 0.05);
+	speedLabel_Two->setBoundsRelative(0.38, 0.1, 0.25, 0.05);
+	speedLabel_Three->setBoundsRelative(0.5, 0.1, 0.1, 0.05);
 
     mainButton->setBoundsRelative(0.65, 0.125, 0.1, 0.05);
     statusLabel->setBoundsRelative(0.8, 0.125, 0.1, 0.05);
@@ -269,9 +294,7 @@ void MainComponent::timerCallback()
 {
 	mainPlot.interpolatePosition(cursorPosition);
 	
-	Logger::writeToLog(String(playbackSpeedSlider->getValue()));
-
-	const float cycleTime = (1000.0f * playbackSpeedSlider->getValue() * 60.0f) / 16.0f;
+	const float cycleTime = (1000.0f * 60.0f) / (16.0f * playbackSpeedSlider->getValue());
 
 	cursorPosition += (float) dataSetTam / (float) cycleTime;
 	
