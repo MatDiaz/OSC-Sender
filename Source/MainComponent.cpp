@@ -280,5 +280,4 @@ void MainComponent::timerCallback()
 	float normValue = (dataSets[0][(int)cursorPosition] / normFactor);
 	
 	sender.send(messageEnter->getTextValue().toString(), normValue);
-
 }
