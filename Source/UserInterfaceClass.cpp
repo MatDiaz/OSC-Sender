@@ -68,34 +68,23 @@ void UserInterfaceClass::filenameComponentChanged (FilenameComponent *fileCompon
         {
 			std::string fileName = inputFile.getFullPathName().toStdString();
 			std::ifstream F(fileName);
-			/*std::ifstream dataStream(inputFile.getFullPathName());*/
-            /*FileInputStream dataStream (inputFile);
-            if (dataStream.openedOk())
+            std::string inputLine;
+            
+            while (std::getline(F, inputLine))
             {
-                arrayToPass = nullptr;
-                int size = 0;
+                float xValue;
+                std::string stringData;
+                std::istringstream inLine (inputLine);
                 
-                while (!dataStream.isExhausted())
-                {
-                    dataStream.readNextLine();
-                    size++;
-                }
+                inLine >> stringData >> xValue;
                 
-                arrayToPass = new float[size];
-                dataStream.setPosition(0);
-                size = 0;
+                xValue = xValue >= 500 || xValue <= - 500 ? 0 : xValue;
                 
-                while (!dataStream.isExhausted())
-                {
-                    auto Line = dataStream.readNextLine();
-					if (Line.getFloatValue() > 1000 || Line.getFloatValue() < -1000)
-						arrayToPass[size++] = 0;
-					else
-						arrayToPass[size++] = Line.getFloatValue();
-                }*/
-                
-                /*fatherComponent->receiveArray(arrayToPass, size);*/
-            /*}*/
+                arrayToPass.add(xValue);
+                stringsToPass.add(stringData);
+            }
+            fatherComponent->receiveArray(arrayToPass, stringsToPass, arrayToPass.size());
+            
         }
     }
 }

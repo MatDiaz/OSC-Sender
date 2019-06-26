@@ -173,9 +173,9 @@ void MainComponent::releaseResources()
     
 }
 
-void MainComponent::receiveArray(float *newDataSet, int dataSetSize)
+void MainComponent::receiveArray (Array<float> &inArray, StringArray inStringArray, int dataSetSize)
 {
-    dataSets.add (newDataSet);
+    dataSets.add (inArray.getRawDataPointer());
 	dataSetTam = dataSetSize;
 
 	hostEnter->setEnabled(true);
@@ -188,13 +188,16 @@ void MainComponent::receiveArray(float *newDataSet, int dataSetSize)
 	messageEnter->setReadOnly(false);
 	
 	mainButton->setEnabled(true);
-
-	mainPlot.updatePlot (newDataSet, dataSetSize, true);
-    isLoaded = true;
     
+    mainPlot.updatePlot (inArray.getRawDataPointer(), dataSetSize, true);
+    
+    mainPlot.addYDataToPlot (inStringArray);
+    
+    isLoaded = true;
+
     float Min, Max;
-    findMinAndMax(newDataSet, dataSetSize, Min, Max);
-    normFactor = jmax(abs(Min), Max); 
+    findMinAndMax(inArray.getRawDataPointer(), dataSetSize, Min, Max);
+    normFactor = jmax(abs(Min), Max);
 }
 
 void MainComponent::mouseDrag (const MouseEvent& e)
@@ -243,7 +246,7 @@ void MainComponent::buttonClicked(Button *button)
     {
         if (autoButton->getToggleState())
         {
-            startTimer(16);
+            startTimer(30);
         }
         else
         {
@@ -294,7 +297,7 @@ void MainComponent::timerCallback()
 {
 	mainPlot.interpolatePosition(cursorPosition);
 	
-	const float cycleTime = (1000.0f * 60.0f) / (16.0f * playbackSpeedSlider->getValue());
+	const float cycleTime = (1000.0f * 60.0f) / (30.0f * playbackSpeedSlider->getValue());
 
 	cursorPosition += (float) dataSetTam / (float) cycleTime;
 	

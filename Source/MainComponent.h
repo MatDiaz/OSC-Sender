@@ -45,7 +45,7 @@ public:
     
     //==============================================================================
     
-    void receiveArray(float* newDataSet, int dataSetSize);
+    void receiveArray (Array<float>& inArray, StringArray inStringArray, int dataSetSize);
 
 private:
     
