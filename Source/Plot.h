@@ -31,7 +31,8 @@ public:
         addAndMakeVisible (yDataLabel.get());
         yDataLabel->setText (" ------- ", dontSendNotification);
         yDataLabel->setColour (Label::textColourId, Colour (Colours::white));
-        yDataLabel->setFont (18.0f);
+        yDataLabel->setFont (20.0f);
+		yDataLabel->setColour(Label::backgroundColourId, Colour(Colours::darkgrey));
         yDataLabel->setJustificationType(Justification::centred);
     }
 
@@ -126,15 +127,15 @@ public:
             
             dataValue = position;
             
-            if (yDataLoaded) {yDataLabel->setText (yDataToPlot[round(position)], dontSendNotification);}
-            
             interpolatePosition(position);
         }
     }
     
     void interpolatePosition (float position)
     {
-        int prevPosition = (int)floor(position) >= dataSetSize ? dataSetSize - 1 : (int)floor(position);
+		if (yDataLoaded) { yDataLabel->setText(yDataToPlot[round(position)], dontSendNotification); }
+
+		int prevPosition = (int)floor(position) >= dataSetSize ? dataSetSize - 1 : (int)floor(position);
         
         int nextPosition = (int)ceil(position) >= dataSetSize ? dataSetSize - 1 : (int)ceil(position);
         
@@ -149,7 +150,7 @@ public:
     void resized() override
     {
         repaint();
-        yDataLabel->setBoundsRelative (0.7f, 0.8f, 0.3f, 0.2f);
+        yDataLabel->setBoundsRelative (0.7f, 0.0f, 0.3f, 0.2f);
     }
     
     void addYDataToPlot (StringArray newDataToPlot)
