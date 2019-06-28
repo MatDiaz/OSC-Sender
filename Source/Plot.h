@@ -32,8 +32,8 @@ public:
         yDataLabel->setText (" ------- ", dontSendNotification);
         yDataLabel->setColour (Label::textColourId, Colour (Colours::white));
         yDataLabel->setFont (20.0f);
-		yDataLabel->setColour(Label::backgroundColourId, Colour(Colours::darkgrey));
-        yDataLabel->setJustificationType(Justification::centred);
+		yDataLabel->setColour(Label::backgroundColourId, Colour(uint8(169), uint8(169), uint8(169), 0.5f));
+        yDataLabel->setJustificationType (Justification::centred);
     }
 
     ~Plot()
@@ -150,7 +150,7 @@ public:
     void resized() override
     {
         repaint();
-        yDataLabel->setBoundsRelative (0.7f, 0.0f, 0.3f, 0.2f);
+        yDataLabel->setBoundsRelative (0.7f, 0.0f, 0.3f, 0.1f);
     }
     
     void addYDataToPlot (StringArray newDataToPlot)
