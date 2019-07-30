@@ -70,13 +70,13 @@ void UserInterfaceClass::filenameComponentChanged (FilenameComponent *fileCompon
 			std::ifstream F(fileName);
             std::string inputLine;
             
-            while (std::getline(F, inputLine))
+            while (std::getline(F, inputLine, ','))
             {
                 float xValue;
                 std::string stringData;
                 std::istringstream inLine (inputLine);
                 
-                inLine >> stringData >> xValue;
+                inLine >> xValue >> stringData;
                 
                 xValue = xValue >= 500 || xValue <= - 500 ? 0 : xValue;
                 
