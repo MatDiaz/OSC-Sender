@@ -78,7 +78,7 @@ void UserInterfaceClass::filenameComponentChanged (FilenameComponent *fileCompon
                 
                 inLine >> xValue >> stringData;
                 
-                xValue = xValue >= 500 || xValue <= - 500 ? 0 : xValue;
+                xValue = xValue >= 1000 || xValue <= - 1000 ? 0 : xValue;
                 
                 arrayToPass.add(xValue);
                 stringsToPass.add(stringData);

@@ -1,6 +1,6 @@
-#N canvas 525 329 450 300 10;
+#N canvas 215 128 450 300 10;
 #X declare -lib mrpeach;
-#N canvas 1374 104 450 300 Tempo 0;
+#N canvas 804 76 1032 745 Tempo 1;
 #X obj 134 19 loadbang;
 #X obj 134 154 metro;
 #X msg 134 53 60000;
@@ -13,7 +13,7 @@
 -1 -1;
 #X obj 46 156 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
-#X obj 204 53 expr ($f1 * 150) + 140;
+#X obj 204 53 expr ($f1 * 400) + 100;
 #X connect 1 0 7 0;
 #X connect 1 0 8 0;
 #X connect 2 0 3 0;
@@ -25,7 +25,7 @@
 #X connect 10 0 2 0;
 #X connect 10 0 6 0;
 #X restore 25 56 pd Tempo;
-#N canvas 1323 353 450 300 oscRcvr 0;
+#N canvas 1323 353 450 300 oscRcvr 1;
 #X obj 106 51 import mrpeach;
 #X obj 106 84 udpreceive 9001;
 #X obj 106 117 unpackOSC;
@@ -37,18 +37,68 @@
 #X connect 3 0 5 0;
 #X connect 5 0 4 0;
 #X restore 25 29 pd oscRcvr;
-#N canvas 1124 415 450 300 gen 0;
-#X obj 27 23 osc~ 500;
-#X obj 82 38 r tempo;
-#X obj 27 134 dac~;
-#X obj 27 60 *~ 0.5;
-#X obj 27 97 spigot~;
-#X obj 82 60 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1 1
-;
-#X connect 0 0 3 0;
-#X connect 1 0 5 0;
-#X connect 3 0 4 0;
-#X connect 4 0 2 1;
-#X connect 4 0 2 0;
-#X connect 5 0 4 1;
+#N canvas 790 58 792 722 gen 1;
+#X obj 437 361 mtof~;
+#X obj 562 376 osc~;
+#X obj 563 428 *~;
+#X floatatom 598 394 5 0 0 0 - - -;
+#X obj 496 526 osc~;
+#X obj 497 571 *~;
+#X obj 653 417 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 7400 1;
+#X obj 504 663 dac~;
+#X obj 631 321 *;
+#X obj 294 61 counter 3;
+#X obj 330 123 route 1 2 3;
+#X obj 228 110 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 617 276 1500;
+#X obj 644 152 r osc;
+#X obj 114 65 r tempo;
+#X obj 586 187 r osc1;
+#X obj 208 185 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 259 184 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 218 257 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 288 245 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X msg 378 242 48;
+#X msg 460 238 55;
+#X msg 497 227 57;
+#X msg 423 239 51;
+#X obj 310 473 phasor~;
+#X obj 493 487 *~;
+#X obj 303 416 osc~ 2;
+#X obj 224 369 expr $f1 * 5;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 2 0 25 0;
+#X connect 3 0 2 1;
+#X connect 4 0 5 0;
+#X connect 5 0 7 0;
+#X connect 5 0 7 1;
+#X connect 6 0 5 1;
+#X connect 8 0 3 0;
+#X connect 9 0 10 0;
+#X connect 10 0 20 0;
+#X connect 10 0 16 0;
+#X connect 10 1 23 0;
+#X connect 10 1 17 0;
+#X connect 10 2 21 0;
+#X connect 10 2 18 0;
+#X connect 10 3 22 0;
+#X connect 10 3 19 0;
+#X connect 11 0 9 0;
+#X connect 12 0 8 0;
+#X connect 14 0 11 0;
+#X connect 14 0 27 0;
+#X connect 20 0 0 0;
+#X connect 21 0 0 0;
+#X connect 22 0 0 0;
+#X connect 23 0 0 0;
+#X connect 25 0 4 0;
+#X connect 26 0 25 1;
+#X connect 27 0 26 0;
 #X restore 25 83 pd gen;
