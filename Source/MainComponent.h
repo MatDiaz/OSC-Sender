@@ -46,6 +46,8 @@ public:
     //==============================================================================
     
     void receiveArray (Array<float>& inArray, StringArray inStringArray, int dataSetSize);
+    
+    float interpolateData(float inValue);
 
 private:
     
@@ -67,7 +69,7 @@ private:
     UserInterfaceClass mainLoader;
     OwnedArray<float> dataSets;
     OSCSender sender;
-	Plot mainPlot;
+	Plot mainPlot, secondPlot, thirdPlot;
     float normFactor = 1;
 	bool isConnected = false;
 	bool isLoaded = false;

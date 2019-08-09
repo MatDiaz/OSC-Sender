@@ -142,6 +142,11 @@ MainComponent::MainComponent()
 	addAndMakeVisible (mainPlot);
 	mainPlot.setEnabled(false);
     
+    addAndMakeVisible(secondPlot);
+    secondPlot.setEnabled(false);
+    
+    addAndMakeVisible(thirdPlot);
+    thirdPlot.setEnabled(false);
     //==============================================================================
     
     addAndMakeVisible (mainLoader);
@@ -200,6 +205,14 @@ void MainComponent::receiveArray (Array<float> &inArray, StringArray inStringArr
     normFactor = jmax(abs(Min), Max);
 }
 
+float MainComponent::interpolateData(float inValue)
+{
+    int prevPosition = floor (inValue);
+    int nextPosition = ceil (inValue);
+    float fraction = inValue - prevPosition;
+    return (dataSets[0][nextPosition] * fraction) + (dataSets[0][prevPosition] * (1 - fraction));
+}
+
 void MainComponent::mouseDrag (const MouseEvent& e)
 {
     if ( e.originalComponent == &mainPlot && isConnected)
@@ -207,8 +220,10 @@ void MainComponent::mouseDrag (const MouseEvent& e)
 		float normValue = 0;
 		
 		if (mainPlot.dataValue >= 0 && mainPlot.dataValue <= dataSetTam)
-			normValue = (dataSets[0][(int)mainPlot.dataValue] / normFactor);
-		
+            normValue = interpolateData (mainPlot.dataValue) / normFactor;
+        
+        std::cout << normValue << std::endl;
+        
         sender.send(messageEnter->getTextValue().toString(), normValue);
     }
 }
@@ -284,7 +299,10 @@ void MainComponent::resized()
     
     fileName->setBoundsRelative(0.05, 0.2, 0.1, 0.05);
     
-    mainPlot.setBoundsRelative(0, 0.25, 1, 0.75);
+    mainPlot.setBoundsRelative(0, 0.25, 1, 0.25);
+    secondPlot.setBoundsRelative(0, 0.50, 1, 0.25);
+    thirdPlot.setBoundsRelative(0, 0.75, 1, 0.25);
+    
     mainLoader.setBoundsRelative(0, 0, 1.0f, 0.05);
 
     if(isLoaded)
@@ -302,8 +320,12 @@ void MainComponent::timerCallback()
 	cursorPosition += (float) dataSetTam / (float) cycleTime;
 	
 	cursorPosition = cursorPosition > dataSetTam ? 0 : cursorPosition;
+    
+    interpolateData(cursorPosition);
 	
-	float normValue = (dataSets[0][(int)cursorPosition] / normFactor);
-	
+	float normValue = interpolateData (cursorPosition) / normFactor;
+    
 	sender.send(messageEnter->getTextValue().toString(), normValue);
 }
+// ==============================================================================
+

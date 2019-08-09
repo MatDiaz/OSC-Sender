@@ -45,8 +45,9 @@ public:
 	{
         // Set data to plot colour
 		g.setColour(Colour((uint8)220, (uint8)220, (uint8)220, (uint8)15));
-
+        Rectangle<float> area(0, 0, getWidth(), getHeight());
 		g.fillRoundedRectangle(0, 0, getWidth(), getHeight(), 1.0f);
+        g.fillCheckerBoard(area, getWidth()*0.025, getHeight()*0.05, Colour((uint8)220, (uint8)220, (uint8)220, (uint8)15), Colour((uint8)210, (uint8)210, (uint8)210, (uint8)15));
 
 		if (isLoaded)
 		{
@@ -124,13 +125,13 @@ public:
         if(e.mods.isLeftButtonDown() && (e.getPosition().getX() >= 0) && isConnected)
         {
             float position = (((float) e.getPosition().getX() / (float)getWidth()) * dataSetSize);
-            
+            // Position va a normalizar la posicion donde se encuentren los datos
             dataValue = position;
             
             interpolatePosition(position);
         }
     }
-    
+    // Interpolacion lineal
     void interpolatePosition (float position)
     {
 		if (yDataLoaded) { yDataLabel->setText(yDataToPlot[round(position)], dontSendNotification); }
