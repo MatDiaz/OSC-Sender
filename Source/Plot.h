@@ -14,6 +14,7 @@ class MainComponent;
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "DataCursor.h"
+#include <cmath>
 
 //==============================================================================
 /*

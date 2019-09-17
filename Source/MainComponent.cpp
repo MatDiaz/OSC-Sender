@@ -299,9 +299,8 @@ void MainComponent::resized()
     
     fileName->setBoundsRelative(0.05, 0.2, 0.1, 0.05);
     
-    mainPlot.setBoundsRelative(0, 0.25, 1, 0.25);
-    secondPlot.setBoundsRelative(0, 0.50, 1, 0.25);
-    thirdPlot.setBoundsRelative(0, 0.75, 1, 0.25);
+    mainPlot.setBoundsRelative(0, 0.25, 1, 0.75);
+
     
     mainLoader.setBoundsRelative(0, 0, 1.0f, 0.05);
 
