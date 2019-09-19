@@ -11,35 +11,81 @@
 #pragma once
 #include "../JuceLibraryCode/JuceHeader.h"
 
-class insideComponent: public Component
+class InsideComponent: public Component,
+                       public Button::Listener
 {
 public:
-    insideComponent()
+    InsideComponent()
     {
-        addAndMakeVisible(titleLabel.get());
+        StringArray sexArray = {"Hombre", "Mujer"};
+        StringArray ageArray = {"15 - 20", "21 - 25", "26 - 30", "31 - 35"};
+        StringArray comunaArray = { "Comuna 1", "Comuna 2", "Comuna 3", "Comuna 4" };
+        
+        // =============================================================================
+        
+        addAndMakeVisible (titleLabel.get());
         titleLabel.reset (new Label());
+        titleLabel->setText ("!Escucha!", dontSendNotification);
         
-        addAndMakeVisible(initialButton.get());
+        addAndMakeVisible (initialButton.get());
+        initialButton.reset (new TextButton());
+        initialButton->setButtonText ("Comenzar");
+        initialButton->addListener (this);
         
-        addAndMakeVisible(startButton.get());
+        addAndMakeVisible (startButton.get());
+        startButton.reset (new TextButton());
+        startButton->setButtonText ("Iniciar");
+        startButton->addListener (this);
+        startButton->setEnabled (false);
+        startButton->setVisible(false);
         
-        addAndMakeVisible(sexMenu.get());
+        // =============================================================================
         
-        addAndMakeVisible(ageMenu.get());
+        addAndMakeVisible (sexMenu.get());
+        sexMenu.reset (new ComboBox());
+        sexMenu->addItemList (sexArray, 1);
         
-        addAndMakeVisible(comunaMenu.get());
+        addAndMakeVisible (ageMenu.get());
+        ageMenu.reset (new ComboBox());
+        ageMenu->addItemList (ageArray, 2);
+        
+        addAndMakeVisible (comunaMenu.get());
+        comunaMenu.reset (new ComboBox());
+        comunaMenu->addItemList (comunaArray, 3);
+        
+        // =============================================================================
     }
-    ~insideComponent()
+    
+    ~InsideComponent()
     {
-        
+        initialButton = nullptr;
+        startButton = nullptr;
+        sexMenu = nullptr;
+        ageMenu = nullptr;
+        comunaMenu = nullptr;
+        titleLabel = nullptr;
     }
+    
     void resized() override
     {
         
     }
+    
     void paint(Graphics& g) override
     {
-        
+        g.fillAll (Colour(Colours::grey));
+    }
+    
+    void buttonClicked (Button* buttonThatWasClicked) override
+    {
+        if (buttonThatWasClicked == initialButton.get())
+        {
+            
+        }
+        else if (buttonThatWasClicked == startButton.get())
+        {
+            
+        }
     }
     
 private:
@@ -55,12 +101,17 @@ public:
     InitialWindow (const String& name, bool addToDesktop):
     ResizableWindow (name, addToDesktop)
     {
-        setVisible(true);
-        setAlwaysOnTop(true);
-        setBackgroundColour(Colour(Colours::black));
+        setVisible (true);
+        setAlwaysOnTop (true);
+        setBackgroundColour (Colour(Colours::black));
+        
+        insideComponent.setBounds(0, 0, 1000, 500);
+        setContentOwned (&insideComponent, true);
     }
     ~InitialWindow()
     {
         
     }
+    
+    InsideComponent insideComponent;
 };
