@@ -19,14 +19,9 @@ class DataCursor    : public Component
 {
 public:
 
-    DataCursor()
-    {	
-		
-    }
+    DataCursor() {}
 
-    ~DataCursor()
-    {
-    }
+    ~DataCursor() {}
 
     void paint (Graphics& g) override
     {
@@ -37,10 +32,7 @@ public:
         }
     }
   
-
-    void resized() override
-    {
-    }
+    void resized() override {}
     
     bool shouldPaint = false;
     

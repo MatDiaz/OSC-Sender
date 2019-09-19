@@ -10,6 +10,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "UserInterfaceClass.h"
+#include "InitialWindow.h"
 #include "Plot.h"
 
 //==============================================================================
