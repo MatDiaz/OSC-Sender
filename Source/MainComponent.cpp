@@ -13,6 +13,11 @@ using namespace std;
 MainComponent::MainComponent()
 {
     addMouseListener(this, true);
+    
+    addAndMakeVisible (initialWindow.get());
+    initialWindow.reset(new InitialWindow("!Escucha!", true));
+    initialWindow->setVisible (true); 
+    initialWindow->centreWithSize (1000, 500);
 
     //==============================================================================
     
@@ -151,6 +156,7 @@ MainComponent::MainComponent()
     
     addAndMakeVisible (mainLoader);
     mainLoader.addReference(*this);
+    
 
     setSize (900, 700);
     setAudioChannels (2, 2);
@@ -159,6 +165,7 @@ MainComponent::MainComponent()
 MainComponent::~MainComponent()
 {
     dataSets.clearQuick(false);
+    initialWindow = nullptr;
     shutdownAudio();
 }
 

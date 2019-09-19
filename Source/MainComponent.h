@@ -10,6 +10,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "UserInterfaceClass.h"
+#include "InitialWindow.h"
 #include "Plot.h"
 
 //==============================================================================
@@ -65,6 +66,8 @@ private:
     std::unique_ptr<Label> messageLabel;
     std::unique_ptr<Label> fileName;
 	std::unique_ptr<Label> speedLabel, speedLabel_Two, speedLabel_Three;
+    
+    std::unique_ptr<InitialWindow> initialWindow;
 
     UserInterfaceClass mainLoader;
     OwnedArray<float> dataSets;

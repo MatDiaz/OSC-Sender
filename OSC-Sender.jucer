@@ -3,6 +3,7 @@
 <JUCERPROJECT id="pb7gqQ" name="OSC-Sender" projectType="guiapp" jucerVersion="5.4.3">
   <MAINGROUP id="U6XrTf" name="OSC-Sender">
     <GROUP id="{A5E1BE68-76D8-4E05-D26F-C2A28D542409}" name="Source">
+      <FILE id="vy7NMm" name="InitialWindow.h" compile="0" resource="0" file="Source/InitialWindow.h"/>
       <FILE id="xJJk4C" name="DataCursor.h" compile="0" resource="0" file="Source/DataCursor.h"/>
       <FILE id="KNOoY5" name="Plot.h" compile="0" resource="0" file="Source/Plot.h"/>
       <FILE id="ogta4k" name="UserInterfaceClass.cpp" compile="1" resource="0"
