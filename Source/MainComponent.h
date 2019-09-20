@@ -69,7 +69,7 @@ private:
     
     std::unique_ptr<InitialWindow> initialWindow;
 
-    UserInterfaceClass mainLoader;
+
     OwnedArray<float> dataSets;
     OSCSender sender;
 	Plot mainPlot, secondPlot, thirdPlot;

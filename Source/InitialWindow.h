@@ -26,6 +26,8 @@ public:
         addAndMakeVisible (titleLabel.get());
         titleLabel.reset (new Label());
         titleLabel->setText ("!Escucha!", dontSendNotification);
+		titleLabel->setFont (Font(14.0f));
+		titleLabel->setColour (Label::ColourIds::textColourId, Colour(Colours::white));
         
         addAndMakeVisible (initialButton.get());
         initialButton.reset (new TextButton());
@@ -68,12 +70,12 @@ public:
     
     void resized() override
     {
-        
+		titleLabel->setBoundsRelative(0, 0, 0.5, 0.5);
     }
     
     void paint(Graphics& g) override
     {
-        g.fillAll (Colour(Colours::grey));
+        g.fillAll (Colour(Colours::black));
     }
     
     void buttonClicked (Button* buttonThatWasClicked) override
