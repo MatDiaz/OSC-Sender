@@ -12,7 +12,8 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 
 class InsideComponent: public Component,
-                       public Button::Listener
+                       public Button::Listener,
+                       public ChangeBroadcaster
 {
 public:
     InsideComponent()
@@ -20,84 +21,108 @@ public:
         StringArray sexArray = {"Hombre", "Mujer"};
         StringArray ageArray = {"15 - 20", "21 - 25", "26 - 30", "31 - 35"};
         StringArray comunaArray = { "Comuna 1", "Comuna 2", "Comuna 3", "Comuna 4" };
+        // ============================================================================
         
+        String introMessage = String::createStringFromData(BinaryData::TextEx_txt, BinaryData::TextEx_txtSize);
         // =============================================================================
         
-        addAndMakeVisible (titleLabel.get());
         titleLabel.reset (new Label());
+        addAndMakeVisible (titleLabel.get());
         titleLabel->setText ("!Escucha!", dontSendNotification);
-		titleLabel->setFont (Font(14.0f));
+		titleLabel->setFont (Font(78.0f));
 		titleLabel->setColour (Label::ColourIds::textColourId, Colour(Colours::white));
+        titleLabel->setJustificationType(Justification::centred);
         
-        addAndMakeVisible (initialButton.get());
+        introText.reset (new Label());
+        addAndMakeVisible (introText.get());
+        introText->setText (introMessage, dontSendNotification);
+        introText->setFont (Font(14.0f));
+        introText->setColour (Label::ColourIds::textColourId, Colour(Colours::white));
+        introText->setJustificationType(Justification::horizontallyJustified);
+        
         initialButton.reset (new TextButton());
-        initialButton->setButtonText ("Comenzar");
+        addAndMakeVisible (initialButton.get());
+        initialButton->setButtonText ("Comenzar!");
         initialButton->addListener (this);
         
-        addAndMakeVisible (startButton.get());
-        startButton.reset (new TextButton());
-        startButton->setButtonText ("Iniciar");
-        startButton->addListener (this);
-        startButton->setEnabled (false);
-        startButton->setVisible(false);
-        
         // =============================================================================
         
-        addAndMakeVisible (sexMenu.get());
         sexMenu.reset (new ComboBox());
+        addAndMakeVisible (sexMenu.get());
         sexMenu->addItemList (sexArray, 1);
+        sexMenu->setVisible(false);
         
-        addAndMakeVisible (ageMenu.get());
         ageMenu.reset (new ComboBox());
+        addAndMakeVisible (ageMenu.get());
         ageMenu->addItemList (ageArray, 2);
+        ageMenu->setVisible(false);
         
-        addAndMakeVisible (comunaMenu.get());
         comunaMenu.reset (new ComboBox());
+        addAndMakeVisible (comunaMenu.get());
         comunaMenu->addItemList (comunaArray, 3);
+        comunaMenu->setVisible(false);
+        
+        initialStates = states::firstState;
         
         // =============================================================================
     }
     
     ~InsideComponent()
     {
-        initialButton = nullptr;
-        startButton = nullptr;
         sexMenu = nullptr;
         ageMenu = nullptr;
         comunaMenu = nullptr;
         titleLabel = nullptr;
+        introText = nullptr;
     }
     
     void resized() override
     {
-		titleLabel->setBoundsRelative(0, 0, 0.5, 0.5);
+		titleLabel->setBoundsRelative (0.0f, 0.0f, 1.0f, 0.5f);
+        introText->setBoundsRelative (0.1f, 0.5f, 0.8f, 0.25f);
+        initialButton->setBoundsRelative (0.45f, 0.75f, 0.1f, 0.1f);
+        
+        sexMenu->setBoundsRelative (0.1f, 0.5f, 0.2f, 0.05f);
+        ageMenu->setBoundsRelative (0.4f, 0.5f, 0.2f, 0.05f);
+        comunaMenu->setBoundsRelative (0.7f, 0.5f, 0.2f, 0.05f);
     }
     
     void paint(Graphics& g) override
     {
-        g.fillAll (Colour(Colours::black));
+
     }
     
     void buttonClicked (Button* buttonThatWasClicked) override
     {
         if (buttonThatWasClicked == initialButton.get())
         {
-            
-        }
-        else if (buttonThatWasClicked == startButton.get())
-        {
-            
+            switch (initialStates) {
+            case firstState:
+                    initialStates = states::secondState;
+                    sexMenu->setVisible (true);
+                    ageMenu->setVisible (true);
+                    comunaMenu->setVisible (true);
+                    introText = nullptr;
+                break;
+            case secondState:
+                    sendChangeMessage();
+                break;
+            default:
+                break;
+            }
         }
     }
     
 private:
     std::unique_ptr<TextButton> initialButton;
-    std::unique_ptr<TextButton> startButton;
     std::unique_ptr<ComboBox> sexMenu, ageMenu, comunaMenu;
-    std::unique_ptr<Label> titleLabel;
+    std::unique_ptr<Label> titleLabel, introText;
+    enum states {firstState, secondState};
+    states initialStates;
 };
 
-class InitialWindow: public ResizableWindow
+class InitialWindow: public ResizableWindow,
+                    private ChangeListener
 {
 public:
     InitialWindow (const String& name, bool addToDesktop):
@@ -107,13 +132,27 @@ public:
         setAlwaysOnTop (true);
         setBackgroundColour (Colour(Colours::black));
         
-        insideComponent.setBounds(0, 0, 1000, 500);
-        setContentOwned (&insideComponent, true);
-    }
-    ~InitialWindow()
-    {
-        
+        insideComponent.reset (new InsideComponent());
+        juce::Rectangle<int> r = Desktop::getInstance().getDisplays().getMainDisplay().userArea;
+        auto x = r.getWidth();
+        auto y = r.getHeight();
+        insideComponent->setBounds(0, 0, x, y);
+        insideComponent->addChangeListener(this);
+        setContentOwned (insideComponent.get(), true);
     }
     
-    InsideComponent insideComponent;
+    ~InitialWindow()
+    {
+        insideComponent = nullptr;
+    }
+    
+    void changeListenerCallback (ChangeBroadcaster *source) override
+    {
+        if (source == insideComponent.get())
+        {
+            delete this;
+        }
+    }
+    
+    std::unique_ptr<InsideComponent> insideComponent;
 };

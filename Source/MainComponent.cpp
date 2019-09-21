@@ -15,9 +15,13 @@ MainComponent::MainComponent()
     addMouseListener(this, true);
     
     addAndMakeVisible (initialWindow.get());
+    juce::Rectangle<int> r = Desktop::getInstance().getDisplays().getMainDisplay().userArea;
+    auto x = r.getWidth();
+    auto y = r.getHeight();
     initialWindow.reset(new InitialWindow("!Escucha!", true));
-    initialWindow->setVisible (true); 
-    initialWindow->centreWithSize (1000, 500);
+    initialWindow->setVisible (true);
+    initialWindow->setSize(x, y);
+    
 
     //==============================================================================
     
