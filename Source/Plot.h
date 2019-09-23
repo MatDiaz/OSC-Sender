@@ -45,10 +45,10 @@ public:
 	void paint(Graphics& g) override
 	{
         // Set data to plot colour
-		g.setColour(Colour((uint8)220, (uint8)220, (uint8)220, (uint8)15));
+		g.setColour (Colour((uint8)220, (uint8)220, (uint8)220, (uint8)15));
         Rectangle<float> area(0, 0, getWidth(), getHeight());
-		g.fillRoundedRectangle(0, 0, getWidth(), getHeight(), 1.0f);
-        g.fillCheckerBoard(area, getWidth()*0.025, getHeight()*0.05, Colour((uint8)220, (uint8)220, (uint8)220, (uint8)15), Colour((uint8)210, (uint8)210, (uint8)210, (uint8)15));
+		g.drawRect (0, 0, getWidth(), getHeight(), 2);
+        g.fillCheckerBoard (area, getWidth()*0.025, getHeight()*0.05, Colour((uint8)220, (uint8)220, (uint8)220, (uint8)15), Colour((uint8)210, (uint8)210, (uint8)210, (uint8)15));
 
 		if (isLoaded)
 		{

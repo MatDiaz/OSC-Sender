@@ -57,33 +57,23 @@ public:
         This class implements the desktop window that contains an instance of
         our MainComponent class.
     */
-    class MainWindow    : public DocumentWindow
+    class MainWindow    : public ResizableWindow
     {
     public:
-        MainWindow (String name)  : DocumentWindow (name,
-                                                    Desktop::getInstance().getDefaultLookAndFeel()
-                                                                          .findColour (ResizableWindow::backgroundColourId),
-                                                    DocumentWindow::allButtons)
+        MainWindow (String name)  : ResizableWindow(name, true)
         {
-            setUsingNativeTitleBar (true);
+            setUsingNativeTitleBar (false);
             setContentOwned (new MainComponent(), true);
-            setFullScreen (true);
+            setBackgroundColour (Colour(Colours::black));
+            setFullScreen (false);
            #if JUCE_IOS || JUCE_ANDROID
             setFullScreen (true);
            #else
-            setResizable (true, true);
-            centreWithSize (getWidth(), getHeight());
+            setResizable (false, false);
+            juce::Rectangle<int> r = Desktop::getInstance().getDisplays().getMainDisplay().userArea;
+            centreWithSize ((float)r.getWidth(), (float)r.getHeight());
            #endif
-
             setVisible (true);
-        }
-
-        void closeButtonPressed() override
-        {
-            // This is called when the user tries to close this window. Here, we'll just
-            // ask the app to quit when this happens, but you can change this to do
-            // whatever you need.
-            JUCEApplication::getInstance()->systemRequestedQuit();
         }
 
         /* Note: Be careful if you override any DocumentWindow methods - the base

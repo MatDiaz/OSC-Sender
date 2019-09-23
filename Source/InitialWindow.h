@@ -26,17 +26,20 @@ public:
         String introMessage = String::createStringFromData(BinaryData::TextEx_txt, BinaryData::TextEx_txtSize);
         // =============================================================================
         
+        auto desktopArea = Desktop::getInstance().getDisplays().getMainDisplay().totalArea;
+        float desktopSize = desktopArea.getWidth() * desktopArea.getHeight();
+        
         titleLabel.reset (new Label());
         addAndMakeVisible (titleLabel.get());
         titleLabel->setText ("!Escucha!", dontSendNotification);
-		titleLabel->setFont (Font(78.0f));
+		titleLabel->setFont (Font(desktopSize * 0.0002));
 		titleLabel->setColour (Label::ColourIds::textColourId, Colour(Colours::white));
         titleLabel->setJustificationType(Justification::centred);
         
         introText.reset (new Label());
         addAndMakeVisible (introText.get());
         introText->setText (introMessage, dontSendNotification);
-        introText->setFont (Font(14.0f));
+        introText->setFont (Font(desktopSize * 0.00001));
         introText->setColour (Label::ColourIds::textColourId, Colour(Colours::white));
         introText->setJustificationType(Justification::horizontallyJustified);
         
@@ -50,16 +53,19 @@ public:
         sexMenu.reset (new ComboBox());
         addAndMakeVisible (sexMenu.get());
         sexMenu->addItemList (sexArray, 1);
+        sexMenu->setTextWhenNothingSelected ("Selecciona tu sexo");
         sexMenu->setVisible(false);
         
         ageMenu.reset (new ComboBox());
         addAndMakeVisible (ageMenu.get());
         ageMenu->addItemList (ageArray, 2);
+        ageMenu->setTextWhenNothingSelected ("Seleccionad tu rango de edad");
         ageMenu->setVisible(false);
         
         comunaMenu.reset (new ComboBox());
         addAndMakeVisible (comunaMenu.get());
         comunaMenu->addItemList (comunaArray, 3);
+        comunaMenu->setTextWhenNothingSelected ("Selecciona tu comuna");
         comunaMenu->setVisible(false);
         
         initialStates = states::firstState;
@@ -132,27 +138,23 @@ public:
         setAlwaysOnTop (true);
         setBackgroundColour (Colour(Colours::black));
         
-        insideComponent.reset (new InsideComponent());
-        juce::Rectangle<int> r = Desktop::getInstance().getDisplays().getMainDisplay().userArea;
-        auto x = r.getWidth();
-        auto y = r.getHeight();
-        insideComponent->setBounds(0, 0, x, y);
-        insideComponent->addChangeListener(this);
-        setContentOwned (insideComponent.get(), true);
+        insideComponent.setBounds(Desktop::getInstance().getDisplays().getMainDisplay().userArea);
+        insideComponent.addChangeListener(this);
+        setContentOwned (&insideComponent, true);
     }
     
     ~InitialWindow()
     {
-        insideComponent = nullptr;
+        insideComponent.removeChangeListener(this);
     }
     
     void changeListenerCallback (ChangeBroadcaster *source) override
     {
-        if (source == insideComponent.get())
+        if (source == &insideComponent)
         {
             delete this;
         }
     }
     
-    std::unique_ptr<InsideComponent> insideComponent;
+    InsideComponent insideComponent;
 };

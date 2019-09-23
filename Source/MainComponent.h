@@ -52,23 +52,11 @@ public:
 
 private:
     
-    std::unique_ptr<TextButton> mainButton;
-    std::unique_ptr<TextButton> autoButton;
 	std::unique_ptr<Slider> playbackSpeedSlider;
-    
-    std::unique_ptr<TextEditor> messageEnter;
-    std::unique_ptr<TextEditor> addressEnter;
-	std::unique_ptr<TextEditor> hostEnter;
-    
-	std::unique_ptr<Label> portLabel;
-	std::unique_ptr<Label> hostLabel;
-	std::unique_ptr<Label> statusLabel;
-    std::unique_ptr<Label> messageLabel;
-    std::unique_ptr<Label> fileName;
+
 	std::unique_ptr<Label> speedLabel, speedLabel_Two, speedLabel_Three;
     
-    std::unique_ptr<InitialWindow> initialWindow;
-
+    juce::Component::SafePointer<InitialWindow> initialWindow;
 
     OwnedArray<float> dataSets;
     OSCSender sender;
