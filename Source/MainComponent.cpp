@@ -14,6 +14,8 @@ MainComponent::MainComponent()
 {
     addMouseListener(this, true);
     
+    readTextFileData (BinaryData::homicidio_txt, BinaryData::homicidio_txtSize);
+    
     addAndMakeVisible (initialWindow);
     juce::Rectangle<int> r = Desktop::getInstance().getDisplays().getMainDisplay().userArea;
     auto x = r.getWidth();
@@ -176,6 +178,12 @@ void MainComponent::buttonClicked(Button *button)
 void MainComponent::paint(Graphics& g)
 {
 	g.fillAll(Colour(Colours::black));
+}
+
+void MainComponent::readTextFileData (const char *textFileData, int textFileSize)
+{
+    String inputFile = String::fromUTF8 (textFileData, textFileSize);
+    std::cout << inputFile.dropLastCharacters(10) << std::endl;
 }
 
 void MainComponent::resized()

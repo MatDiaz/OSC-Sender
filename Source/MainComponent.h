@@ -48,7 +48,9 @@ public:
     
     void receiveArray (Array<float>& inArray, StringArray inStringArray, int dataSetSize);
     
-    float interpolateData(float inValue);
+    float interpolateData (float inValue);
+    
+    void readTextFileData (const char *textFileData, int textFileSize);
 
 private:
     

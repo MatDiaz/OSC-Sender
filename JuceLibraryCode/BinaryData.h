@@ -8,11 +8,20 @@
 
 namespace BinaryData
 {
+    extern const char*   homicidio_txt;
+    const int            homicidio_txtSize = 720;
+
+    extern const char*   suicidio_txt;
+    const int            suicidio_txtSize = 714;
+
+    extern const char*   transporte_txt;
+    const int            transporte_txtSize = 720;
+
     extern const char*   TextEx_txt;
     const int            TextEx_txtSize = 421;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
-    const int namedResourceListSize = 1;
+    const int namedResourceListSize = 4;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];
