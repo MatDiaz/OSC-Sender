@@ -1,13 +1,11 @@
 /*
   ==============================================================================
 
-    FinalWindow.h
-    Created: 22 Sep 2019 9:34:09pm
-    Author:  Mateo Yepes
+    WindowClass.h
+    Created: 26 Sep 2019 11:46:49am
+    Author:  WATEO
 
   ==============================================================================
 */
 
 #pragma once
-#include "../JuceLibraryCode/JuceHeader.h"
-

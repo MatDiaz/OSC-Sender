@@ -137,10 +137,11 @@ public:
         setVisible (true);
         setAlwaysOnTop (true);
         setBackgroundColour (Colour(Colours::black));
-        
+
         insideComponent.setBounds(Desktop::getInstance().getDisplays().getMainDisplay().userArea);
         insideComponent.addChangeListener(this);
         setContentOwned (&insideComponent, true);
+
     }
     
     ~InitialWindow()
@@ -155,6 +156,7 @@ public:
             delete this;
         }
     }
-    
-    InsideComponent insideComponent;
+
+	InsideComponent insideComponent;
+
 };

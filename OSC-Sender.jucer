@@ -11,6 +11,7 @@
       <FILE id="jcVOGk" name="FinalWindow.h" compile="0" resource="0" file="Source/FinalWindow.h"/>
       <FILE id="xJJk4C" name="DataCursor.h" compile="0" resource="0" file="Source/DataCursor.h"/>
       <FILE id="KNOoY5" name="Plot.h" compile="0" resource="0" file="Source/Plot.h"/>
+      <FILE id="JRczSg" name="WindowClass.h" compile="0" resource="0" file="Source/WindowClass.h"/>
       <FILE id="ogta4k" name="UserInterfaceClass.cpp" compile="1" resource="0"
             file="Source/UserInterfaceClass.cpp"/>
       <FILE id="fQbvyr" name="UserInterfaceClass.h" compile="0" resource="0"
