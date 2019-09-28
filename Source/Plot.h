@@ -52,6 +52,7 @@ public:
 
 		if (isLoaded)
 		{
+            std::cout << "Hola" << std::endl;
 			Path dataSetPlot;
 			 
 			g.setColour(Colour(Colours::white));

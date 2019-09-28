@@ -14,8 +14,6 @@ MainComponent::MainComponent()
 {
     addMouseListener(this, true);
     
-    readTextFileData (BinaryData::homicidio_txt, BinaryData::homicidio_txtSize);
-    
     addAndMakeVisible (initialWindow);
     juce::Rectangle<int> r = Desktop::getInstance().getDisplays().getMainDisplay().userArea;
     auto x = r.getWidth();
@@ -60,7 +58,7 @@ MainComponent::MainComponent()
 	//==============================================================================
 
 	addAndMakeVisible (mainPlot);
-	mainPlot.setEnabled(false);
+	mainPlot.setEnabled(true);
     
     addAndMakeVisible(secondPlot);
     secondPlot.setEnabled(false);
@@ -69,8 +67,10 @@ MainComponent::MainComponent()
     thirdPlot.setEnabled(false);
     
     //==============================================================================
-    
-    setSize (900, 700);
+    setSize(x, y);
+    readTextFileData (BinaryData::homicidio_txt, BinaryData::homicidio_txtSize, mainPlot);
+    readTextFileData (BinaryData::suicidio_txt, BinaryData::suicidio_txtSize, secondPlot);
+    readTextFileData (BinaryData::transporte_txt, BinaryData::transporte_txtSize, thirdPlot);
     setAudioChannels (2, 2);
 }
 
@@ -180,10 +180,60 @@ void MainComponent::paint(Graphics& g)
 	g.fillAll(Colour(Colours::black));
 }
 
-void MainComponent::readTextFileData (const char *textFileData, int textFileSize)
+void MainComponent::readTextFileData (const char *textFileData, int textFileSize, Plot& plotToAdd)
 {
+    StringArray months = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+    
+    Array<float> valueArray;
+    StringArray dateArray;
+    
     String inputFile = String::fromUTF8 (textFileData, textFileSize);
-    std::cout << inputFile.dropLastCharacters(10) << std::endl;
+    
+    std::stringstream stringStream (inputFile.toStdString());
+    std::string token;
+    
+    while (std::getline (stringStream, token, '\n'))
+    {
+        std::stringstream secondStream(token);
+        std::string secondToken;
+        int count = 0;
+        
+        String outDate = "";
+        
+        while(std::getline(secondStream, secondToken, '-'))
+        {
+            if (count == 0)
+            {
+                outDate += String(secondToken);
+            }
+            else if (count == 1)
+            {
+                outDate += months[std::stoi (secondToken) - 1];
+            }
+            else if (count == 2)
+            {
+                std::string valueToken;
+                std::stringstream thirdString(secondToken);
+                bool state = false;
+                while(std::getline(thirdString, valueToken, ','))
+                {
+                    if (state)
+                        valueArray.add (std::stof(valueToken));
+                    state = !state;
+                }
+            }
+            if (++count > 2) count = 0;
+        }
+        
+        dateArray.add(outDate);
+    }
+    
+    for (auto i = 0; i < dateArray.size(); ++i)
+    {
+        std::cout << dateArray[i] << std::endl;
+    }
+    plotToAdd.updatePlot (valueArray.getRawDataPointer(), valueArray.size(), true);
+    plotToAdd.addYDataToPlot (dateArray);
 }
 
 void MainComponent::resized()
