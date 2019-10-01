@@ -56,7 +56,7 @@ static const unsigned char temp_binary_data_0[] =
 "2018-09-01,42\r\n"
 "2018-10-01,52\r\n"
 "2018-11-01,48\r\n"
-"2018-12-01,59\r\n";
+"2018-12-01,59";
 
 const char* homicidio_txt = (const char*) temp_binary_data_0;
 
@@ -184,7 +184,7 @@ const char* getNamedResource (const char* resourceNameUTF8, int& numBytes)
 
     switch (hash)
     {
-        case 0x27f85092:  numBytes = 720; return homicidio_txt;
+        case 0x27f85092:  numBytes = 718; return homicidio_txt;
         case 0x08a9d7ae:  numBytes = 714; return suicidio_txt;
         case 0x7332520d:  numBytes = 720; return transporte_txt;
         case 0xcd7f2491:  numBytes = 421; return TextEx_txt;

@@ -74,6 +74,7 @@ public:
             centreWithSize ((float)r.getWidth(), (float)r.getHeight());
            #endif
             setVisible (true);
+            setDraggable(true);
         }
 
         /* Note: Be careful if you override any DocumentWindow methods - the base

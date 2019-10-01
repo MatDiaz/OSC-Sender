@@ -71,6 +71,7 @@ MainComponent::MainComponent()
     readTextFileData (BinaryData::homicidio_txt, BinaryData::homicidio_txtSize, mainPlot);
     readTextFileData (BinaryData::suicidio_txt, BinaryData::suicidio_txtSize, secondPlot);
     readTextFileData (BinaryData::transporte_txt, BinaryData::transporte_txtSize, thirdPlot);
+    
     setAudioChannels (2, 2);
 }
 
@@ -129,9 +130,7 @@ void MainComponent::mouseDrag (const MouseEvent& e)
 		
 		if (mainPlot.dataValue >= 0 && mainPlot.dataValue <= dataSetTam)
             normValue = interpolateData (mainPlot.dataValue) / normFactor;
-        
-        std::cout << normValue << std::endl;
-        
+
 //        sender.send(messageEnter->getTextValue().toString(), normValue);
     }
 }
@@ -204,7 +203,7 @@ void MainComponent::readTextFileData (const char *textFileData, int textFileSize
         {
             if (count == 0)
             {
-                outDate += String(secondToken);
+                outDate += String (secondToken);
             }
             else if (count == 1)
             {
@@ -225,13 +224,9 @@ void MainComponent::readTextFileData (const char *textFileData, int textFileSize
             if (++count > 2) count = 0;
         }
         
-        dateArray.add(outDate);
+        dateArray.add (outDate);
     }
     
-    for (auto i = 0; i < dateArray.size(); ++i)
-    {
-        std::cout << dateArray[i] << std::endl;
-    }
     plotToAdd.updatePlot (valueArray.getRawDataPointer(), valueArray.size(), true);
     plotToAdd.addYDataToPlot (dateArray);
 }

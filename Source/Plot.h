@@ -45,30 +45,36 @@ public:
 	void paint(Graphics& g) override
 	{
         // Set data to plot colour
-		g.setColour (Colour((uint8)220, (uint8)220, (uint8)220, (uint8)15));
-        Rectangle<float> area(0, 0, getWidth(), getHeight());
-		g.drawRect (0, 0, getWidth(), getHeight(), 2);
-        g.fillCheckerBoard (area, getWidth()*0.025, getHeight()*0.05, Colour((uint8)220, (uint8)220, (uint8)220, (uint8)15), Colour((uint8)210, (uint8)210, (uint8)210, (uint8)15));
-
-		if (isLoaded)
-		{
-            std::cout << "Hola" << std::endl;
-			Path dataSetPlot;
-			 
-			g.setColour(Colour(Colours::white));
-
-			for (auto i = 0; i < dataSetSize; ++i)
-			{
-				if (!i)
-                    dataSetPlot.startNewSubPath (*pointsArray[i]);
-				else
-                    dataSetPlot.lineTo (*pointsArray[i]);
-			}
-
-			g.strokePath (dataSetPlot, PathStrokeType(1.0f));
-           
-            mainDataCursor.shouldPaint = true;
-		}
+        if (!imageCreated)
+        {
+            g.setColour (Colour((uint8)220, (uint8)220, (uint8)220, (uint8)15));
+            Rectangle<float> area(0, 0, getWidth(), getHeight());
+            g.drawRect (0, 0, getWidth(), getHeight(), 2);
+            g.fillCheckerBoard (area, getWidth()*0.025, getHeight()*0.05, Colour((uint8)220, (uint8)220, (uint8)220, (uint8)15), Colour((uint8)210, (uint8)210, (uint8)210, (uint8)15));
+            
+            if (isLoaded)
+            {
+                Path dataSetPlot;
+                
+                g.setColour(Colour(Colours::white));
+                
+                for (auto i = 0; i < dataSetSize; ++i)
+                {
+                    if (!i)
+                        dataSetPlot.startNewSubPath (*pointsArray[i]);
+                    else
+                        dataSetPlot.lineTo (*pointsArray[i]);
+                }
+                
+                g.strokePath (dataSetPlot, PathStrokeType(1.0f));
+                
+                mainDataCursor.shouldPaint = true;
+            }
+        }
+        else
+        {
+            g.drawImageAt (backgroundImage, 0, 0, false);
+        }
     }
     // This method will receive data from parent component
 	void updatePlot(float* dataSet, int dataSize, bool Loaded)
@@ -119,12 +125,14 @@ public:
                 pointsArray[i]->addXY((i * divX), (Height - ((dataSetToPlot[i] / Max) * Height)));
             }
             repaint();
+            backgroundImage = createComponentSnapshot(getBounds());
+            imageCreated = true;
         }
     }
     
     void mouseDrag (const MouseEvent& e) override
     {
-        if(e.mods.isLeftButtonDown() && (e.getPosition().getX() >= 0) && isConnected)
+        if(e.mods.isLeftButtonDown() && (e.getPosition().getX() >= 0))
         {
             float position = (((float) e.getPosition().getX() / (float)getWidth()) * dataSetSize);
             // Position va a normalizar la posicion donde se encuentren los datos
@@ -150,6 +158,8 @@ public:
         mainDataCursor.setBounds (realPositionX, realPositionY, 20, 20);
     }
     
+    
+    
     void resized() override
     {
         repaint();
@@ -172,6 +182,8 @@ public:
 
 	float* dataSetToPlot;
     
+    Image backgroundImage;
+    
     std::unique_ptr<Label> yDataLabel;
 
 	DataCursor mainDataCursor;
@@ -180,6 +192,7 @@ private:
     
     StringArray yDataToPlot;
     bool yDataLoaded = false;
+    bool imageCreated = false;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Plot)
 };

@@ -9,7 +9,7 @@
 namespace BinaryData
 {
     extern const char*   homicidio_txt;
-    const int            homicidio_txtSize = 720;
+    const int            homicidio_txtSize = 718;
 
     extern const char*   suicidio_txt;
     const int            suicidio_txtSize = 714;
