@@ -20,6 +20,7 @@
 */
 class MainComponent   : public AudioAppComponent,
                         public Button::Listener,
+                        private ChangeListener,
                         public Timer
 {
 public:
@@ -44,6 +45,8 @@ public:
     
     void timerCallback() override;
     
+    void changeListenerCallback (ChangeBroadcaster* source) override;
+    
     //==============================================================================
     
     void receiveArray (Array<float>& inArray, StringArray inStringArray, int dataSetSize);
@@ -51,6 +54,8 @@ public:
     float interpolateData (float inValue);
     
     void readTextFileData (const char *textFileData, int textFileSize, Plot& plotToAdd);
+    
+    void executeSequence();
 
 private:
     
@@ -61,6 +66,8 @@ private:
     juce::Component::SafePointer<InitialWindow> initialWindow;
 
     OwnedArray<float> dataSets;
+    
+    Array<float> nArray;
     OSCSender sender;
 	Plot mainPlot, secondPlot, thirdPlot;
     float normFactor = 1;

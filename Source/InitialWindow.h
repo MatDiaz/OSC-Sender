@@ -36,20 +36,20 @@ public:
 		auto desktopArea = Desktop::getInstance().getDisplays().getMainDisplay().totalArea;
 		float desktopSize = desktopArea.getWidth() * desktopArea.getHeight();
 		        
-		titleLabel.reset (new Label());
-		addAndMakeVisible (titleLabel.get());
-		titleLabel->setText ("!Escucha!", dontSendNotification);
-		titleLabel->setFont (Font(desktopSize * 0.0002));
-		titleLabel->setColour (Label::ColourIds::textColourId, Colour(Colours::white));
-		titleLabel->setJustificationType(Justification::centred);
-		        
-		introText.reset (new Label());
-		addAndMakeVisible (introText.get());
-		introText->setText (introMessage, dontSendNotification);
-		introText->setFont (Font(desktopSize * 0.00001));
-		introText->setColour (Label::ColourIds::textColourId, Colour(Colours::white));
-		introText->setJustificationType(Justification::horizontallyJustified);
-		        
+        titleLabel.reset (new Label());
+        addAndMakeVisible (titleLabel.get());
+        titleLabel->setText ("!Escucha!", dontSendNotification);
+        titleLabel->setFont (Font(desktopSize * 0.0002));
+        titleLabel->setColour (Label::ColourIds::textColourId, Colour(Colours::white));
+        titleLabel->setJustificationType(Justification::centred);
+
+        introText.reset (new Label());
+        addAndMakeVisible (introText.get());
+        introText->setText (introMessage, dontSendNotification);
+        introText->setFont (Font(desktopSize * 0.00001));
+        introText->setColour (Label::ColourIds::textColourId, Colour(Colours::white));
+        introText->setJustificationType(Justification::horizontallyJustified);
+        
 		initialButton.reset (new TextButton());
 		addAndMakeVisible (initialButton.get());
 		initialButton->setButtonText ("Comenzar!");
@@ -57,51 +57,56 @@ public:
 		        
 		// =============================================================================
 		        
-		        sexMenu.reset (new ComboBox());
-		        addAndMakeVisible (sexMenu.get());
-		        sexMenu->addItemList (sexArray, 1);
-		        sexMenu->setTextWhenNothingSelected ("Selecciona tu sexo");
-		        sexMenu->setVisible(false);
-		        
-		        ageMenu.reset (new ComboBox());
-		        addAndMakeVisible (ageMenu.get());
-		        ageMenu->addItemList (ageArray, 2);
-		        ageMenu->setTextWhenNothingSelected ("Seleccionad tu rango de edad");
-		        ageMenu->setVisible(false);
-		        
-		        comunaMenu.reset (new ComboBox());
-		        addAndMakeVisible (comunaMenu.get());
-		        comunaMenu->addItemList (comunaArray, 3);
-		        comunaMenu->setTextWhenNothingSelected ("Selecciona tu comuna");
-		        comunaMenu->setVisible(false);
-		        
-		        initialStates = states::firstState;
+        sexMenu.reset (new ComboBox());
+        addAndMakeVisible (sexMenu.get());
+        sexMenu->addItemList (sexArray, 1);
+        sexMenu->setTextWhenNothingSelected ("Selecciona tu sexo");
+        sexMenu->setVisible(false);
+
+        ageMenu.reset (new ComboBox());
+        addAndMakeVisible (ageMenu.get());
+        ageMenu->addItemList (ageArray, 2);
+        ageMenu->setTextWhenNothingSelected ("Seleccionad tu rango de edad");
+        ageMenu->setVisible(false);
+
+        comunaMenu.reset (new ComboBox());
+        addAndMakeVisible (comunaMenu.get());
+        comunaMenu->addItemList (comunaArray, 3);
+        comunaMenu->setTextWhenNothingSelected ("Selecciona tu comuna");
+        comunaMenu->setVisible(false);
+        
+        initialStates = states::firstState;
 	}
-	~InsideComponent(){}
+    
+	~InsideComponent()
+    {
+        sexMenu = nullptr;
+        ageMenu = nullptr;
+        comunaMenu = nullptr;
+        titleLabel = nullptr;
+        introText = nullptr;
+        initialButton = nullptr;
+    }
 
 	void paint(Graphics& g) override
 	{
-		sexMenu = nullptr;
-		ageMenu = nullptr;
-		comunaMenu = nullptr;
-		titleLabel = nullptr;
-		introText = nullptr;
+
 	}
 
 	void resized() override
 	{
-		titleLabel->setBoundsRelative(0.0f, 0.0f, 1.0f, 0.5f);
-		        introText->setBoundsRelative (0.1f, 0.5f, 0.8f, 0.25f);
-		        initialButton->setBoundsRelative (0.45f, 0.75f, 0.1f, 0.1f);
+        titleLabel->setBoundsRelative(0.0f, 0.0f, 1.0f, 0.5f);
+        introText->setBoundsRelative (0.1f, 0.5f, 0.8f, 0.25f);
+        initialButton->setBoundsRelative (0.45f, 0.75f, 0.1f, 0.1f);
 		        
-		        sexMenu->setBoundsRelative (0.1f, 0.5f, 0.2f, 0.05f);
-		        ageMenu->setBoundsRelative (0.4f, 0.5f, 0.2f, 0.05f);
-		        comunaMenu->setBoundsRelative (0.7f, 0.5f, 0.2f, 0.05f);
+        sexMenu->setBoundsRelative (0.1f, 0.5f, 0.2f, 0.05f);
+        ageMenu->setBoundsRelative (0.4f, 0.5f, 0.2f, 0.05f);
+        comunaMenu->setBoundsRelative (0.7f, 0.5f, 0.2f, 0.05f);
 	}
 
 	void buttonClicked(Button* buttonThatWasClicked) override
 	{
-		        if (buttonThatWasClicked == initialButton.get())
+        if (buttonThatWasClicked == initialButton.get())
         {
             switch (initialStates) {
             case firstState:
@@ -121,16 +126,16 @@ public:
 	}
 
 private:
-	    std::unique_ptr<TextButton> initialButton;
+    std::unique_ptr<TextButton> initialButton;
     std::unique_ptr<ComboBox> sexMenu, ageMenu, comunaMenu;
     std::unique_ptr<Label> titleLabel, introText;
-    enum states {firstState, secondState};
-    states initialStates;
+    enum states {firstState, secondState} initialStates;
 };
 
 
 class InitialWindow: public ResizableWindow,
-                    private ChangeListener
+                     public ChangeBroadcaster,
+                     private ChangeListener
 {
 public:
     InitialWindow (const String& name, bool addToDesktop):
@@ -139,11 +144,11 @@ public:
         setVisible (true);
         setAlwaysOnTop (true);
         setBackgroundColour (Colour(Colours::black));
-
-        insideComponent.setBounds(Desktop::getInstance().getDisplays().getMainDisplay().userArea);
+        auto x = Desktop::getInstance().getDisplays().getMainDisplay().userArea.getWidth();
+        auto y = Desktop::getInstance().getDisplays().getMainDisplay().userArea.getHeight();
+        insideComponent.setBounds(0,0, x, y);
         insideComponent.addChangeListener(this);
         setContentOwned (&insideComponent, true);
-
     }
     
     ~InitialWindow()
@@ -155,7 +160,7 @@ public:
     {
         if (source == &insideComponent)
         {
-            delete this;
+            sendChangeMessage();
         }
     }
 

@@ -21,6 +21,7 @@ MainComponent::MainComponent()
     initialWindow = new InitialWindow("!Escucha!", true);
     initialWindow->setVisible (true);
     initialWindow->setSize(x, y);
+    initialWindow->addChangeListener(this);
     
 	//=============================================================================
 
@@ -110,6 +111,7 @@ void MainComponent::receiveArray (Array<float> &inArray, StringArray inStringArr
     isLoaded = true;
 
     float Min, Max;
+    
     findMinAndMax(inArray.getRawDataPointer(), dataSetSize, Min, Max);
     normFactor = jmax(abs(Min), Max);
 }
@@ -119,7 +121,7 @@ float MainComponent::interpolateData(float inValue)
     int prevPosition = floor (inValue);
     int nextPosition = ceil (inValue);
     float fraction = inValue - prevPosition;
-    return (dataSets[0][nextPosition] * fraction) + (dataSets[0][prevPosition] * (1 - fraction));
+    return (nArray[nextPosition] * fraction) + (nArray[prevPosition] * (1 - fraction));
 }
 
 void MainComponent::mouseDrag (const MouseEvent& e)
@@ -137,40 +139,7 @@ void MainComponent::mouseDrag (const MouseEvent& e)
 
 void MainComponent::buttonClicked(Button *button)
 {
-//    if (button == mainButton.get())
-//    {
-//        if (!isConnected)
-//        {
-//            if (sender.connect(hostEnter->getText(), addressEnter->getText().getFloatValue()))
-//            {
-//                isConnected = true;
-//                mainPlot.isConnected = true;
-//            }
-//        }
-//        else
-//        {
-//            if (sender.disconnect())
-//            {
-//                isConnected = false;
-//                mainPlot.isConnected = false;
-//                autoButton->setEnabled(false);
-//                statusLabel->setColour(Label::textColourId, Colour(Colours::darkred));
-//                statusLabel->setText("Desconectado", dontSendNotification);
-//                mainButton->setButtonText("Conectar");
-//            }
-//        }
-//    }
-//    else if (button == autoButton.get())
-//    {
-//        if (autoButton->getToggleState())
-//        {
-//            startTimer(30);
-//        }
-//        else
-//        {
-//            stopTimer();
-//        }
-//    }
+
 }
 
 // ==============================================================================
@@ -226,7 +195,8 @@ void MainComponent::readTextFileData (const char *textFileData, int textFileSize
         
         dateArray.add (outDate);
     }
-    
+    nArray = valueArray;
+    dataSetTam = nArray.size();
     plotToAdd.updatePlot (valueArray.getRawDataPointer(), valueArray.size(), true);
     plotToAdd.addYDataToPlot (dateArray);
 }
@@ -245,6 +215,16 @@ void MainComponent::resized()
 
     if(isLoaded) mainPlot.updatePlot();
 }
+
+void MainComponent::changeListenerCallback(ChangeBroadcaster *source)
+{
+    if (source == initialWindow)
+    {
+        initialWindow.deleteAndZero();
+        startTimer(30);
+    }
+}
+
 // ==============================================================================
 void MainComponent::timerCallback()
 {
