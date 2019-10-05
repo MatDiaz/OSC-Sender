@@ -51,9 +51,9 @@ public:
     
     void receiveArray (Array<float>& inArray, StringArray inStringArray, int dataSetSize);
     
-    float interpolateData (float inValue);
+    float interpolateData (float inValue, bool isNormalized, Array<float> nArray, const String& Message);
     
-    void readTextFileData (const char *textFileData, int textFileSize, Plot& plotToAdd);
+    void readTextFileData (const char *textFileData, int textFileSize, Plot& plotToAdd, Array<float>& nArray);
     
     void executeSequence();
 
@@ -67,7 +67,7 @@ private:
 
     OwnedArray<float> dataSets;
     
-    Array<float> nArray;
+    Array<float> firstArray, secondArray, thirdArray;
     OSCSender sender;
 	Plot mainPlot, secondPlot, thirdPlot;
     float normFactor = 1;

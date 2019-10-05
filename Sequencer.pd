@@ -1,4 +1,4 @@
-#N canvas 617 62 1100 762 10;
+#N canvas 616 145 1100 762 10;
 #X declare -lib mrpeach;
 #N canvas 700 185 328 211 Tempo 0;
 #X obj 206 99 metro;
@@ -22,19 +22,15 @@
 #X connect 8 0 0 0;
 #X coords 0 -1 1 1 85 60 1 100 100;
 #X restore 153 38 pd Tempo;
-#N canvas 1323 353 450 300 oscRcvr 0;
+#N canvas 833 389 450 300 oscRcvr 0;
 #X obj 106 51 import mrpeach;
 #X obj 106 84 udpreceive 9001;
 #X obj 106 117 unpackOSC;
-#X obj 106 150 routeOSC /test;
-#X obj 107 211 s osc1;
-#X obj 109 180 * 2;
-#X obj 165 207 s osc2;
+#X obj 107 194 routeOSC /homicidio /trafico /suicidio;
+#X obj 103 244 print homicidio;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
-#X connect 3 0 5 0;
-#X connect 3 0 6 0;
-#X connect 5 0 4 0;
+#X connect 3 0 4 0;
 #X restore 78 16 pd oscRcvr;
 #N canvas 790 58 792 722 gen 0;
 #X obj 437 361 mtof~;
@@ -91,7 +87,7 @@
 #X restore 25 83 pd gen;
 #N canvas 403 205 932 868 SequencerWind 0;
 #X obj 157 177 hradio 20 1 0 16 empty empty empty 0 -8 0 10 -262144
--1 -1 14;
+-1 -1 12;
 #X obj 29 87 r tempo;
 #X obj 29 118 int;
 #X obj 57 118 + 1;
@@ -197,13 +193,13 @@
 #X restore 100 100 pd instrumento;
 #X obj -14 236 s samplenumber;
 #N canvas 444 179 941 498 control 0;
-#X obj 112 118 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 112 118 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 130 118 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
-#X obj 149 118 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 149 118 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
-#X obj 185 118 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 185 118 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 247 308 tabwrite;
 #X msg 199 234 0;
@@ -227,23 +223,23 @@
 #X msg 300 29 4;
 #X obj 203 118 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
-#X obj 221 118 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 221 118 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 240 118 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 276 118 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
-#X obj 258 118 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 258 118 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
-#X obj 294 118 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 294 118 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 312 118 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 348 118 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
-#X obj 330 118 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 330 118 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
-#X obj 367 118 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 367 118 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 385 118 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
@@ -566,7 +562,7 @@
 #X msg 478 316 read -resize \$1 Data5;
 #X obj 475 538 tabread4~ Data5;
 #X obj 720 448 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 4314 1;
+-1 -1 0 1;
 #X obj 486 514 *~;
 #X obj 477 592 *~;
 #X obj 763 538 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
@@ -644,7 +640,7 @@
 #X msg 480 316 read -resize \$1 Data6;
 #X obj 478 539 tabread4~ Data6;
 #X obj 709 437 vsl 15 128 0 2 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 2157 1;
+-1 -1 0 1;
 #X obj 480 516 *~;
 #X obj 475 581 *~;
 #X obj 566 566 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
@@ -725,7 +721,7 @@
 #X msg 480 316 read -resize \$1 Data6;
 #X obj 478 539 tabread4~ Data6;
 #X obj 709 437 vsl 15 128 0 2 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 2157 1;
+-1 -1 0 1;
 #X obj 480 516 *~;
 #X obj 475 581 *~;
 #X obj 566 566 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144

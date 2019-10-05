@@ -87,9 +87,9 @@ public:
 
 		float Min, Max;
 
-		findMinAndMax(dataSetToPlot, dataSetSize, Min, Max);
+		findMinAndMax (dataSetToPlot, dataSetSize, Min, Max);
 
-		Max = jmax(abs(Min), Max);
+        Max = jmax(std::abs(Min), Max);
         
         float Height = Min < 0 ? getHeight() / 2 : getHeight();
 
@@ -100,7 +100,15 @@ public:
 			pointsArray[i]->addXY((i * divX), (Height - ((dataSetToPlot[i] / Max) * Height)));
 		}
         
-		repaint();
+        repaint();
+        
+        if (!imageCreated)
+        {
+            yDataLabel->setVisible(false);
+            backgroundImage = createComponentSnapshot(getLocalBounds());
+            imageCreated = true;
+            yDataLabel->setVisible(true);
+        }
 	}
     // This should be called when resizing in parent component happens
     // and dataSetToPlot is already in use
@@ -125,8 +133,14 @@ public:
                 pointsArray[i]->addXY((i * divX), (Height - ((dataSetToPlot[i] / Max) * Height)));
             }
             repaint();
-            backgroundImage = createComponentSnapshot(getBounds());
-            imageCreated = true;
+            
+            if (!imageCreated)
+            {
+                yDataLabel->setVisible(false);
+                backgroundImage = createComponentSnapshot(getLocalBounds());
+                imageCreated = true;
+                yDataLabel->setVisible(true);
+            }
         }
     }
     
@@ -138,12 +152,14 @@ public:
             // Position va a normalizar la posicion donde se encuentren los datos
             dataValue = position;
             
-            interpolatePosition(position);
+            updateCursor (position);
         }
     }
     // Interpolacion lineal
-    void interpolatePosition (float position)
+    void updateCursor (float position, const bool isNormalized = false)
     {
+        position = isNormalized ? (position * dataSetSize) : position;
+        
 		if (yDataLoaded) { yDataLabel->setText(yDataToPlot[round(position)], dontSendNotification); }
 
 		int prevPosition = (int)floor(position) >= dataSetSize ? dataSetSize - 1 : (int)floor(position);
@@ -152,18 +168,16 @@ public:
         
         float fraction = position - prevPosition;
         
-        int realPositionX = (pointsArray[nextPosition]->getX() * fraction) + (pointsArray[prevPosition]->getX() * (1 - fraction)) - 5;
-        int realPositionY = (pointsArray[nextPosition]->getY() * fraction) + (pointsArray[prevPosition]->getY() * (1 - fraction)) - 5;
+        int realPositionX = (pointsArray[nextPosition]->getX() * fraction) + (pointsArray[prevPosition]->getX() * (1 - fraction)) - 7.5;
+        int realPositionY = (pointsArray[nextPosition]->getY() * fraction) + (pointsArray[prevPosition]->getY() * (1 - fraction)) - 7.5;
         
-        mainDataCursor.setBounds (realPositionX, realPositionY, 20, 20);
+        mainDataCursor.setBounds (realPositionX, realPositionY, 30, 30);
     }
-    
-    
-    
+
     void resized() override
     {
         repaint();
-        yDataLabel->setBoundsRelative (0.7f, 0.0f, 0.3f, 0.1f);
+        yDataLabel->setBoundsRelative (0.7f, 0.9f, 0.3f, 0.1f);
     }
     
     void addYDataToPlot (StringArray newDataToPlot)
@@ -181,16 +195,16 @@ public:
 	int dataSetSize = 0;
 
 	float* dataSetToPlot;
-    
-    Image backgroundImage;
-    
-    std::unique_ptr<Label> yDataLabel;
-
-	DataCursor mainDataCursor;
 
 private:
     
     StringArray yDataToPlot;
+    
+    Image backgroundImage;
+    
+    std::unique_ptr<Label> yDataLabel;
+    
+    DataCursor mainDataCursor;
     bool yDataLoaded = false;
     bool imageCreated = false;
     

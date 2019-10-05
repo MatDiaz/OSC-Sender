@@ -28,7 +28,7 @@ public:
         if (shouldPaint)
         {
             g.setColour (Colour (Colours::purple));
-            g.fillEllipse (0, 0, 10, 10);
+            g.fillEllipse (0, 0, 15, 15);
         }
     }
   

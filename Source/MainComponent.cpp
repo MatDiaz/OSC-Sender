@@ -69,11 +69,13 @@ MainComponent::MainComponent()
     
     //==============================================================================
     setSize(x, y);
-    readTextFileData (BinaryData::homicidio_txt, BinaryData::homicidio_txtSize, mainPlot);
-    readTextFileData (BinaryData::suicidio_txt, BinaryData::suicidio_txtSize, secondPlot);
-    readTextFileData (BinaryData::transporte_txt, BinaryData::transporte_txtSize, thirdPlot);
+    
+    readTextFileData (BinaryData::homicidio_txt, BinaryData::homicidio_txtSize, mainPlot, firstArray);
+    readTextFileData (BinaryData::suicidio_txt, BinaryData::suicidio_txtSize, secondPlot, secondArray);
+    readTextFileData (BinaryData::transporte_txt, BinaryData::transporte_txtSize, thirdPlot, thirdArray);
     
     setAudioChannels (2, 2);
+    sender.connect("127.0.0.1", 9001);
 }
 
 MainComponent::~MainComponent()
@@ -116,25 +118,23 @@ void MainComponent::receiveArray (Array<float> &inArray, StringArray inStringArr
     normFactor = jmax(abs(Min), Max);
 }
 
-float MainComponent::interpolateData(float inValue)
+float MainComponent::interpolateData (float inValue, bool isNormalized, Array<float> nArray, const String& Message)
 {
+    if (isNormalized) (inValue = inValue * nArray.size());
     int prevPosition = floor (inValue);
     int nextPosition = ceil (inValue);
     float fraction = inValue - prevPosition;
-    return (nArray[nextPosition] * fraction) + (nArray[prevPosition] * (1 - fraction));
+    float value = (nArray[nextPosition] * fraction) + (nArray[prevPosition] * (1 - fraction));
+    float Min, Max;
+    findMinAndMax (nArray.getRawDataPointer(), nArray.size(), Min, Max);
+    float normFactor = jmax (abs(Min), Max);
+    sender.send (Message, (value / normFactor));
 }
 
 void MainComponent::mouseDrag (const MouseEvent& e)
 {
-    if ( e.originalComponent == &mainPlot && isConnected)
-    {
-		float normValue = 0;
-		
-		if (mainPlot.dataValue >= 0 && mainPlot.dataValue <= dataSetTam)
-            normValue = interpolateData (mainPlot.dataValue) / normFactor;
-
-//        sender.send(messageEnter->getTextValue().toString(), normValue);
-    }
+    if (e.originalComponent == &mainPlot || e.originalComponent == &secondPlot || e.originalComponent == &thirdPlot)
+        cursorPosition = e.originalComponent->getMouseXYRelative().getX() / (float) e.originalComponent->getWidth();
 }
 
 void MainComponent::buttonClicked(Button *button)
@@ -148,7 +148,7 @@ void MainComponent::paint(Graphics& g)
 	g.fillAll(Colour(Colours::black));
 }
 
-void MainComponent::readTextFileData (const char *textFileData, int textFileSize, Plot& plotToAdd)
+void MainComponent::readTextFileData (const char *textFileData, int textFileSize, Plot& plotToAdd, Array<float>& nArray)
 {
     StringArray months = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
     
@@ -172,7 +172,7 @@ void MainComponent::readTextFileData (const char *textFileData, int textFileSize
         {
             if (count == 0)
             {
-                outDate += String (secondToken);
+                outDate += String (secondToken) + " ";
             }
             else if (count == 1)
             {
@@ -195,8 +195,9 @@ void MainComponent::readTextFileData (const char *textFileData, int textFileSize
         
         dateArray.add (outDate);
     }
+    
     nArray = valueArray;
-    dataSetTam = nArray.size();
+
     plotToAdd.updatePlot (valueArray.getRawDataPointer(), valueArray.size(), true);
     plotToAdd.addYDataToPlot (dateArray);
 }
@@ -213,7 +214,7 @@ void MainComponent::resized()
     secondPlot.setBoundsRelative (0, 0.4, 1, 0.3);
     thirdPlot.setBoundsRelative (0, 0.7, 1, 0.3);
 
-    if(isLoaded) mainPlot.updatePlot();
+//    if(isLoaded) mainPlot.updatePlot();
 }
 
 void MainComponent::changeListenerCallback(ChangeBroadcaster *source)
@@ -228,16 +229,31 @@ void MainComponent::changeListenerCallback(ChangeBroadcaster *source)
 // ==============================================================================
 void MainComponent::timerCallback()
 {
-	mainPlot.interpolatePosition(cursorPosition);
+	mainPlot.updateCursor (cursorPosition, true);
+    secondPlot.updateCursor (cursorPosition, true);
+    thirdPlot.updateCursor (cursorPosition, true);
 	
-	const float cycleTime = (1000.0f * 60.0f) / (30.0f * playbackSpeedSlider->getValue());
+	const float cycleTime = (1000 * 60) / (30 * playbackSpeedSlider->getValue());
 
-	cursorPosition += (float) dataSetTam / (float) cycleTime;
+	cursorPosition += 1.0f / (float) cycleTime;
 	
-	cursorPosition = cursorPosition > dataSetTam ? 0 : cursorPosition;
+    if (cursorPosition >= 1)
+    {
+        cursorPosition = 0;
+        stopTimer();
+        
+        addAndMakeVisible (initialWindow);
+        juce::Rectangle<int> r = Desktop::getInstance().getDisplays().getMainDisplay().userArea;
+        auto x = r.getWidth();
+        auto y = r.getHeight();
+        initialWindow = new InitialWindow("!Escucha!", true);
+        initialWindow->setVisible (true);
+        initialWindow->setSize(x, y);
+        initialWindow->addChangeListener(this);
+    }
     
-    interpolateData(cursorPosition);
-	
-	float normValue = interpolateData (cursorPosition) / normFactor;
+    interpolateData(cursorPosition, true, firstArray, "/homicidio");
+    interpolateData(cursorPosition, true, secondArray, "/suicidio");
+    interpolateData(cursorPosition, true, thirdArray, "/transporte");
 }
 // ==============================================================================
