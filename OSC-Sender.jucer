@@ -7,15 +7,11 @@
       <FILE id="zUAgNO" name="suicidio.txt" compile="0" resource="1" file="Source/suicidio.txt"/>
       <FILE id="tooMUD" name="transporte.txt" compile="0" resource="1" file="Source/transporte.txt"/>
       <FILE id="UMAiJI" name="TextEx.txt" compile="0" resource="1" file="Source/TextEx.txt"/>
-      <FILE id="vy7NMm" name="InitialWindow.h" compile="0" resource="0" file="Source/InitialWindow.h"/>
-      <FILE id="jcVOGk" name="FinalWindow.h" compile="0" resource="0" file="Source/FinalWindow.h"/>
       <FILE id="xJJk4C" name="DataCursor.h" compile="0" resource="0" file="Source/DataCursor.h"/>
       <FILE id="KNOoY5" name="Plot.h" compile="0" resource="0" file="Source/Plot.h"/>
       <FILE id="JRczSg" name="WindowClass.h" compile="0" resource="0" file="Source/WindowClass.h"/>
-      <FILE id="ogta4k" name="UserInterfaceClass.cpp" compile="1" resource="0"
-            file="Source/UserInterfaceClass.cpp"/>
-      <FILE id="fQbvyr" name="UserInterfaceClass.h" compile="0" resource="0"
-            file="Source/UserInterfaceClass.h"/>
+      <FILE id="w0Q5fU" name="WindowComponent.h" compile="0" resource="0"
+            file="Source/WindowComponent.h"/>
       <FILE id="NjiHYJ" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
       <FILE id="O4ygIz" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>

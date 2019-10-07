@@ -13,16 +13,7 @@ using namespace std;
 MainComponent::MainComponent()
 {
     addMouseListener(this, true);
-    
-    addAndMakeVisible (initialWindow);
-    juce::Rectangle<int> r = Desktop::getInstance().getDisplays().getMainDisplay().userArea;
-    auto x = r.getWidth();
-    auto y = r.getHeight();
-    initialWindow = new InitialWindow("!Escucha!", true);
-    initialWindow->setVisible (true);
-    initialWindow->setSize(x, y);
-    initialWindow->addChangeListener(this);
-    
+
 	//=============================================================================
 
 	playbackSpeedSlider.reset (new Slider());
@@ -66,13 +57,18 @@ MainComponent::MainComponent()
     
     addAndMakeVisible(thirdPlot);
     thirdPlot.setEnabled(false);
-    
-    //==============================================================================
+    // =============================================================================
+    juce::Rectangle<int> r = Desktop::getInstance().getDisplays().getMainDisplay().userArea;
+    auto x = r.getWidth();
+    auto y = r.getHeight();
     setSize(x, y);
+    //==============================================================================
     
     readTextFileData (BinaryData::homicidio_txt, BinaryData::homicidio_txtSize, mainPlot, firstArray);
     readTextFileData (BinaryData::suicidio_txt, BinaryData::suicidio_txtSize, secondPlot, secondArray);
     readTextFileData (BinaryData::transporte_txt, BinaryData::transporte_txtSize, thirdPlot, thirdArray);
+    
+    executeSequence(true);
     
     setAudioChannels (2, 2);
     sender.connect("127.0.0.1", 9001);
@@ -80,7 +76,7 @@ MainComponent::MainComponent()
 
 MainComponent::~MainComponent()
 {
-    dataSets.clearQuick(false);
+    initialComponent = nullptr;
     initialWindow = nullptr;
     shutdownAudio();
 }
@@ -101,24 +97,7 @@ void MainComponent::releaseResources()
     
 }
 
-void MainComponent::receiveArray (Array<float> &inArray, StringArray inStringArray, int dataSetSize)
-{
-    dataSets.add (inArray.getRawDataPointer());
-	dataSetTam = dataSetSize;
-    
-    mainPlot.updatePlot (inArray.getRawDataPointer(), dataSetSize, true);
-    
-    mainPlot.addYDataToPlot (inStringArray);
-    
-    isLoaded = true;
-
-    float Min, Max;
-    
-    findMinAndMax(inArray.getRawDataPointer(), dataSetSize, Min, Max);
-    normFactor = jmax(abs(Min), Max);
-}
-
-float MainComponent::interpolateData (float inValue, bool isNormalized, Array<float> nArray, const String& Message)
+void MainComponent::interpolateData (float inValue, bool isNormalized, Array<float> nArray, const String& Message)
 {
     if (isNormalized) (inValue = inValue * nArray.size());
     int prevPosition = floor (inValue);
@@ -213,16 +192,49 @@ void MainComponent::resized()
     mainPlot.setBoundsRelative (0, 0.1, 1, 0.3);
     secondPlot.setBoundsRelative (0, 0.4, 1, 0.3);
     thirdPlot.setBoundsRelative (0, 0.7, 1, 0.3);
-
-//    if(isLoaded) mainPlot.updatePlot();
 }
 
 void MainComponent::changeListenerCallback(ChangeBroadcaster *source)
 {
-    if (source == initialWindow)
+    if (source == initialWindow && initialComponent != nullptr)
     {
+        initialComponent.reset();
         initialWindow.deleteAndZero();
         startTimer(30);
+    }
+    else if (source == initialWindow && secondComponent != nullptr)
+    {
+        secondComponent.reset();
+        initialWindow.deleteAndZero();
+        executeSequence(true);
+    }
+}
+
+void MainComponent::executeSequence (bool init)
+{
+    if (initialWindow == nullptr && init)
+    {
+        addAndMakeVisible (initialWindow);
+        juce::Rectangle<int> r = Desktop::getInstance().getDisplays().getMainDisplay().userArea;
+        auto x = r.getWidth();
+        auto y = r.getHeight();
+        initialComponent.reset (new InsideComponent());
+        initialWindow = new InitialWindow("!Escucha!", true, initialComponent.get());
+        initialWindow->setVisible (true);
+        initialWindow->setSize(x, y);
+        initialWindow->addChangeListener(this);
+    }
+    else if (initialWindow == nullptr && !init)
+    {
+        addAndMakeVisible (initialWindow);
+        juce::Rectangle<int> r = Desktop::getInstance().getDisplays().getMainDisplay().userArea;
+        auto x = r.getWidth();
+        auto y = r.getHeight();
+        secondComponent.reset (new SecondComponent());
+        initialWindow = new InitialWindow("!Escucha!", true, secondComponent.get());
+        initialWindow->setVisible (true);
+        initialWindow->setSize(x, y);
+        initialWindow->addChangeListener(this);
     }
 }
 
@@ -240,16 +252,8 @@ void MainComponent::timerCallback()
     if (cursorPosition >= 1)
     {
         cursorPosition = 0;
+        executeSequence(false);
         stopTimer();
-        
-        addAndMakeVisible (initialWindow);
-        juce::Rectangle<int> r = Desktop::getInstance().getDisplays().getMainDisplay().userArea;
-        auto x = r.getWidth();
-        auto y = r.getHeight();
-        initialWindow = new InitialWindow("!Escucha!", true);
-        initialWindow->setVisible (true);
-        initialWindow->setSize(x, y);
-        initialWindow->addChangeListener(this);
     }
     
     interpolateData(cursorPosition, true, firstArray, "/homicidio");

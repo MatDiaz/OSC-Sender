@@ -10,15 +10,8 @@
 
 #pragma once
 #include "../JuceLibraryCode/JuceHeader.h"
-class GenericWindowComponent: public Component,
-							   public Button::Listener,
-							   public ChangeBroadcaster
-{
-public:
-	GenericWindowComponent(){}
-	~GenericWindowComponent(){}
-	
-};
+#include "WindowClass.h"
+
 
 class InsideComponent: public GenericWindowComponent
 {
@@ -132,37 +125,94 @@ private:
     enum states {firstState, secondState} initialStates;
 };
 
+// ===============================================================
 
-class InitialWindow: public ResizableWindow,
-                     public ChangeBroadcaster,
-                     private ChangeListener
+class SecondComponent: public GenericWindowComponent,
+                       private Timer
 {
 public:
-    InitialWindow (const String& name, bool addToDesktop):
-    ResizableWindow (name, addToDesktop)
+    SecondComponent()
     {
-        setVisible (true);
-        setAlwaysOnTop (true);
-        setBackgroundColour (Colour(Colours::black));
-        auto x = Desktop::getInstance().getDisplays().getMainDisplay().userArea.getWidth();
-        auto y = Desktop::getInstance().getDisplays().getMainDisplay().userArea.getHeight();
-        insideComponent.setBounds(0,0, x, y);
-        insideComponent.addChangeListener(this);
-        setContentOwned (&insideComponent, true);
+        auto desktopArea = Desktop::getInstance().getDisplays().getMainDisplay().totalArea;
+        float desktopSize = desktopArea.getWidth() * desktopArea.getHeight();
+        
+        nextButton.reset (new TextButton ("Continuar"));
+        addAndMakeVisible (nextButton.get());
+        nextButton->addListener (this);
+        
+        title.reset (new Label());
+        addAndMakeVisible (title.get());
+        title->setFont (Font(desktopSize * 0.00015));
+        title->setText ("Como tu", dontSendNotification);
+        title->setJustificationType(Justification::centred);
+        
+        text.reset (new Label());
+        addAndMakeVisible(text.get());
+        text->setFont (Font(desktopSize * 0.00001));
+        text->setText ("Tantas Personas de tu edad ___ anos y sexo ___  han sido asesinados", dontSendNotification);
+        text->setJustificationType(Justification::centred);
+        componentState = states::firstState;
+        
     }
-    
-    ~InitialWindow()
+    ~SecondComponent()
     {
-        insideComponent.removeChangeListener(this);
+        nextButton = nullptr;
+        title = nullptr;
+        text = nullptr;
     }
-    
-    void changeListenerCallback (ChangeBroadcaster *source) override
+    void paint(Graphics& g) override {}
+    void resized() override
     {
-        if (source == &insideComponent)
+        title->setBoundsRelative(0.0f, 0.0f, 1.0f, 0.5f);
+        text->setBoundsRelative (0.1f, 0.5f, 0.8f, 0.25f);
+        nextButton->setBoundsRelative (0.45f, 0.75f, 0.1f, 0.1f);
+    }
+    void buttonClicked (Button* buttonThatWasClicked) override
+    {
+        std::cout << "Me Muevo " << std::endl;
+        switch (componentState)
         {
-            sendChangeMessage();
+        case firstState:
+                componentState = states::secondState;
+            break;
+        case secondState:
+                title->setText("Une Mensaje Para la vida", dontSendNotification);
+                nextButton->setButtonText("Grabar");
+                componentState = states::thirdState;
+            break;
+        case thirdState:
+                nextButton->setEnabled(false);
+                startTimer(1000);
+            break;
+        case fourthState:
+                sendChangeMessage();
+            break;
+        default:
+            break;
         }
     }
-
-	InsideComponent insideComponent;
+    
+    void timerCallback() override
+    {
+        if(++counter <= 5)
+        {
+            nextButton->setButtonText(String(counter));
+        }
+        else
+        {
+            componentState = states::fourthState;
+            nextButton->setButtonText("Terminar");
+            nextButton->setEnabled(true);
+            title->setText("Gracias!", dontSendNotification);
+            counter = 0;
+            stopTimer();
+        }
+    }
+    
+private:
+    int counter = 0;
+    std::unique_ptr<TextButton> nextButton;
+    std::unique_ptr<Label> title, text;
+    enum states {firstState, secondState, thirdState, fourthState} componentState;
 };
+

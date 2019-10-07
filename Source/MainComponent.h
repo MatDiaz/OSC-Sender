@@ -9,8 +9,8 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "UserInterfaceClass.h"
-#include "InitialWindow.h"
+#include "WindowClass.h"
+#include "WindowComponent.h"
 #include "Plot.h"
 
 //==============================================================================
@@ -49,23 +49,20 @@ public:
     
     //==============================================================================
     
-    void receiveArray (Array<float>& inArray, StringArray inStringArray, int dataSetSize);
-    
-    float interpolateData (float inValue, bool isNormalized, Array<float> nArray, const String& Message);
+    void interpolateData (float inValue, bool isNormalized, Array<float> nArray, const String& Message);
     
     void readTextFileData (const char *textFileData, int textFileSize, Plot& plotToAdd, Array<float>& nArray);
     
-    void executeSequence();
+    void executeSequence(bool init);
 
 private:
     
 	std::unique_ptr<Slider> playbackSpeedSlider;
-
 	std::unique_ptr<Label> speedLabel, speedLabel_Two, speedLabel_Three;
+    std::unique_ptr<InsideComponent> initialComponent;
+    std::unique_ptr<SecondComponent> secondComponent;
     
     juce::Component::SafePointer<InitialWindow> initialWindow;
-
-    OwnedArray<float> dataSets;
     
     Array<float> firstArray, secondArray, thirdArray;
     OSCSender sender;
