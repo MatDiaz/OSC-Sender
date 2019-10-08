@@ -201,11 +201,13 @@ void MainComponent::changeListenerCallback(ChangeBroadcaster *source)
         initialComponent.reset();
         initialWindow.deleteAndZero();
         startTimer(30);
+		sender.send("/toggle", 1.0f);
     }
     else if (source == initialWindow && secondComponent != nullptr)
     {
         secondComponent.reset();
         initialWindow.deleteAndZero();
+		sender.send("/toggle", 0.0f);
         executeSequence(true);
     }
 }
