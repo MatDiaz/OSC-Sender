@@ -11,7 +11,7 @@
 #pragma once
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "WindowClass.h"
-
+#include "AudioRecorder.h"
 
 class InsideComponent: public GenericWindowComponent
 {
@@ -153,6 +153,7 @@ public:
         text->setJustificationType(Justification::centred);
         componentState = states::firstState;
         
+        audioDeviceManager.addAudioCallback(&audioRecorder);
     }
     ~SecondComponent()
     {
@@ -169,7 +170,6 @@ public:
     }
     void buttonClicked (Button* buttonThatWasClicked) override
     {
-        std::cout << "Me Muevo " << std::endl;
         switch (componentState)
         {
         case firstState:
@@ -182,6 +182,9 @@ public:
             break;
         case thirdState:
                 nextButton->setEnabled(false);
+                parentDir = File::getSpecialLocation(File::SpecialLocationType::userDocumentsDirectory);
+                outputFile = parentDir.getNonexistentChildFile("Time", ".wav");
+                audioRecorder.startRecording(outputFile);
                 startTimer(1000);
             break;
         case fourthState:
@@ -205,14 +208,19 @@ public:
             nextButton->setEnabled(true);
             title->setText("Gracias!", dontSendNotification);
             counter = 0;
+            audioRecorder.stop();
             stopTimer();
         }
     }
     
 private:
     int counter = 0;
+    File outputFile;
+    File parentDir;
     std::unique_ptr<TextButton> nextButton;
     std::unique_ptr<Label> title, text;
+    AudioRecorder audioRecorder;
+    AudioDeviceManager audioDeviceManager;
     enum states {firstState, secondState, thirdState, fourthState} componentState;
 };
 

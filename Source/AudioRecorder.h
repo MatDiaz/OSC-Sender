@@ -20,7 +20,7 @@ public:
 	}
 	~AudioRecorder() 
 	{
-		
+        stop();
 	}
 
 	void startRecording(const File& file)
@@ -71,19 +71,27 @@ public:
 	void audioDeviceIOCallback(const float** inputChannelData, int numInputChannels, float** outputChannelData, int numOutputChannels, int numSamples) override
 	{
 		const ScopedLock sl (writerLock);
+        
 		if (activeWriter.load() != nullptr)
 		{
-			activeWriter.load()->write()
+            activeWriter.load()->write(inputChannelData, numSamples);
+            AudioBuffer<float> buffer (const_cast<float**> (inputChannelData), numOutputChannels, numSamples);
 		}
+        for (int i = 0; i < numOutputChannels; ++i)
+            if (outputChannelData[i] != nullptr)
+                FloatVectorOperations::clear(outputChannelData[i], numSamples);
 	}
 
 private:
 	double sampleRate = 0.0;
 	int64 nextSampleNum = 0;
+    
 	CriticalSection writerLock;
 
 	TimeSliceThread backgroundThread { "Audio Recorder Thread" };
+    
 	std::unique_ptr<AudioFormatWriter::ThreadedWriter> threadedWriter;
+    
 	std::atomic<AudioFormatWriter::ThreadedWriter*> activeWriter { nullptr };
 
 };
