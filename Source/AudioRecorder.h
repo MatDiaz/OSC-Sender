@@ -39,13 +39,17 @@ public:
 				{
 					fileStream.release();
 
-					threadedWriter.reset(new AudioFormatWriter::ThreadedWriter(writer, backgroundThread, 32768));
+					threadedWriter.reset(new AudioFormatWriter::ThreadedWriter (writer, backgroundThread, 32768));
 
 					const ScopedLock sl (writerLock);
 					activeWriter = threadedWriter.get();
 				}
 			}
 		}
+        else
+        {
+            std::cout << "bano no" << std::endl;
+        }
 	}
 
 	void stop()
@@ -57,6 +61,11 @@ public:
 
 		threadedWriter.reset();
 	}
+    
+    bool isRecording() const
+    {
+        return activeWriter.load() != nullptr;
+    }
 
 	void audioDeviceAboutToStart(AudioIODevice* device) override
 	{
@@ -75,7 +84,9 @@ public:
 		if (activeWriter.load() != nullptr)
 		{
             activeWriter.load()->write(inputChannelData, numSamples);
-            AudioBuffer<float> buffer (const_cast<float**> (inputChannelData), numOutputChannels, numSamples);
+            
+            AudioBuffer<float> buffer (const_cast<float**> (inputChannelData), numInputChannels, numSamples);
+            
 		}
         for (int i = 0; i < numOutputChannels; ++i)
             if (outputChannelData[i] != nullptr)

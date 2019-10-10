@@ -151,9 +151,9 @@ public:
         text->setFont (Font(desktopSize * 0.00001));
         text->setText ("Tantas Personas de tu edad ___ anos y sexo ___  han sido asesinados", dontSendNotification);
         text->setJustificationType(Justification::centred);
-        componentState = states::firstState;
-        
-        audioDeviceManager.addAudioCallback(&audioRecorder);
+        componentState = states::firstState; 
+        audioDeviceManager.initialiseWithDefaultDevices (1, 1);
+        audioDeviceManager.addAudioCallback (&audioRecorder);
     }
     ~SecondComponent()
     {
@@ -182,8 +182,8 @@ public:
             break;
         case thirdState:
                 nextButton->setEnabled(false);
-                parentDir = File::getSpecialLocation(File::SpecialLocationType::userDocumentsDirectory);
-                outputFile = parentDir.getNonexistentChildFile("Time", ".wav");
+                parentDir = File::getSpecialLocation(File::SpecialLocationType::userDesktopDirectory);
+                outputFile = parentDir.getNonexistentChildFile(Time::getCurrentTime().toString(true, true), ".wav");
                 audioRecorder.startRecording(outputFile);
                 startTimer(1000);
             break;
@@ -209,6 +209,7 @@ public:
             title->setText("Gracias!", dontSendNotification);
             counter = 0;
             audioRecorder.stop();
+            outputFile = File();
             stopTimer();
         }
     }

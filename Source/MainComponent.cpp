@@ -70,7 +70,7 @@ MainComponent::MainComponent()
     
     executeSequence(true);
     
-    setAudioChannels (2, 2);
+//    setAudioChannels (2, 2);
     sender.connect("127.0.0.1", 9001);
 }
 
