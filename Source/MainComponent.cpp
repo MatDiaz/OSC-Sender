@@ -25,6 +25,7 @@ MainComponent::MainComponent()
 	playbackSpeedSlider->setRange (0.25, 4, 0);
 	playbackSpeedSlider->setSkewFactorFromMidPoint(1.0f);
 	playbackSpeedSlider->setValue(1.0f, dontSendNotification);
+	playbackSpeedSlider->setVisible(false);
     
     //==============================================================================
 
@@ -33,6 +34,7 @@ MainComponent::MainComponent()
 	speedLabel->setText ("Lento", dontSendNotification);
 	speedLabel->setColour (Label::textColourId, Colour(Colours::white));
 	speedLabel->setJustificationType (juce::Justification::centred);
+	speedLabel->setVisible(false);
 
 	speedLabel_Two.reset (new Label());
 	addAndMakeVisible (speedLabel_Two.get());
@@ -40,12 +42,14 @@ MainComponent::MainComponent()
     speedLabel_Two->setFont (Font(20.0f));
 	speedLabel_Two->setColour (Label::textColourId, Colour(Colours::white));
 	speedLabel_Two->setJustificationType (juce::Justification::centred);
+	speedLabel_Two->setVisible(false);
 
 	speedLabel_Three.reset (new Label());
 	addAndMakeVisible (speedLabel_Three.get());
 	speedLabel_Three->setText (CharPointer_UTF8 ("R\xc3\xa1pido"), dontSendNotification);
 	speedLabel_Three->setColour (Label::textColourId, Colour(Colours::white));
 	speedLabel_Three->setJustificationType (juce::Justification::centred);
+	speedLabel_Three->setVisible(false);
 
 	//==============================================================================
 

@@ -50,8 +50,8 @@ public:
             g.setColour (Colour((uint8)220, (uint8)220, (uint8)220, (uint8)15));
             Rectangle<float> area(0, 0, getWidth(), getHeight());
             g.drawRect (0, 0, getWidth(), getHeight(), 2);
-            g.fillCheckerBoard (area, getWidth()*0.025, getHeight()*0.05, Colour((uint8)220, (uint8)220, (uint8)220, (uint8)15), Colour((uint8)210, (uint8)210, (uint8)210, (uint8)15));
-            
+			g.setColour (backgroundColour);
+			g.fillRect (getLocalBounds().toFloat());
             if (isLoaded)
             {
                 Path dataSetPlot;
@@ -186,6 +186,11 @@ public:
         yDataLoaded = true;
     }
 
+	void changeBackgroundColour(const Colour& colourToChange)
+	{
+		backgroundColour = colourToChange;
+	}
+
 	OwnedArray<Point<float>> pointsArray;
 
 	bool isLoaded = false, isConnected = false;
@@ -199,11 +204,10 @@ public:
 private:
     
     StringArray yDataToPlot;
-    
-    Image backgroundImage;
+	Colour backgroundColour = { Colours::black };
     
     std::unique_ptr<Label> yDataLabel;
-    
+	Image backgroundImage;
     DataCursor mainDataCursor;
     bool yDataLoaded = false;
     bool imageCreated = false;

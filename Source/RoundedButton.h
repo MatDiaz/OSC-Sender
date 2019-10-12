@@ -18,10 +18,12 @@ public:
     ~RoundedButton(){}
     void paint(Graphics& g) override
     {
-        g.setColour(Colour(Colours::black));
-        g.fillAll();
-        
-        this->getButtonText();
-        std::cout << "Ripain" << std::endl;
+		juce::Rectangle<int> area = getLocalBounds();
+        g.setColour(Colour(uint8(0), uint8(115), uint8(178)));
+		g.fillRoundedRectangle(area.toFloat(), ((area.getWidth() + area.getHeight()) / 2) * 0.3);
+
+		g.setColour(Colour(uint8(248), uint8(173), uint8(88)));
+		g.setFont(Font(((area.getWidth() + area.getHeight()) / 2) * 0.15));
+		g.drawText(getButtonText(), area, Justification::centred, false);
     }
 };

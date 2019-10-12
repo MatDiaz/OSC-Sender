@@ -100,7 +100,7 @@ public:
 	void resized() override
 	{
         introText->setBoundsRelative (0.1f, 0.5f, 0.8f, 0.25f);
-        initialButton->setBoundsRelative (0.45f, 0.75f, 0.1f, 0.1f);
+        initialButton->setBoundsRelative (0.425, 0.75f, 0.15f, 0.05f);
 		        
         sexMenu->setBoundsRelative (0.1f, 0.5f, 0.2f, 0.05f);
         ageMenu->setBoundsRelative (0.4f, 0.5f, 0.2f, 0.05f);
@@ -110,7 +110,8 @@ public:
 	void buttonClicked(Button* buttonThatWasClicked) override
 	{
         if (buttonThatWasClicked == initialButton.get())
-        {
+        {	
+			
             switch (initialStates) {
             case firstState:
                     sexMenu->setVisible (true);
@@ -148,21 +149,17 @@ public:
         auto desktopArea = Desktop::getInstance().getDisplays().getMainDisplay().totalArea;
         float desktopSize = desktopArea.getWidth() * desktopArea.getHeight();
         
-        nextButton.reset (new TextButton ("Continuar"));
+        nextButton.reset (new RoundedButton ());
+		nextButton->setButtonText("Continuar");
         addAndMakeVisible (nextButton.get());
         nextButton->addListener (this);
-        
-        title.reset (new Label());
-        addAndMakeVisible (title.get());
-        title->setFont (Font(desktopSize * 0.00015));
-        title->setText ("Como tu", dontSendNotification);
-        title->setJustificationType(Justification::centred);
         
         text.reset (new Label());
         addAndMakeVisible(text.get());
         text->setFont (Font(desktopSize * 0.00001));
         text->setText ("Tantas Personas de tu edad ___ anos y sexo ___  han sido asesinados", dontSendNotification);
         text->setJustificationType(Justification::centred);
+		text->setVisible(false);
         componentState = states::firstState; 
         audioDeviceManager.initialiseWithDefaultDevices (1, 1);
         audioDeviceManager.addAudioCallback (&audioRecorder);
@@ -170,18 +167,33 @@ public:
     ~SecondComponent()
     {
         nextButton = nullptr;
-        title = nullptr;
         text = nullptr;
     }
     void paint(Graphics& g) override
     {
-        
+		switch (componentState)
+		{
+		case firstState:
+			backgroundImage = ImageFileFormat::loadFrom(BinaryData::comotu_jpeg, BinaryData::comotu_jpegSize);
+			break;
+		case secondState:
+			backgroundImage = ImageFileFormat::loadFrom(BinaryData::mensaje_jpeg, BinaryData::mensaje_jpegSize);
+			break;
+		case thirdState:
+			backgroundImage = ImageFileFormat::loadFrom(BinaryData::gracias_jpeg, BinaryData::gracias_jpegSize);
+			break;
+		case fourthState:
+			break;
+		default:
+			break;
+		}
+		juce::Rectangle<int> area = getLocalBounds();
+		g.drawImage(backgroundImage, area.toFloat());
     }
     void resized() override
     {
-        title->setBoundsRelative(0.0f, 0.0f, 1.0f, 0.5f);
         text->setBoundsRelative (0.1f, 0.5f, 0.8f, 0.25f);
-        nextButton->setBoundsRelative (0.45f, 0.75f, 0.1f, 0.1f);
+        nextButton->setBoundsRelative (0.45f, 0.75f, 0.1f, 0.05f);
     }
     void buttonClicked (Button* buttonThatWasClicked) override
     {
@@ -191,51 +203,54 @@ public:
                 componentState = states::secondState;
             break;
         case secondState:
-                title->setText("Une Mensaje Para la vida", dontSendNotification);
                 nextButton->setButtonText("Grabar");
                 componentState = states::thirdState;
             break;
         case thirdState:
-                nextButton->setEnabled(false);
-                parentDir = File::getSpecialLocation(File::SpecialLocationType::userDesktopDirectory);
-                outputFile = parentDir.getNonexistentChildFile(Time::getCurrentTime().toString(true, true), ".wav");
-                audioRecorder.startRecording(outputFile);
-                startTimer(1000);
-            break;
+		{
+			nextButton->setEnabled(false);
+			parentDir = File::getSpecialLocation(File::SpecialLocationType::userDesktopDirectory);
+			outputFile = parentDir.getNonexistentChildFile(Time::getCurrentTime().toISO8601(false), ".wav");
+			audioRecorder.startRecording(outputFile);
+			startTimer(1000);
+			break;
+		}
         case fourthState:
                 sendChangeMessage();
             break;
         default:
             break;
         }
+		repaint();
     }
+
     
     void timerCallback() override
     {
-        if(++counter <= 4)
+        if(--counter >= 1)
         {
-            nextButton->setButtonText("Grabando...");
+            nextButton->setButtonText(String(counter));
         }
         else
         {
             componentState = states::fourthState;
             nextButton->setButtonText("Terminar");
             nextButton->setEnabled(true);
-            title->setText("Gracias!", dontSendNotification);
             counter = 0;
             audioRecorder.stop();
             outputFile = File();
+			repaint();
             stopTimer();
         }
     }
     
 private:
-    int counter = 0;
+    int counter = 6;
     File outputFile;
     File parentDir;
     Image backgroundImage;
-    std::unique_ptr<TextButton> nextButton;
-    std::unique_ptr<Label> title, text;
+    std::unique_ptr<RoundedButton> nextButton;
+    std::unique_ptr<Label>  text;
     AudioRecorder audioRecorder;
     AudioDeviceManager audioDeviceManager;
     enum states {firstState, secondState, thirdState, fourthState} componentState;
