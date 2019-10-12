@@ -46,10 +46,6 @@ public:
 				}
 			}
 		}
-        else
-        {
-            std::cout << "bano no" << std::endl;
-        }
 	}
 
 	void stop()

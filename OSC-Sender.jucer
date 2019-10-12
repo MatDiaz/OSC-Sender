@@ -2,11 +2,19 @@
 
 <JUCERPROJECT id="pb7gqQ" name="OSC-Sender" projectType="guiapp" jucerVersion="5.4.3">
   <MAINGROUP id="U6XrTf" name="OSC-Sender">
-    <GROUP id="{A5E1BE68-76D8-4E05-D26F-C2A28D542409}" name="Source">
+    <GROUP id="{69C9BAE9-C440-2CBF-0516-557B72F2E2AF}" name="Assets">
       <FILE id="OjqzXn" name="homicidio.txt" compile="0" resource="1" file="Source/homicidio.txt"/>
       <FILE id="zUAgNO" name="suicidio.txt" compile="0" resource="1" file="Source/suicidio.txt"/>
       <FILE id="tooMUD" name="transporte.txt" compile="0" resource="1" file="Source/transporte.txt"/>
       <FILE id="UMAiJI" name="TextEx.txt" compile="0" resource="1" file="Source/TextEx.txt"/>
+      <FILE id="OlnH5C" name="comotu.jpeg" compile="0" resource="1" file="Assets/comotu.jpeg"/>
+      <FILE id="ciJvk0" name="gracias.jpeg" compile="0" resource="1" file="Assets/gracias.jpeg"/>
+      <FILE id="FeroJW" name="intro.jpeg" compile="0" resource="1" file="Assets/intro.jpeg"/>
+      <FILE id="idTiSV" name="mensaje.jpeg" compile="0" resource="1" file="Assets/mensaje.jpeg"/>
+      <FILE id="eVCKAH" name="registro.jpeg" compile="0" resource="1" file="Assets/registro.jpeg"/>
+    </GROUP>
+    <GROUP id="{A5E1BE68-76D8-4E05-D26F-C2A28D542409}" name="Source">
+      <FILE id="QibCiK" name="RoundedButton.h" compile="0" resource="0" file="Source/RoundedButton.h"/>
       <FILE id="xJJk4C" name="DataCursor.h" compile="0" resource="0" file="Source/DataCursor.h"/>
       <FILE id="KNOoY5" name="Plot.h" compile="0" resource="0" file="Source/Plot.h"/>
       <FILE id="JRczSg" name="WindowClass.h" compile="0" resource="0" file="Source/WindowClass.h"/>

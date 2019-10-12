@@ -10,6 +10,7 @@
 
 #pragma once
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "RoundedButton.h"
 
 class GenericWindowComponent: public Component,
                              public Button::Listener,
@@ -30,7 +31,7 @@ public:
     ResizableWindow (name, addToDesktop)
     {
         setVisible (true);
-        setAlwaysOnTop (false);
+        setAlwaysOnTop (true);
         toFront(true);
         setBackgroundColour (Colour(Colours::black));
         insideComponent.reset (nComponent);

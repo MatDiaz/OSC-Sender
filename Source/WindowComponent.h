@@ -28,22 +28,16 @@ public:
 		        
 		auto desktopArea = Desktop::getInstance().getDisplays().getMainDisplay().totalArea;
 		float desktopSize = desktopArea.getWidth() * desktopArea.getHeight();
-		        
-        titleLabel.reset (new Label());
-        addAndMakeVisible (titleLabel.get());
-        titleLabel->setText ("!Escucha!", dontSendNotification);
-        titleLabel->setFont (Font(desktopSize * 0.0002));
-        titleLabel->setColour (Label::ColourIds::textColourId, Colour(Colours::white));
-        titleLabel->setJustificationType(Justification::centred);
-
+        
         introText.reset (new Label());
         addAndMakeVisible (introText.get());
         introText->setText (introMessage, dontSendNotification);
         introText->setFont (Font(desktopSize * 0.00001));
         introText->setColour (Label::ColourIds::textColourId, Colour(Colours::white));
         introText->setJustificationType(Justification::horizontallyJustified);
+        introText->setVisible(false);
         
-		initialButton.reset (new TextButton());
+		initialButton.reset (new RoundedButton());
 		addAndMakeVisible (initialButton.get());
 		initialButton->setButtonText ("Comenzar!");
 		initialButton->addListener (this);
@@ -76,19 +70,35 @@ public:
         sexMenu = nullptr;
         ageMenu = nullptr;
         comunaMenu = nullptr;
-        titleLabel = nullptr;
         introText = nullptr;
         initialButton = nullptr;
     }
 
 	void paint(Graphics& g) override
 	{
-
+        juce::Rectangle<int> area = getLocalBounds();
+        
+        switch (initialStates)
+        {
+            case firstState:
+            {
+                backgroundImage = ImageFileFormat::loadFrom (BinaryData::intro_jpeg, BinaryData::intro_jpegSize);
+                break;
+            }
+            case secondState:
+            {
+                backgroundImage = ImageFileFormat::loadFrom (BinaryData::registro_jpeg, BinaryData::registro_jpegSize);
+                break;
+            }
+            default:
+                break;
+        }
+        
+        g.drawImage(backgroundImage, area.toFloat());
 	}
 
 	void resized() override
 	{
-        titleLabel->setBoundsRelative(0.0f, 0.0f, 1.0f, 0.5f);
         introText->setBoundsRelative (0.1f, 0.5f, 0.8f, 0.25f);
         initialButton->setBoundsRelative (0.45f, 0.75f, 0.1f, 0.1f);
 		        
@@ -103,11 +113,11 @@ public:
         {
             switch (initialStates) {
             case firstState:
-                    initialStates = states::secondState;
                     sexMenu->setVisible (true);
                     ageMenu->setVisible (true);
                     comunaMenu->setVisible (true);
-                    introText = nullptr;
+                    initialButton->setButtonText ("Siguiente");
+                    initialStates = states::secondState;
                 break;
             case secondState:
                     sendChangeMessage();
@@ -115,13 +125,15 @@ public:
             default:
                 break;
             }
+            repaint();
         }
 	}
 
 private:
-    std::unique_ptr<TextButton> initialButton;
+    std::unique_ptr<RoundedButton> initialButton;
     std::unique_ptr<ComboBox> sexMenu, ageMenu, comunaMenu;
-    std::unique_ptr<Label> titleLabel, introText;
+    std::unique_ptr<Label> introText;
+    Image backgroundImage;
     enum states {firstState, secondState} initialStates;
 };
 
@@ -161,7 +173,10 @@ public:
         title = nullptr;
         text = nullptr;
     }
-    void paint(Graphics& g) override {}
+    void paint(Graphics& g) override
+    {
+        
+    }
     void resized() override
     {
         title->setBoundsRelative(0.0f, 0.0f, 1.0f, 0.5f);
@@ -197,9 +212,9 @@ public:
     
     void timerCallback() override
     {
-        if(++counter <= 5)
+        if(++counter <= 4)
         {
-            nextButton->setButtonText(String(counter));
+            nextButton->setButtonText("Grabando...");
         }
         else
         {
@@ -218,6 +233,7 @@ private:
     int counter = 0;
     File outputFile;
     File parentDir;
+    Image backgroundImage;
     std::unique_ptr<TextButton> nextButton;
     std::unique_ptr<Label> title, text;
     AudioRecorder audioRecorder;

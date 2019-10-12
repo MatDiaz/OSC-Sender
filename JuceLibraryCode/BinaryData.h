@@ -20,8 +20,23 @@ namespace BinaryData
     extern const char*   TextEx_txt;
     const int            TextEx_txtSize = 421;
 
+    extern const char*   comotu_jpeg;
+    const int            comotu_jpegSize = 379794;
+
+    extern const char*   gracias_jpeg;
+    const int            gracias_jpegSize = 359606;
+
+    extern const char*   intro_jpeg;
+    const int            intro_jpegSize = 417565;
+
+    extern const char*   mensaje_jpeg;
+    const int            mensaje_jpegSize = 379745;
+
+    extern const char*   registro_jpeg;
+    const int            registro_jpegSize = 343760;
+
     // Number of elements in the namedResourceList and originalFileNames arrays.
-    const int namedResourceListSize = 4;
+    const int namedResourceListSize = 9;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];
