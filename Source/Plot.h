@@ -186,7 +186,7 @@ public:
         yDataLoaded = true;
     }
 
-	void changeBackgroundColour(const Colour& colourToChange)
+	void setBackgroundColour(const Colour& colourToChange)
 	{
 		backgroundColour = colourToChange;
 	}

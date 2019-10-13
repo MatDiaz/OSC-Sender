@@ -55,12 +55,15 @@ MainComponent::MainComponent()
 
 	addAndMakeVisible (mainPlot);
 	mainPlot.setEnabled(true);
+	mainPlot.setBackgroundColour(Colour(uint8(243), uint8(74), uint8(40)));
     
     addAndMakeVisible(secondPlot);
     secondPlot.setEnabled(false);
+	secondPlot.setBackgroundColour(Colour(uint8(248), uint8(173), uint8(88)));
     
     addAndMakeVisible(thirdPlot);
     thirdPlot.setEnabled(false);
+	thirdPlot.setBackgroundColour(Colour(uint8(0), uint8(115), uint8(178)));
     // =============================================================================
     juce::Rectangle<int> r = Desktop::getInstance().getDisplays().getMainDisplay().userArea;
     auto x = r.getWidth();
@@ -74,7 +77,6 @@ MainComponent::MainComponent()
     
     executeSequence(true);
     
-//    setAudioChannels (2, 2);
     sender.connect("127.0.0.1", 9001);
 }
 
