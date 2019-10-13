@@ -56,14 +56,21 @@ MainComponent::MainComponent()
 	addAndMakeVisible (mainPlot);
 	mainPlot.setEnabled(true);
 	mainPlot.setBackgroundColour(Colour(uint8(243), uint8(74), uint8(40)));
-    
+	mainPlot.setPlotName("Homicidio");
+	mainPlot.setOffset(0.15f);
+	
     addAndMakeVisible(secondPlot);
     secondPlot.setEnabled(false);
 	secondPlot.setBackgroundColour(Colour(uint8(248), uint8(173), uint8(88)));
-    
+	secondPlot.setPlotName("Suicidio");
+	secondPlot.setOffset(0.15f);
+	    
     addAndMakeVisible(thirdPlot);
     thirdPlot.setEnabled(false);
 	thirdPlot.setBackgroundColour(Colour(uint8(0), uint8(115), uint8(178)));
+	thirdPlot.setOffset(0.15f);
+	thirdPlot.setPlotName("Transporte");
+
     // =============================================================================
     juce::Rectangle<int> r = Desktop::getInstance().getDisplays().getMainDisplay().userArea;
     auto x = r.getWidth();
@@ -71,10 +78,9 @@ MainComponent::MainComponent()
     setSize(x, y);
     //==============================================================================
     
-    readTextFileData (BinaryData::homicidio_txt, BinaryData::homicidio_txtSize, mainPlot, firstArray);
-    readTextFileData (BinaryData::suicidio_txt, BinaryData::suicidio_txtSize, secondPlot, secondArray);
-    readTextFileData (BinaryData::transporte_txt, BinaryData::transporte_txtSize, thirdPlot, thirdArray);
-    
+	readTextFileData(BinaryData::homicidio_txt, BinaryData::homicidio_txtSize, mainPlot, firstArray);
+	readTextFileData(BinaryData::transporte_txt, BinaryData::transporte_txtSize, thirdPlot, thirdArray);
+	readTextFileData(BinaryData::suicidio_txt, BinaryData::suicidio_txtSize, secondPlot, secondArray);
     executeSequence(true);
     
     sender.connect("127.0.0.1", 9001);

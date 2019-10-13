@@ -20,7 +20,7 @@ class MainComponent;
 /*
 */
 
-class Plot    : public Component
+class Plot	: public Component
 {
 public:
     Plot() // Constructor
@@ -35,6 +35,13 @@ public:
         yDataLabel->setFont (20.0f);
 		yDataLabel->setColour(Label::backgroundColourId, Colour(uint8(169), uint8(169), uint8(169), 0.5f));
         yDataLabel->setJustificationType (Justification::centred);
+
+		plotNameLabel.reset (new Label());
+		addAndMakeVisible(plotNameLabel.get());
+		plotNameLabel->setColour (Label::textColourId, Colour(Colours::white));
+		plotNameLabel->setFont (30.0f);
+		plotNameLabel->setJustificationType (Justification::centred);
+
     }
 
     ~Plot()
@@ -42,7 +49,7 @@ public:
         pointsArray.clearQuick(false);
     }
 
-	void paint(Graphics& g) override
+	void paint (Graphics& g) override
 	{
         // Set data to plot colour
         if (!imageCreated)
@@ -66,7 +73,7 @@ public:
                         dataSetPlot.lineTo (*pointsArray[i]);
                 }
                 
-                g.strokePath (dataSetPlot, PathStrokeType(1.0f));
+                g.strokePath (dataSetPlot, PathStrokeType(2.0f));
                 
                 mainDataCursor.shouldPaint = true;
             }
@@ -76,14 +83,16 @@ public:
             g.drawImageAt (backgroundImage, 0, 0, false);
         }
     }
+
     // This method will receive data from parent component
-	void updatePlot(float* dataSet, int dataSize, bool Loaded)
+	void updatePlot (float* dataSet, int dataSize, bool Loaded)
 	{
 		isLoaded = Loaded;
 		dataSetSize = dataSize;
 		dataSetToPlot = dataSet;
         
-		float divX = getWidth() / ((float)dataSetSize - 1);
+		float divX = (getWidth() * (1 - offset)) / ((float) dataSetSize - 1);
+		float Xoffset = getWidth() * offset;
 
 		float Min, Max;
 
@@ -97,7 +106,7 @@ public:
 		{
             pointsArray.insert(i, new Point<float>);
 
-			pointsArray[i]->addXY((i * divX), (Height - ((dataSetToPlot[i] / Max) * Height)));
+			pointsArray[i]->addXY((i * divX) + Xoffset, (Height - ((dataSetToPlot[i] / Max) * Height)));
 		}
         
         repaint();
@@ -110,6 +119,7 @@ public:
             yDataLabel->setVisible(true);
         }
 	}
+
     // This should be called when resizing in parent component happens
     // and dataSetToPlot is already in use
     void updatePlot()
@@ -120,9 +130,9 @@ public:
             
             float Min, Max;
             
-            findMinAndMax(dataSetToPlot, dataSetSize, Min, Max);
+            findMinAndMax (dataSetToPlot, dataSetSize, Min, Max);
             
-            Max = jmax(abs(Min), Max);
+            Max = jmax (std::abs(Min), Max);
             
             float Height = Min < 0 ? getHeight() / 2 : getHeight();
             
@@ -171,13 +181,14 @@ public:
         int realPositionX = (pointsArray[nextPosition]->getX() * fraction) + (pointsArray[prevPosition]->getX() * (1 - fraction)) - 7.5;
         int realPositionY = (pointsArray[nextPosition]->getY() * fraction) + (pointsArray[prevPosition]->getY() * (1 - fraction)) - 7.5;
         
-        mainDataCursor.setBounds (realPositionX, realPositionY, 30, 30);
+        mainDataCursor.setBounds (realPositionX, 0, 7.5, getLocalBounds().getHeight());
     }
 
     void resized() override
     {
         repaint();
         yDataLabel->setBoundsRelative (0.7f, 0.9f, 0.3f, 0.1f);
+		plotNameLabel->setBoundsRelative (0.0f, 0.0f, 0.15f, 0.5f);
     }
     
     void addYDataToPlot (StringArray newDataToPlot)
@@ -189,6 +200,16 @@ public:
 	void setBackgroundColour(const Colour& colourToChange)
 	{
 		backgroundColour = colourToChange;
+	}
+
+	void setOffset(float setCurrentOffset)
+	{
+		offset = setCurrentOffset;
+	}
+
+	void setPlotName(const String& nameToAdd)
+	{
+		plotNameLabel->setText (nameToAdd, dontSendNotification);
 	}
 
 	OwnedArray<Point<float>> pointsArray;
@@ -204,9 +225,11 @@ public:
 private:
     
     StringArray yDataToPlot;
+	std::unique_ptr<Label> yDataLabel, plotNameLabel;
+
+	float offset = 0;
 	Colour backgroundColour = { Colours::black };
-    
-    std::unique_ptr<Label> yDataLabel;
+
 	Image backgroundImage;
     DataCursor mainDataCursor;
     bool yDataLoaded = false;

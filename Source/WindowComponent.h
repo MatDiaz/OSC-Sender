@@ -223,7 +223,6 @@ public:
         }
 		repaint();
     }
-
     
     void timerCallback() override
     {

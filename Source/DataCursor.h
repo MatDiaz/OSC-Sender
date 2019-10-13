@@ -27,8 +27,8 @@ public:
     {
         if (shouldPaint)
         {
-            g.setColour (Colour (Colours::purple));
-            g.fillEllipse (0, 0, 15, 15);
+            g.setColour (Colour (uint8(255), uint8(255), uint8(255), 0.5f));
+			g.fillRect(getLocalBounds().toFloat());
         }
     }
   
