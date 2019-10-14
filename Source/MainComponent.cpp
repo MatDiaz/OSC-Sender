@@ -14,6 +14,13 @@ MainComponent::MainComponent()
 {
     addMouseListener(this, true);
 
+	date.reset (new Label());
+	addAndMakeVisible(date.get());
+	date->setText("Fecha:--", dontSendNotification);
+	date->setColour(Label::textColourId, Colour(uint8(248), uint8(173), uint8(88)));
+	date->setJustificationType(Justification::centred);
+	date->setFont(45.0f);
+
 	//=============================================================================
 
 	playbackSpeedSlider.reset (new Slider());
@@ -58,18 +65,21 @@ MainComponent::MainComponent()
 	mainPlot.setBackgroundColour(Colour(uint8(243), uint8(74), uint8(40)));
 	mainPlot.setPlotName("Homicidio");
 	mainPlot.setOffset(0.15f);
+	mainPlot.setEnabled(false);
 	
     addAndMakeVisible(secondPlot);
     secondPlot.setEnabled(false);
 	secondPlot.setBackgroundColour(Colour(uint8(248), uint8(173), uint8(88)));
 	secondPlot.setPlotName("Suicidio");
 	secondPlot.setOffset(0.15f);
+	secondPlot.setEnabled(false);
 	    
     addAndMakeVisible(thirdPlot);
     thirdPlot.setEnabled(false);
 	thirdPlot.setBackgroundColour(Colour(uint8(0), uint8(115), uint8(178)));
 	thirdPlot.setOffset(0.15f);
 	thirdPlot.setPlotName("Transporte");
+	thirdPlot.setEnabled(false);
 
     // =============================================================================
     juce::Rectangle<int> r = Desktop::getInstance().getDisplays().getMainDisplay().userArea;
@@ -124,8 +134,10 @@ void MainComponent::interpolateData (float inValue, bool isNormalized, Array<flo
 
 void MainComponent::mouseDrag (const MouseEvent& e)
 {
-    if (e.originalComponent == &mainPlot || e.originalComponent == &secondPlot || e.originalComponent == &thirdPlot)
-        cursorPosition = e.originalComponent->getMouseXYRelative().getX() / (float) e.originalComponent->getWidth();
+	if (e.originalComponent == &mainPlot || e.originalComponent == &secondPlot || e.originalComponent == &thirdPlot)
+	{
+		cursorPosition = e.originalComponent->getMouseXYRelative().getX() / (float)e.originalComponent->getWidth();
+	}
 }
 
 void MainComponent::buttonClicked(Button *button)
@@ -157,17 +169,18 @@ void MainComponent::readTextFileData (const char *textFileData, int textFileSize
         std::string secondToken;
         int count = 0;
         
-        String outDate = "";
-        
+        String year = "";
+		String month = "";
+
         while(std::getline(secondStream, secondToken, '-'))
         {
             if (count == 0)
             {
-                outDate += String (secondToken) + " ";
+                year = String (secondToken);
             }
             else if (count == 1)
             {
-                outDate += months[std::stoi (secondToken) - 1];
+                month = months[std::stoi (secondToken) - 1] + " ";
             }
             else if (count == 2)
             {
@@ -184,12 +197,12 @@ void MainComponent::readTextFileData (const char *textFileData, int textFileSize
             if (++count > 2) count = 0;
         }
         
-        dateArray.add (outDate);
+        dateArray.add (month + year);
     }
     
     nArray = valueArray;
 
-    plotToAdd.updatePlot (valueArray.getRawDataPointer(), valueArray.size(), true);
+    plotToAdd.updatePlot (valueArray.getRawDataPointer(), valueArray.size(), true, valueArray);
     plotToAdd.addYDataToPlot (dateArray);
 }
 
@@ -200,6 +213,8 @@ void MainComponent::resized()
 	speedLabel->setBoundsRelative(0.20, 0.05, 0.05, 0.05);
 	speedLabel_Two->setBoundsRelative(0.45, 0, 0.1, 0.05);
 	speedLabel_Three->setBoundsRelative(0.75, 0.05, 0.1, 0.05);
+
+	date->setBoundsRelative(0.0f, 0.0f, 1.0f, 0.1f);
     
     mainPlot.setBoundsRelative (0, 0.1, 1, 0.3);
     secondPlot.setBoundsRelative (0, 0.4, 1, 0.3);
@@ -258,8 +273,14 @@ void MainComponent::timerCallback()
 	mainPlot.updateCursor (cursorPosition, true);
     secondPlot.updateCursor (cursorPosition, true);
     thirdPlot.updateCursor (cursorPosition, true);
+
+	interpolateData(cursorPosition, true, firstArray, "/homicidio");
+	interpolateData(cursorPosition, true, secondArray, "/suicidio");
+	interpolateData(cursorPosition, true, thirdArray, "/transporte");
+
+	date->setText(mainPlot.yDataToPlot[(int) round(cursorPosition*mainPlot.dataSetSize)], dontSendNotification);
 	
-	const float cycleTime = (1000 * 60) / (30 * playbackSpeedSlider->getValue());
+	const float cycleTime = (2000 * 60) / (30 * playbackSpeedSlider->getValue());
 
 	cursorPosition += 1.0f / (float) cycleTime;
 	
@@ -269,9 +290,5 @@ void MainComponent::timerCallback()
         executeSequence(false);
         stopTimer();
     }
-    
-    interpolateData(cursorPosition, true, firstArray, "/homicidio");
-    interpolateData(cursorPosition, true, secondArray, "/suicidio");
-    interpolateData(cursorPosition, true, thirdArray, "/transporte");
 }
 // ==============================================================================

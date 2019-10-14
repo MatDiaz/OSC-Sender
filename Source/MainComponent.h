@@ -41,8 +41,6 @@ public:
     
     void mouseDrag (const MouseEvent& e) override;
     
-    void updateSliderPosistion (float newPosition);
-    
     void timerCallback() override;
     
     void changeListenerCallback (ChangeBroadcaster* source) override;
@@ -58,7 +56,7 @@ public:
 private:
     
 	std::unique_ptr<Slider> playbackSpeedSlider;
-	std::unique_ptr<Label> speedLabel, speedLabel_Two, speedLabel_Three;
+	std::unique_ptr<Label> speedLabel, speedLabel_Two, speedLabel_Three, date;
     std::unique_ptr<InsideComponent> initialComponent;
     std::unique_ptr<SecondComponent> secondComponent;
     

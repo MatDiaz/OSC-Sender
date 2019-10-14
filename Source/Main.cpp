@@ -65,7 +65,8 @@ public:
             setUsingNativeTitleBar (false);
             setContentOwned (new MainComponent(), true);
             setBackgroundColour (Colour(Colours::black));
-            setFullScreen (false);
+            setFullScreen (true);
+
            #if JUCE_IOS || JUCE_ANDROID
             setFullScreen (true);
            #else
@@ -73,8 +74,9 @@ public:
             juce::Rectangle<int> r = Desktop::getInstance().getDisplays().getMainDisplay().userArea;
             centreWithSize ((float)r.getWidth(), (float)r.getHeight());
            #endif
+			
             setVisible (true);
-            setDraggable(true);
+            setDraggable(false);
             setAlwaysOnTop(false);
         }
 

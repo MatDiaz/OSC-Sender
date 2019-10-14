@@ -23,29 +23,38 @@ class MainComponent;
 class Plot	: public Component
 {
 public:
-    Plot() // Constructor
+    Plot(): // Constructor
+		dataSetToPlot(nullptr) 
     {
         // Create data cursor
         addAndMakeVisible (mainDataCursor);
         
-        yDataLabel.reset (new Label());
-        addAndMakeVisible (yDataLabel.get());
-        yDataLabel->setText (" ------- ", dontSendNotification);
-        yDataLabel->setColour (Label::textColourId, Colour (Colours::white));
-        yDataLabel->setFont (20.0f);
-		yDataLabel->setColour(Label::backgroundColourId, Colour(uint8(169), uint8(169), uint8(169), 0.5f));
-        yDataLabel->setJustificationType (Justification::centred);
+        xDataLabel.reset (new Label());
+        addAndMakeVisible (xDataLabel.get());
+        xDataLabel->setText (" ------- ", dontSendNotification);
+        xDataLabel->setColour (Label::textColourId, Colour (Colours::white));
+        xDataLabel->setFont (20.0f);
+        xDataLabel->setJustificationType (Justification::centred);
+		xDataLabel->setEnabled(false);
+
+		yDataLabel.reset (new Label());
+		addAndMakeVisible (yDataLabel.get());
+		yDataLabel->setColour (Label::textColourId, Colour(Colours::black));
+		yDataLabel->setFont (50.0f);
+		yDataLabel->setJustificationType (Justification::centred);
 
 		plotNameLabel.reset (new Label());
 		addAndMakeVisible(plotNameLabel.get());
 		plotNameLabel->setColour (Label::textColourId, Colour(Colours::white));
-		plotNameLabel->setFont (30.0f);
+		plotNameLabel->setFont (40.0f);
 		plotNameLabel->setJustificationType (Justification::centred);
-
     }
 
     ~Plot()
-    {
+    {	
+		xDataLabel = nullptr;
+		yDataLabel = nullptr;
+		plotNameLabel = nullptr;
         pointsArray.clearQuick(false);
     }
 
@@ -85,11 +94,12 @@ public:
     }
 
     // This method will receive data from parent component
-	void updatePlot (float* dataSet, int dataSize, bool Loaded)
+	void updatePlot (float* dataSet, int dataSize, bool Loaded, const Array<float>& ndataArray)
 	{
 		isLoaded = Loaded;
 		dataSetSize = dataSize;
 		dataSetToPlot = dataSet;
+		dataArray = ndataArray;
         
 		float divX = (getWidth() * (1 - offset)) / ((float) dataSetSize - 1);
 		float Xoffset = getWidth() * offset;
@@ -113,10 +123,12 @@ public:
         
         if (!imageCreated)
         {
-            yDataLabel->setVisible(false);
+            xDataLabel->setVisible(false);
+			yDataLabel->setVisible(false);
             backgroundImage = createComponentSnapshot(getLocalBounds());
             imageCreated = true;
-            yDataLabel->setVisible(true);
+            xDataLabel->setVisible(true);
+			yDataLabel->setVisible(true);
         }
 	}
 
@@ -146,17 +158,19 @@ public:
             
             if (!imageCreated)
             {
-                yDataLabel->setVisible(false);
+                xDataLabel->setVisible(false);
+				yDataLabel->setVisible(false);
                 backgroundImage = createComponentSnapshot(getLocalBounds());
                 imageCreated = true;
-                yDataLabel->setVisible(true);
+                xDataLabel->setVisible(true);
+				yDataLabel->setVisible(true);
             }
         }
     }
     
     void mouseDrag (const MouseEvent& e) override
     {
-        if(e.mods.isLeftButtonDown() && (e.getPosition().getX() >= 0))
+        if(e.mods.isLeftButtonDown() && (e.getPosition().getX() >= 0) && isEnabled())
         {
             float position = (((float) e.getPosition().getX() / (float)getWidth()) * dataSetSize);
             // Position va a normalizar la posicion donde se encuentren los datos
@@ -165,12 +179,12 @@ public:
             updateCursor (position);
         }
     }
-    // Interpolacion lineal
+
     void updateCursor (float position, const bool isNormalized = false)
     {
         position = isNormalized ? (position * dataSetSize) : position;
-        
-		if (yDataLoaded) { yDataLabel->setText(yDataToPlot[round(position)], dontSendNotification); }
+
+		yDataLabel->setText (String (dataArray [(int)round(position)]), dontSendNotification);
 
 		int prevPosition = (int)floor(position) >= dataSetSize ? dataSetSize - 1 : (int)floor(position);
         
@@ -187,7 +201,8 @@ public:
     void resized() override
     {
         repaint();
-        yDataLabel->setBoundsRelative (0.7f, 0.9f, 0.3f, 0.1f);
+        xDataLabel->setBoundsRelative (0.7f, 0.9f, 0.3f, 0.1f);
+		yDataLabel->setBoundsRelative(0.0f, 0.5f, 0.15f, 0.5f);
 		plotNameLabel->setBoundsRelative (0.0f, 0.0f, 0.15f, 0.5f);
     }
     
@@ -221,15 +236,15 @@ public:
 	int dataSetSize = 0;
 
 	float* dataSetToPlot;
+	StringArray yDataToPlot;
 
 private:
-    
-    StringArray yDataToPlot;
-	std::unique_ptr<Label> yDataLabel, plotNameLabel;
+   
+	std::unique_ptr<Label> xDataLabel, yDataLabel, plotNameLabel;
 
 	float offset = 0;
 	Colour backgroundColour = { Colours::black };
-
+	Array<float> dataArray;
 	Image backgroundImage;
     DataCursor mainDataCursor;
     bool yDataLoaded = false;

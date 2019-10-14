@@ -18,8 +18,16 @@ class InsideComponent: public GenericWindowComponent
 public:
 	InsideComponent()
 	{
+
+		getLookAndFeel().setColour(ComboBox::backgroundColourId, Colour(uint8(7), uint8(21), uint8(36)));
+		getLookAndFeel().setColour(PopupMenu::backgroundColourId, Colour(uint8(7), uint8(21), uint8(36)));
+		getLookAndFeel().setColour(PopupMenu::highlightedBackgroundColourId, Colour(uint8(243), uint8(74), uint8(40)));
+		getLookAndFeel().setColour(ComboBox::ColourIds::buttonColourId, Colour(uint8(243), uint8(74), uint8(40)));
+		getLookAndFeel().setColour(ComboBox::ColourIds::textColourId, Colour(uint8(248), uint8(173), uint8(88)));
+		getLookAndFeel().setColour(PopupMenu::ColourIds::textColourId, Colour(uint8(248), uint8(173), uint8(88)));
+
 		StringArray sexArray = { "Hombre", "Mujer" };
-		StringArray ageArray = {"15 - 20", "21 - 25", "26 - 30", "31 - 35"};
+		StringArray ageArray = {"0 - 5", "6 - 11", "12 - 17", "18 - 28", "29 - 50", "60 o mas"};
 		StringArray comunaArray = { "Comuna 1", "Comuna 2", "Comuna 3", "Comuna 4" };
 		// ============================================================================
 		        
@@ -100,11 +108,11 @@ public:
 	void resized() override
 	{
         introText->setBoundsRelative (0.1f, 0.5f, 0.8f, 0.25f);
-        initialButton->setBoundsRelative (0.425, 0.75f, 0.15f, 0.05f);
+        initialButton->setBoundsRelative (0.425, 0.8f, 0.15f, 0.075f);
 		        
-        sexMenu->setBoundsRelative (0.1f, 0.5f, 0.2f, 0.05f);
-        ageMenu->setBoundsRelative (0.4f, 0.5f, 0.2f, 0.05f);
-        comunaMenu->setBoundsRelative (0.7f, 0.5f, 0.2f, 0.05f);
+        sexMenu->setBoundsRelative (0.025f, 0.45f, 0.3f, 0.065f);
+        ageMenu->setBoundsRelative (0.35f, 0.45f, 0.3f, 0.065f);
+        comunaMenu->setBoundsRelative (0.675f, 0.45f, 0.3f, 0.065f);
 	}
 
 	void buttonClicked(Button* buttonThatWasClicked) override
@@ -161,7 +169,7 @@ public:
         text->setJustificationType(Justification::centred);
 		text->setVisible(false);
         componentState = states::firstState; 
-        audioDeviceManager.initialiseWithDefaultDevices (1, 1);
+        audioDeviceManager.initialiseWithDefaultDevices (2, 2);
         audioDeviceManager.addAudioCallback (&audioRecorder);
     }
     ~SecondComponent()
@@ -193,7 +201,7 @@ public:
     void resized() override
     {
         text->setBoundsRelative (0.1f, 0.5f, 0.8f, 0.25f);
-        nextButton->setBoundsRelative (0.45f, 0.75f, 0.1f, 0.05f);
+        nextButton->setBoundsRelative (0.425, 0.8f, 0.15f, 0.075f);;
     }
     void buttonClicked (Button* buttonThatWasClicked) override
     {
@@ -252,6 +260,6 @@ private:
     std::unique_ptr<Label>  text;
     AudioRecorder audioRecorder;
     AudioDeviceManager audioDeviceManager;
-    enum states {firstState, secondState, thirdState, fourthState} componentState;
+    enum states {firstState, secondState, thirdState, fourthState, fifthState} componentState;
 };
 
