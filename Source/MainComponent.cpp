@@ -234,10 +234,19 @@ void MainComponent::changeListenerCallback(ChangeBroadcaster *source)
     }
     else if (source == initialWindow && secondComponent != nullptr)
     {
-        secondComponent.reset();
-        initialWindow.deleteAndZero();
-		sender.send("/toggle", 0.0f);
-        executeSequence(true);
+        if (secondComponent->componentState == SecondComponent::states::thirdState)
+        {
+            sender.send("/toggle3", 1.0f);
+        }
+        else
+        {
+            secondComponent.reset();
+            initialWindow.deleteAndZero();
+            sender.send("/toggle", 0.0f);
+            sender.send("/toggle2", 0.0f);
+            sender.send("/toggle3", 0.0f);
+            executeSequence(true);
+        }
     }
 }
 
@@ -286,10 +295,11 @@ void MainComponent::timerCallback()
 
 	cursorPosition += 1.0f / (float) cycleTime;
 	
-    if (cursorPosition >= 1)
+    if (cursorPosition >= (1 - (1.0f/(float) cycleTime)))
     {
         cursorPosition = 0;
         executeSequence(false);
+        sender.send("/toggle2", 1.0f);
         stopTimer();
     }
 }

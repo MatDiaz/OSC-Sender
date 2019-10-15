@@ -36,6 +36,7 @@ public:
         xDataLabel->setFont (20.0f);
         xDataLabel->setJustificationType (Justification::centred);
 		xDataLabel->setEnabled(false);
+        xDataLabel->setVisible(false);
 
 		yDataLabel.reset (new Label());
 		addAndMakeVisible (yDataLabel.get());

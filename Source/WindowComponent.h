@@ -98,6 +98,10 @@ public:
                 backgroundImage = ImageFileFormat::loadFrom (BinaryData::registro_jpeg, BinaryData::registro_jpegSize);
                 break;
             }
+            case thirdState:
+            {
+                backgroundImage =ImageFileFormat::loadFrom (BinaryData::instrucciones_jpeg, BinaryData::instrucciones_jpegSize);
+            }
             default:
                 break;
         }
@@ -129,8 +133,14 @@ public:
                     initialStates = states::secondState;
                 break;
             case secondState:
-                    sendChangeMessage();
+                    sexMenu->setVisible (false);
+                    ageMenu->setVisible (false);
+                    comunaMenu->setVisible (false);
+                    initialStates = states::thirdState;
                 break;
+                case thirdState:
+                    sendChangeMessage();
+                    break;
             default:
                 break;
             }
@@ -143,7 +153,7 @@ private:
     std::unique_ptr<ComboBox> sexMenu, ageMenu, comunaMenu;
     std::unique_ptr<Label> introText;
     Image backgroundImage;
-    enum states {firstState, secondState} initialStates;
+    enum states {firstState, secondState, thirdState} initialStates;
 };
 
 // ===============================================================
@@ -185,15 +195,16 @@ public:
 		switch (componentState)
 		{
 		case firstState:
-			backgroundImage = ImageFileFormat::loadFrom(BinaryData::comotu_jpeg, BinaryData::comotu_jpegSize);
+			backgroundImage = ImageFileFormat::loadFrom(BinaryData::distancia_jpeg, BinaryData::distancia_jpegSize);
 			break;
 		case secondState:
-			backgroundImage = ImageFileFormat::loadFrom(BinaryData::mensaje_jpeg, BinaryData::mensaje_jpegSize);
+			backgroundImage = ImageFileFormat::loadFrom(BinaryData::datos_jpeg, BinaryData::datos_jpegSize);
 			break;
 		case thirdState:
-			backgroundImage = ImageFileFormat::loadFrom(BinaryData::gracias_jpeg, BinaryData::gracias_jpegSize);
+			backgroundImage = ImageFileFormat::loadFrom(BinaryData::grabar_jpeg, BinaryData::grabar_jpegSize);
 			break;
 		case fourthState:
+                backgroundImage = ImageFileFormat::loadFrom(BinaryData::gracias_jpeg, BinaryData::gracias_jpegSize);
 			break;
 		default:
 			break;
@@ -214,21 +225,22 @@ public:
                 componentState = states::secondState;
             break;
         case secondState:
-                nextButton->setButtonText("Grabar");
                 componentState = states::thirdState;
+                nextButton->setButtonText("Grabar");
+                sendChangeMessage();
             break;
         case thirdState:
 		{
-			nextButton->setEnabled(false);
-			parentDir = File::getSpecialLocation(File::SpecialLocationType::userDesktopDirectory);
-			outputFile = parentDir.getNonexistentChildFile(Time::getCurrentTime().toISO8601(false), ".wav");
-			audioRecorder.startRecording(outputFile);
-			startTimer(1000);
-			break;
+            nextButton->setEnabled(false);
+            parentDir = File::getSpecialLocation(File::SpecialLocationType::userDesktopDirectory);
+            outputFile = parentDir.getNonexistentChildFile(Time::getCurrentTime().toISO8601(false), ".wav");
+            audioRecorder.startRecording(outputFile);
+            startTimer(1000);
+            break;
 		}
         case fourthState:
                 sendChangeMessage();
-            break;
+                break;
         default:
             break;
         }
@@ -239,7 +251,7 @@ public:
     {
         if(--counter >= 1)
         {
-            nextButton->setButtonText(String(counter));
+            nextButton->setButtonText("Grabando... " + String(counter));
         }
         else
         {
@@ -253,7 +265,7 @@ public:
             stopTimer();
         }
     }
-    
+    enum states {firstState, secondState, thirdState, fourthState, fifthState} componentState;
 private:
     int counter = 6;
     File outputFile;
@@ -264,6 +276,5 @@ private:
     AudioRecorder audioRecorder;
 	
     std::unique_ptr<AudioDeviceManager> audioDeviceManager;
-    enum states {firstState, secondState, thirdState, fourthState, fifthState} componentState;
 };
 
