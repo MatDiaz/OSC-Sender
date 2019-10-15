@@ -137,7 +137,7 @@ public:
             repaint();
         }
 	}
-
+	
 private:
     std::unique_ptr<RoundedButton> initialButton;
     std::unique_ptr<ComboBox> sexMenu, ageMenu, comunaMenu;
@@ -152,7 +152,7 @@ class SecondComponent: public GenericWindowComponent,
                        private Timer
 {
 public:
-    SecondComponent()
+    SecondComponent(AudioDeviceManager* deviceManager)
     {
         auto desktopArea = Desktop::getInstance().getDisplays().getMainDisplay().totalArea;
         float desktopSize = desktopArea.getWidth() * desktopArea.getHeight();
@@ -169,13 +169,16 @@ public:
         text->setJustificationType(Justification::centred);
 		text->setVisible(false);
         componentState = states::firstState; 
-        audioDeviceManager.initialiseWithDefaultDevices (2, 2);
-        audioDeviceManager.addAudioCallback (&audioRecorder);
+
+		audioDeviceManager.reset(deviceManager);
+        audioDeviceManager->addAudioCallback (&audioRecorder);
     }
     ~SecondComponent()
     {
         nextButton = nullptr;
         text = nullptr;
+		audioDeviceManager->removeAudioCallback(&audioRecorder);
+		audioDeviceManager.release();
     }
     void paint(Graphics& g) override
     {
@@ -259,7 +262,8 @@ private:
     std::unique_ptr<RoundedButton> nextButton;
     std::unique_ptr<Label>  text;
     AudioRecorder audioRecorder;
-    AudioDeviceManager audioDeviceManager;
+	
+    std::unique_ptr<AudioDeviceManager> audioDeviceManager;
     enum states {firstState, secondState, thirdState, fourthState, fifthState} componentState;
 };
 

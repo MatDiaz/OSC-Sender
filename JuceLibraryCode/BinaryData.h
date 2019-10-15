@@ -8,6 +8,36 @@
 
 namespace BinaryData
 {
+    extern const char*   comotu_jpeg;
+    const int            comotu_jpegSize = 379794;
+
+    extern const char*   datos_jpeg;
+    const int            datos_jpegSize = 323179;
+
+    extern const char*   distancia_jpeg;
+    const int            distancia_jpegSize = 308315;
+
+    extern const char*   grabar_jpeg;
+    const int            grabar_jpegSize = 321512;
+
+    extern const char*   gracias_jpeg;
+    const int            gracias_jpegSize = 359606;
+
+    extern const char*   instrucciones_jpeg;
+    const int            instrucciones_jpegSize = 366256;
+
+    extern const char*   intro_jpeg;
+    const int            intro_jpegSize = 417565;
+
+    extern const char*   mapa_jpeg;
+    const int            mapa_jpegSize = 222994;
+
+    extern const char*   mensaje_jpeg;
+    const int            mensaje_jpegSize = 379745;
+
+    extern const char*   registro_jpeg;
+    const int            registro_jpegSize = 270205;
+
     extern const char*   homicidio_txt;
     const int            homicidio_txtSize = 718;
 
@@ -20,23 +50,8 @@ namespace BinaryData
     extern const char*   TextEx_txt;
     const int            TextEx_txtSize = 421;
 
-    extern const char*   comotu_jpeg;
-    const int            comotu_jpegSize = 379794;
-
-    extern const char*   gracias_jpeg;
-    const int            gracias_jpegSize = 359606;
-
-    extern const char*   intro_jpeg;
-    const int            intro_jpegSize = 417565;
-
-    extern const char*   mensaje_jpeg;
-    const int            mensaje_jpegSize = 379745;
-
-    extern const char*   registro_jpeg;
-    const int            registro_jpegSize = 343760;
-
     // Number of elements in the namedResourceList and originalFileNames arrays.
-    const int namedResourceListSize = 9;
+    const int namedResourceListSize = 14;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];

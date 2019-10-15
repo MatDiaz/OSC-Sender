@@ -92,7 +92,9 @@ MainComponent::MainComponent()
 	readTextFileData(BinaryData::transporte_txt, BinaryData::transporte_txtSize, thirdPlot, thirdArray);
 	readTextFileData(BinaryData::suicidio_txt, BinaryData::suicidio_txtSize, secondPlot, secondArray);
     executeSequence(true);
-    
+
+	setAudioChannels (2, 2);
+
     sender.connect("127.0.0.1", 9001);
 }
 
@@ -259,7 +261,7 @@ void MainComponent::executeSequence (bool init)
         juce::Rectangle<int> r = Desktop::getInstance().getDisplays().getMainDisplay().userArea;
         auto x = r.getWidth();
         auto y = r.getHeight();
-        secondComponent.reset (new SecondComponent());
+        secondComponent.reset (new SecondComponent(&deviceManager));
         initialWindow = new InitialWindow("!Escucha!", true, secondComponent.get());
         initialWindow->setVisible (true);
         initialWindow->setSize(x, y);

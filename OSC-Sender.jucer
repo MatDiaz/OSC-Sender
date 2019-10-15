@@ -3,15 +3,21 @@
 <JUCERPROJECT id="pb7gqQ" name="OSC-Sender" projectType="guiapp" jucerVersion="5.4.3">
   <MAINGROUP id="U6XrTf" name="OSC-Sender">
     <GROUP id="{69C9BAE9-C440-2CBF-0516-557B72F2E2AF}" name="Assets">
+      <FILE id="TJJL01" name="comotu.jpeg" compile="0" resource="1" file="Assets/comotu.jpeg"/>
+      <FILE id="wBtPiD" name="datos.jpeg" compile="0" resource="1" file="Assets/datos.jpeg"/>
+      <FILE id="doRC7w" name="distancia.jpeg" compile="0" resource="1" file="Assets/distancia.jpeg"/>
+      <FILE id="nNODdW" name="grabar.jpeg" compile="0" resource="1" file="Assets/grabar.jpeg"/>
+      <FILE id="kZtDih" name="gracias.jpeg" compile="0" resource="1" file="Assets/gracias.jpeg"/>
+      <FILE id="bglBnY" name="instrucciones.jpeg" compile="0" resource="1"
+            file="Assets/instrucciones.jpeg"/>
+      <FILE id="slxHv4" name="intro.jpeg" compile="0" resource="1" file="Assets/intro.jpeg"/>
+      <FILE id="dTeaxl" name="mapa.jpeg" compile="0" resource="1" file="Assets/mapa.jpeg"/>
+      <FILE id="NSkFhZ" name="mensaje.jpeg" compile="0" resource="1" file="Assets/mensaje.jpeg"/>
+      <FILE id="PZhq5y" name="registro.jpeg" compile="0" resource="1" file="Assets/registro.jpeg"/>
       <FILE id="OjqzXn" name="homicidio.txt" compile="0" resource="1" file="Source/homicidio.txt"/>
       <FILE id="zUAgNO" name="suicidio.txt" compile="0" resource="1" file="Source/suicidio.txt"/>
       <FILE id="tooMUD" name="transporte.txt" compile="0" resource="1" file="Source/transporte.txt"/>
       <FILE id="UMAiJI" name="TextEx.txt" compile="0" resource="1" file="Source/TextEx.txt"/>
-      <FILE id="OlnH5C" name="comotu.jpeg" compile="0" resource="1" file="Assets/comotu.jpeg"/>
-      <FILE id="ciJvk0" name="gracias.jpeg" compile="0" resource="1" file="Assets/gracias.jpeg"/>
-      <FILE id="FeroJW" name="intro.jpeg" compile="0" resource="1" file="Assets/intro.jpeg"/>
-      <FILE id="idTiSV" name="mensaje.jpeg" compile="0" resource="1" file="Assets/mensaje.jpeg"/>
-      <FILE id="eVCKAH" name="registro.jpeg" compile="0" resource="1" file="Assets/registro.jpeg"/>
     </GROUP>
     <GROUP id="{A5E1BE68-76D8-4E05-D26F-C2A28D542409}" name="Source">
       <FILE id="QibCiK" name="RoundedButton.h" compile="0" resource="0" file="Source/RoundedButton.h"/>

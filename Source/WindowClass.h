@@ -31,7 +31,7 @@ public:
     ResizableWindow (name, addToDesktop)
     {
         setVisible (true);
-        setAlwaysOnTop (true);
+        setAlwaysOnTop (false);
         toFront(true);
         setBackgroundColour (Colour(Colours::black));
         insideComponent.reset (nComponent);
