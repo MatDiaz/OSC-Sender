@@ -3,23 +3,41 @@
 <JUCERPROJECT id="pb7gqQ" name="OSC-Sender" projectType="guiapp" jucerVersion="5.4.3">
   <MAINGROUP id="U6XrTf" name="OSC-Sender">
     <GROUP id="{69C9BAE9-C440-2CBF-0516-557B72F2E2AF}" name="Assets">
-      <FILE id="TJJL01" name="comotu.jpeg" compile="0" resource="1" file="Assets/comotu.jpeg"/>
-      <FILE id="wBtPiD" name="datos.jpeg" compile="0" resource="1" file="Assets/datos.jpeg"/>
-      <FILE id="doRC7w" name="distancia.jpeg" compile="0" resource="1" file="Assets/distancia.jpeg"/>
-      <FILE id="nNODdW" name="grabar.jpeg" compile="0" resource="1" file="Assets/grabar.jpeg"/>
-      <FILE id="kZtDih" name="gracias.jpeg" compile="0" resource="1" file="Assets/gracias.jpeg"/>
-      <FILE id="bglBnY" name="instrucciones.jpeg" compile="0" resource="1"
-            file="Assets/instrucciones.jpeg"/>
-      <FILE id="slxHv4" name="intro.jpeg" compile="0" resource="1" file="Assets/intro.jpeg"/>
-      <FILE id="dTeaxl" name="mapa.jpeg" compile="0" resource="1" file="Assets/mapa.jpeg"/>
-      <FILE id="NSkFhZ" name="mensaje.jpeg" compile="0" resource="1" file="Assets/mensaje.jpeg"/>
-      <FILE id="PZhq5y" name="registro.jpeg" compile="0" resource="1" file="Assets/registro.jpeg"/>
-      <FILE id="OjqzXn" name="homicidio.txt" compile="0" resource="1" file="Source/homicidio.txt"/>
-      <FILE id="zUAgNO" name="suicidio.txt" compile="0" resource="1" file="Source/suicidio.txt"/>
-      <FILE id="tooMUD" name="transporte.txt" compile="0" resource="1" file="Source/transporte.txt"/>
-      <FILE id="UMAiJI" name="TextEx.txt" compile="0" resource="1" file="Source/TextEx.txt"/>
+      <GROUP id="{5CC642CD-0B01-4E34-2B13-65F6744E262A}" name="Fonts">
+        <FILE id="Z1rmra" name="Sharp Grotesk Black 05 Regular.otf" compile="0"
+              resource="1" file="Assets/Sharp Grotesk Black 05 Regular.otf"/>
+        <FILE id="IPp5jP" name="SharpGrotesk-Thin15.otf" compile="0" resource="1"
+              file="Assets/SharpGrotesk-Thin15.otf"/>
+      </GROUP>
+      <GROUP id="{DC880943-0044-2E93-B373-AF9DF60EC9A5}" name="Text">
+        <FILE id="zFUyLF" name="cadadato.txt" compile="0" resource="1" file="Assets/cadadato.txt"/>
+        <FILE id="h6hpTm" name="datos.txt" compile="0" resource="1" file="Assets/datos.txt"/>
+        <FILE id="mWRT9V" name="grabacion.txt" compile="0" resource="1" file="Assets/grabacion.txt"/>
+        <FILE id="YWOD8x" name="instrucciones.txt" compile="0" resource="1"
+              file="Assets/instrucciones.txt"/>
+        <FILE id="YEuPO0" name="intro.txt" compile="0" resource="1" file="Assets/intro.txt"/>
+        <FILE id="OjqzXn" name="homicidio.txt" compile="0" resource="1" file="Source/homicidio.txt"/>
+        <FILE id="zUAgNO" name="suicidio.txt" compile="0" resource="1" file="Source/suicidio.txt"/>
+        <FILE id="tooMUD" name="transporte.txt" compile="0" resource="1" file="Source/transporte.txt"/>
+        <FILE id="UMAiJI" name="TextEx.txt" compile="0" resource="1" file="Source/TextEx.txt"/>
+      </GROUP>
+      <GROUP id="{96C0CB7D-9861-7598-5EE5-CABA96F6A3B0}" name="Images">
+        <FILE id="TJJL01" name="comotu.jpeg" compile="0" resource="1" file="Assets/comotu.jpeg"/>
+        <FILE id="wBtPiD" name="datos.jpeg" compile="0" resource="1" file="Assets/datos.jpeg"/>
+        <FILE id="doRC7w" name="distancia.jpeg" compile="0" resource="1" file="Assets/distancia.jpeg"/>
+        <FILE id="nNODdW" name="grabar.jpeg" compile="0" resource="1" file="Assets/grabar.jpeg"/>
+        <FILE id="kZtDih" name="gracias.jpeg" compile="0" resource="1" file="Assets/gracias.jpeg"/>
+        <FILE id="bglBnY" name="instrucciones.jpeg" compile="0" resource="1"
+              file="Assets/instrucciones.jpeg"/>
+        <FILE id="slxHv4" name="intro.jpeg" compile="0" resource="1" file="Assets/intro.jpeg"/>
+        <FILE id="dTeaxl" name="mapa.jpeg" compile="0" resource="1" file="Assets/mapa.jpeg"/>
+        <FILE id="NSkFhZ" name="mensaje.jpeg" compile="0" resource="1" file="Assets/mensaje.jpeg"/>
+        <FILE id="PZhq5y" name="registro.jpeg" compile="0" resource="1" file="Assets/registro.jpeg"/>
+      </GROUP>
     </GROUP>
     <GROUP id="{A5E1BE68-76D8-4E05-D26F-C2A28D542409}" name="Source">
+      <FILE id="tQ5VPO" name="ProjectColours.h" compile="0" resource="0"
+            file="Source/ProjectColours.h"/>
       <FILE id="QibCiK" name="RoundedButton.h" compile="0" resource="0" file="Source/RoundedButton.h"/>
       <FILE id="xJJk4C" name="DataCursor.h" compile="0" resource="0" file="Source/DataCursor.h"/>
       <FILE id="KNOoY5" name="Plot.h" compile="0" resource="0" file="Source/Plot.h"/>

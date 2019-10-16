@@ -1,2 +1,2 @@
-A continuación escucharás una composición donde los sonidos son activados y modificados de acuerdo a los datos presentados.
-Los datos corresponden a los números totales de muertes en cada mes durantes los últimos años en la ciudad de Medellín.
+A continuaciÃ³n escucharÃ¡s una composiciÃ³n donde los sonidos son activados y modificados de acuerdo a los datos presentados.
+Los datos corresponden a los nÃºmeros totales de muertes en cada mes durante los Ãºltimos aÃ±os en la ciudad de MedellÃ­n.

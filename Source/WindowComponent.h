@@ -12,26 +12,27 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "WindowClass.h"
 #include "AudioRecorder.h"
+#include "ProjectColours.h"
 
 class InsideComponent: public GenericWindowComponent
 {
 public:
 	InsideComponent()
 	{
-
 		getLookAndFeel().setColour(ComboBox::backgroundColourId, Colour(uint8(7), uint8(21), uint8(36)));
 		getLookAndFeel().setColour(PopupMenu::backgroundColourId, Colour(uint8(7), uint8(21), uint8(36)));
-		getLookAndFeel().setColour(PopupMenu::highlightedBackgroundColourId, Colour(uint8(243), uint8(74), uint8(40)));
+		getLookAndFeel().setColour(PopupMenu::highlightedBackgroundColourId, projectColours.naranja);
+        
 		getLookAndFeel().setColour(ComboBox::ColourIds::buttonColourId, Colour(uint8(243), uint8(74), uint8(40)));
-		getLookAndFeel().setColour(ComboBox::ColourIds::textColourId, Colour(uint8(248), uint8(173), uint8(88)));
-		getLookAndFeel().setColour(PopupMenu::ColourIds::textColourId, Colour(uint8(248), uint8(173), uint8(88)));
+        getLookAndFeel().setColour(ComboBox::ColourIds::textColourId, projectColours.amarillo);
+		getLookAndFeel().setColour(PopupMenu::ColourIds::textColourId, projectColours.amarillo);
 
 		StringArray sexArray = { "Hombre", "Mujer" };
-		StringArray ageArray = {"0 - 5", "6 - 11", "12 - 17", "18 - 28", "29 - 50", "60 o mas"};
-		StringArray comunaArray = { "Comuna 1", "Comuna 2", "Comuna 3", "Comuna 4" };
+		StringArray ageArray = {"0 - 5", "6 - 11", "12 - 17", "18 - 28", "29 - 50", String(CharPointer_UTF8 ("60 o m\xc3\xa1s"))};
+        StringArray comunaArray = { "Comuna 1: Popular", "Comuna 2: Santa Cruz", "Comuna 3: Manrique", "Comuna 4: Aranjuez", "Comuna 5: Castilla", "Comuna 6: 12 de Octubre", "Comuna 7: Robledo ", "Comuna 8: Villa Hermosa", "Comuna 9: Buenos Aires", "Comuna 10: La Candelaria", "Comuna 11: Laureles - Estadio", String(CharPointer_UTF8 ("Comuna 12: La Am\xc3\xa9rica")), "Comuna 13: San Javier", "Comuna 14: El Poblado", "Comuna 15: Guayabal", String(CharPointer_UTF8 ("Comuna 16: Bel\xc3\xa9n")), CharPointer_UTF8 ("\"Corregimiento 50: San Sebasti\xc3\xa1n de Palmitas\""), "Corregimiento 60: San Cristobal", "Corregimiento 70: Altavista", "Corregimiento 80: San Antonio de Prado", "Corregimiento 90: Santa Elena"};
 		// ============================================================================
 		        
-		String introMessage = String::createStringFromData(BinaryData::TextEx_txt, BinaryData::TextEx_txtSize);
+        String introMessage = String::fromUTF8(BinaryData::intro_txt, BinaryData::intro_txtSize);
 		// =============================================================================
 		        
 		auto desktopArea = Desktop::getInstance().getDisplays().getMainDisplay().totalArea;
@@ -40,10 +41,10 @@ public:
         introText.reset (new Label());
         addAndMakeVisible (introText.get());
         introText->setText (introMessage, dontSendNotification);
-        introText->setFont (Font(desktopSize * 0.00001));
-        introText->setColour (Label::ColourIds::textColourId, Colour(Colours::white));
+        introText->setFont (Font(desktopSize * 0.000015));
+        introText->setColour (Label::ColourIds::textColourId, projectColours.amarillo);
         introText->setJustificationType(Justification::horizontallyJustified);
-        introText->setVisible(false);
+        introText->setVisible(true);
         
 		initialButton.reset (new RoundedButton());
 		addAndMakeVisible (initialButton.get());
@@ -60,13 +61,13 @@ public:
 
         ageMenu.reset (new ComboBox());
         addAndMakeVisible (ageMenu.get());
-        ageMenu->addItemList (ageArray, 2);
+        ageMenu->addItemList (ageArray, 1);
         ageMenu->setTextWhenNothingSelected ("Seleccionad tu rango de edad");
         ageMenu->setVisible(false);
 
         comunaMenu.reset (new ComboBox());
         addAndMakeVisible (comunaMenu.get());
-        comunaMenu->addItemList (comunaArray, 3);
+        comunaMenu->addItemList (comunaArray, 1);
         comunaMenu->setTextWhenNothingSelected ("Selecciona tu comuna");
         comunaMenu->setVisible(false);
         
@@ -111,7 +112,7 @@ public:
 
 	void resized() override
 	{
-        introText->setBoundsRelative (0.1f, 0.5f, 0.8f, 0.25f);
+        introText->setBoundsRelative (0.2f, 0.45f, 0.60f, 0.30f);
         initialButton->setBoundsRelative (0.425, 0.8f, 0.15f, 0.075f);
 		        
         sexMenu->setBoundsRelative (0.025f, 0.45f, 0.3f, 0.065f);
@@ -126,18 +127,28 @@ public:
 			
             switch (initialStates) {
             case firstState:
+                {
                     sexMenu->setVisible (true);
                     ageMenu->setVisible (true);
                     comunaMenu->setVisible (true);
+                    String text = String::fromUTF8(BinaryData::datos_txt, BinaryData::datos_txtSize);
+                    introText->setBoundsRelative (0.15f, 0.2f, 0.60f, 0.30f);
+                    introText->setText(text, dontSendNotification);
                     initialButton->setButtonText ("Siguiente");
                     initialStates = states::secondState;
                 break;
+                }
             case secondState:
+                {
                     sexMenu->setVisible (false);
                     ageMenu->setVisible (false);
                     comunaMenu->setVisible (false);
+                    String text = String::fromUTF8(BinaryData::instrucciones_txt, BinaryData::instrucciones_txtSize);
+                    introText->setText(text, dontSendNotification);
+                    introText->setBoundsRelative (0.15f, 0.3f, 0.60f, 0.30f);
                     initialStates = states::thirdState;
                 break;
+                }
                 case thirdState:
                     sendChangeMessage();
                     break;
@@ -152,6 +163,7 @@ private:
     std::unique_ptr<RoundedButton> initialButton;
     std::unique_ptr<ComboBox> sexMenu, ageMenu, comunaMenu;
     std::unique_ptr<Label> introText;
+    ProjectColours projectColours;
     Image backgroundImage;
     enum states {firstState, secondState, thirdState} initialStates;
 };
@@ -167,6 +179,8 @@ public:
         auto desktopArea = Desktop::getInstance().getDisplays().getMainDisplay().totalArea;
         float desktopSize = desktopArea.getWidth() * desktopArea.getHeight();
         
+        String texto = "Tantas personas han sido asesinadas al rededor";
+        
         nextButton.reset (new RoundedButton ());
 		nextButton->setButtonText("Continuar");
         addAndMakeVisible (nextButton.get());
@@ -174,10 +188,11 @@ public:
         
         text.reset (new Label());
         addAndMakeVisible(text.get());
-        text->setFont (Font(desktopSize * 0.00001));
-        text->setText ("Tantas Personas de tu edad ___ anos y sexo ___  han sido asesinados", dontSendNotification);
-        text->setJustificationType(Justification::centred);
-		text->setVisible(false);
+        text->setFont (Font(desktopSize * 0.000012));
+        text->setText (texto, dontSendNotification);
+        text->setJustificationType(Justification::horizontallyJustified);
+        text->setColour(juce::Label::textColourId, projectColours.amarillo);
+		text->setVisible(true);
         componentState = states::firstState; 
 
 		audioDeviceManager.reset(deviceManager);
@@ -214,7 +229,7 @@ public:
     }
     void resized() override
     {
-        text->setBoundsRelative (0.1f, 0.5f, 0.8f, 0.25f);
+        text->setBoundsRelative (0.20f, 0.2f, 0.6f, 0.5f);
         nextButton->setBoundsRelative (0.425, 0.8f, 0.15f, 0.075f);;
     }
     void buttonClicked (Button* buttonThatWasClicked) override
@@ -222,12 +237,17 @@ public:
         switch (componentState)
         {
         case firstState:
+                text->setText ("Numero de personas de tu edad han sido asesinadas", dontSendNotification);
                 componentState = states::secondState;
             break;
         case secondState:
+            {
+                String texto = String::fromUTF8(BinaryData::grabacion_txt, BinaryData::grabacion_txtSize);
+                text->setText (texto, dontSendNotification);
                 componentState = states::thirdState;
                 nextButton->setButtonText("Grabar");
                 sendChangeMessage();
+            }
             break;
         case thirdState:
 		{
@@ -266,6 +286,7 @@ public:
         }
     }
     enum states {firstState, secondState, thirdState, fourthState, fifthState} componentState;
+    
 private:
     int counter = 6;
     File outputFile;
@@ -273,6 +294,7 @@ private:
     Image backgroundImage;
     std::unique_ptr<RoundedButton> nextButton;
     std::unique_ptr<Label>  text;
+    ProjectColours projectColours;
     AudioRecorder audioRecorder;
 	
     std::unique_ptr<AudioDeviceManager> audioDeviceManager;

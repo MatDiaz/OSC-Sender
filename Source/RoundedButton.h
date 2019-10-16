@@ -10,6 +10,7 @@
 
 #pragma once
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "ProjectColours.h"
 
 class RoundedButton: public TextButton
 {
@@ -22,8 +23,11 @@ public:
         g.setColour(Colour(uint8(0), uint8(115), uint8(178)));
 		g.fillRoundedRectangle(area.toFloat(), ((area.getWidth() + area.getHeight()) / 2) * 0.3);
 
-		g.setColour(Colour(uint8(248), uint8(173), uint8(88)));
+		g.setColour(projectColours.amarillo);
 		g.setFont(Font(((area.getWidth() + area.getHeight()) / 2) * 0.15));
 		g.drawText(getButtonText(), area, Justification::centred, false);
     }
+private:
+    ProjectColours projectColours;
+    
 };

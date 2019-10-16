@@ -1,2 +1,1 @@
-Detrás de cada dato hay una historia, un nombre, una voz, como la tuya.
-
+CharPointer_UTF8 ("Detr\xc3\xa1s de cada dato hay una historia, un nombre, una voz, como la tuya.\n")

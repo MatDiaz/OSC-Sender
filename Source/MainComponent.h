@@ -12,6 +12,7 @@
 #include "WindowClass.h"
 #include "WindowComponent.h"
 #include "Plot.h"
+#include "ProjectColours.h"
 
 //==============================================================================
 /*
@@ -59,6 +60,9 @@ private:
 	std::unique_ptr<Label> speedLabel, speedLabel_Two, speedLabel_Three, date;
     std::unique_ptr<InsideComponent> initialComponent;
     std::unique_ptr<SecondComponent> secondComponent;
+    ProjectColours projectColours;
+    
+    Typeface::Ptr tptr;
     
     juce::Component::SafePointer<InitialWindow> initialWindow;
     

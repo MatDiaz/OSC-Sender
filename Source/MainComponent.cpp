@@ -12,15 +12,24 @@ using namespace std;
 //==============================================================================
 MainComponent::MainComponent()
 {
+    tptr = Typeface::createSystemTypefaceFor(BinaryData::SharpGroteskThin15_otf, BinaryData::SharpGroteskThin15_otfSize);
+    
+    LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypeface(tptr);
+    
+    auto defaultFont = Font(tptr);
+    defaultFont.setExtraKerningFactor(0.5f);
+    defaultFont.setHorizontalScale(1.0f);
+    defaultFont.setHeight(40.0f);
+    
     addMouseListener(this, true);
 
 	date.reset (new Label());
 	addAndMakeVisible(date.get());
 	date->setText("Fecha:--", dontSendNotification);
-	date->setColour(Label::textColourId, Colour(uint8(248), uint8(173), uint8(88)));
+    date->setColour(Label::textColourId, projectColours.naranja);
 	date->setJustificationType(Justification::centred);
-	date->setFont(45.0f);
-
+	date->setFont(defaultFont);
+    
 	//=============================================================================
 
 	playbackSpeedSlider.reset (new Slider());
@@ -62,21 +71,21 @@ MainComponent::MainComponent()
 
 	addAndMakeVisible (mainPlot);
 	mainPlot.setEnabled(true);
-	mainPlot.setBackgroundColour(Colour(uint8(243), uint8(74), uint8(40)));
+	mainPlot.setBackgroundColour(projectColours.naranja);
 	mainPlot.setPlotName("Homicidio");
 	mainPlot.setOffset(0.15f);
 	mainPlot.setEnabled(false);
 	
     addAndMakeVisible(secondPlot);
     secondPlot.setEnabled(false);
-	secondPlot.setBackgroundColour(Colour(uint8(248), uint8(173), uint8(88)));
+	secondPlot.setBackgroundColour(projectColours.amarillo);
 	secondPlot.setPlotName("Suicidio");
 	secondPlot.setOffset(0.15f);
 	secondPlot.setEnabled(false);
 	    
     addAndMakeVisible(thirdPlot);
     thirdPlot.setEnabled(false);
-	thirdPlot.setBackgroundColour(Colour(uint8(0), uint8(115), uint8(178)));
+	thirdPlot.setBackgroundColour(projectColours.azulOscuro);
 	thirdPlot.setOffset(0.15f);
 	thirdPlot.setPlotName("Transporte");
 	thirdPlot.setEnabled(false);
