@@ -73,6 +73,7 @@ private:
 	bool isConnected = false;
 	bool isLoaded = false;
     bool isAuto = false;
+	bool init = false;
     float cursorPosition = 0;
 	int numCycles = 0;
 	int dataSetTam = 1;

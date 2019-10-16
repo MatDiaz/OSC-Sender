@@ -12,7 +12,7 @@ using namespace std;
 //==============================================================================
 MainComponent::MainComponent()
 {
-    tptr = Typeface::createSystemTypefaceFor(BinaryData::SharpGroteskThin15_otf, BinaryData::SharpGroteskThin15_otfSize);
+    tptr = Typeface::createSystemTypefaceFor(BinaryData::SharpGroteskLight15_otf, BinaryData::SharpGroteskLight15_otfSize);
     
     LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypeface(tptr);
     
@@ -100,11 +100,12 @@ MainComponent::MainComponent()
 	readTextFileData(BinaryData::homicidio_txt, BinaryData::homicidio_txtSize, mainPlot, firstArray);
 	readTextFileData(BinaryData::transporte_txt, BinaryData::transporte_txtSize, thirdPlot, thirdArray);
 	readTextFileData(BinaryData::suicidio_txt, BinaryData::suicidio_txtSize, secondPlot, secondArray);
-    executeSequence(true);
 
 	setAudioChannels (2, 2);
 
     sender.connect("127.0.0.1", 9001);
+
+	startTimer(500);
 }
 
 MainComponent::~MainComponent()
@@ -290,26 +291,35 @@ void MainComponent::executeSequence (bool init)
 // ==============================================================================
 void MainComponent::timerCallback()
 {
-	mainPlot.updateCursor (cursorPosition, true);
-    secondPlot.updateCursor (cursorPosition, true);
-    thirdPlot.updateCursor (cursorPosition, true);
+	if (!init)
+	{
+		executeSequence(true);
+		stopTimer();
+		init = !init;
+	}
+	else
+	{
+		mainPlot.updateCursor(cursorPosition, true);
+		secondPlot.updateCursor(cursorPosition, true);
+		thirdPlot.updateCursor(cursorPosition, true);
 
-	interpolateData(cursorPosition, true, firstArray, "/homicidio");
-	interpolateData(cursorPosition, true, secondArray, "/suicidio");
-	interpolateData(cursorPosition, true, thirdArray, "/transporte");
+		interpolateData(cursorPosition, true, firstArray, "/homicidio");
+		interpolateData(cursorPosition, true, secondArray, "/suicidio");
+		interpolateData(cursorPosition, true, thirdArray, "/transporte");
 
-	date->setText(mainPlot.yDataToPlot[(int) round(cursorPosition*mainPlot.dataSetSize)], dontSendNotification);
-	
-	const float cycleTime = (2000 * 60) / (30 * playbackSpeedSlider->getValue());
+		date->setText(mainPlot.yDataToPlot[(int)round(cursorPosition * mainPlot.dataSetSize)], dontSendNotification);
 
-	cursorPosition += 1.0f / (float) cycleTime;
-	
-    if (cursorPosition >= (1 - (1.0f/(float) cycleTime)))
-    {
-        cursorPosition = 0;
-        executeSequence(false);
-        sender.send("/toggle2", 1.0f);
-        stopTimer();
-    }
+		const float cycleTime = (2000 * 60) / (30 * playbackSpeedSlider->getValue());
+
+		cursorPosition += 1.0f / (float)cycleTime;
+
+		if (cursorPosition >= (1 - (1.0f / (float)cycleTime)))
+		{
+			cursorPosition = 0;
+			executeSequence(false);
+			sender.send("/toggle2", 1.0f);
+			stopTimer();
+		}
+	}
 }
 // ==============================================================================

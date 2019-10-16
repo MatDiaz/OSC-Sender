@@ -31,7 +31,7 @@ public:
         
         xDataLabel.reset (new Label());
         addAndMakeVisible (xDataLabel.get());
-        xDataLabel->setText (" ------- ", dontSendNotification);
+        xDataLabel->setText (" ", dontSendNotification);
         xDataLabel->setColour (Label::textColourId, Colour (Colours::white));
         xDataLabel->setFont (20.0f);
         xDataLabel->setJustificationType (Justification::centred);

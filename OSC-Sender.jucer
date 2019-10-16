@@ -6,6 +6,8 @@
       <GROUP id="{5CC642CD-0B01-4E34-2B13-65F6744E262A}" name="Fonts">
         <FILE id="Z1rmra" name="Sharp Grotesk Black 05 Regular.otf" compile="0"
               resource="1" file="Assets/Sharp Grotesk Black 05 Regular.otf"/>
+        <FILE id="MQLARZ" name="SharpGrotesk-Light15.otf" compile="0" resource="1"
+              file="Assets/SharpGrotesk-Light15.otf"/>
         <FILE id="IPp5jP" name="SharpGrotesk-Thin15.otf" compile="0" resource="1"
               file="Assets/SharpGrotesk-Thin15.otf"/>
       </GROUP>

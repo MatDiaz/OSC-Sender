@@ -14,11 +14,32 @@
 #include "AudioRecorder.h"
 #include "ProjectColours.h"
 
+class ComboboxModified : public LookAndFeel_V4
+{
+public:
+	Font getComboBoxFont(ComboBox& /*box*/) override
+	{
+		return getCommonMenuFont();
+	}
+
+	Font getPopupMenuFont() override
+	{
+		return getCommonMenuFont();
+	}
+
+private:
+	Font getCommonMenuFont()
+	{
+		return Font(25.f);
+	}
+};
+
 class InsideComponent: public GenericWindowComponent
 {
 public:
 	InsideComponent()
 	{
+		setLookAndFeel(&lookandf);
 		getLookAndFeel().setColour(ComboBox::backgroundColourId, Colour(uint8(7), uint8(21), uint8(36)));
 		getLookAndFeel().setColour(PopupMenu::backgroundColourId, Colour(uint8(7), uint8(21), uint8(36)));
 		getLookAndFeel().setColour(PopupMenu::highlightedBackgroundColourId, projectColours.naranja);
@@ -58,24 +79,28 @@ public:
         sexMenu->addItemList (sexArray, 1);
         sexMenu->setTextWhenNothingSelected ("Selecciona tu sexo");
         sexMenu->setVisible(false);
+		sexMenu->setLookAndFeel(&lookandf);
 
         ageMenu.reset (new ComboBox());
         addAndMakeVisible (ageMenu.get());
         ageMenu->addItemList (ageArray, 1);
         ageMenu->setTextWhenNothingSelected ("Seleccionad tu rango de edad");
         ageMenu->setVisible(false);
+		ageMenu->setLookAndFeel(&lookandf);
 
         comunaMenu.reset (new ComboBox());
         addAndMakeVisible (comunaMenu.get());
         comunaMenu->addItemList (comunaArray, 1);
         comunaMenu->setTextWhenNothingSelected ("Selecciona tu comuna");
         comunaMenu->setVisible(false);
+		comunaMenu->setLookAndFeel(&lookandf);
         
         initialStates = states::firstState;
 	}
     
 	~InsideComponent()
-    {
+    {	
+		setLookAndFeel(nullptr);
         sexMenu = nullptr;
         ageMenu = nullptr;
         comunaMenu = nullptr;
@@ -160,6 +185,7 @@ public:
 	}
 	
 private:
+	ComboboxModified lookandf;
     std::unique_ptr<RoundedButton> initialButton;
     std::unique_ptr<ComboBox> sexMenu, ageMenu, comunaMenu;
     std::unique_ptr<Label> introText;
@@ -276,6 +302,7 @@ public:
         else
         {
             componentState = states::fourthState;
+			text->setVisible(false);
             nextButton->setButtonText("Terminar");
             nextButton->setEnabled(true);
             counter = 0;
