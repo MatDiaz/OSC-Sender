@@ -321,7 +321,7 @@ public:
             else if (Location == 4)
                 mapImage = ImageFileFormat::loadFrom(BinaryData::san_javier_png, BinaryData::san_javier_pngSize);
             
-            juce::Rectangle<float> imageRec(area.getWidth()*0.15, area.getHeight()*0.15, area.getWidth()*0.7, area.getHeight()*0.65);
+            juce::Rectangle<float> imageRec(area.getWidth()*0.15, area.getHeight()*0.225, area.getWidth()*0.7, area.getHeight()*0.60);
             
             g.drawImage(mapImage, imageRec);
 
@@ -338,11 +338,19 @@ public:
         switch (componentState)
         {
         case firstState:
-                text->setText ("Estas son las personas asesinadas 300 metros alrededor tuyo", dontSendNotification);
-                text->setBoundsRelative(0.0f, 0.05f, 1.0f, 0.15f);
-                imageIsCreated = true;
-                componentState = states::secondState;
-            break;
+		{
+			int deathCount = 0;
+			if (Location == 1) deathCount = 4;
+			else if (Location == 2) deathCount = 2;
+			else if (Location == 3) deathCount = 4;
+			else if (Location = 4) deathCount = 5;
+			String outText = String(CharPointer_UTF8("Aqu\xc3\xad. \n A 300 metros de distancia fueron asesinadas ")) + String(deathCount) + String(CharPointer_UTF8(" personas en el \xc3\xbaltimo a\xc3\xb1o"));
+			text->setText(outText, dontSendNotification);
+			text->setBoundsRelative(0.0f, 0.05f, 1.0f, 0.15f);
+			imageIsCreated = true;
+			componentState = states::secondState;
+			break;
+		}
         case secondState:
             {
                 String texto = String::fromUTF8(BinaryData::grabacion_txt, BinaryData::grabacion_txtSize);
@@ -362,6 +370,8 @@ public:
             text->setText("Grabando!", dontSendNotification);
             text->setJustificationType(Justification::centred);
             text->setFont(120.0f);
+			changeState = true;
+			sendChangeMessage();
             startTimer(1000);
             break;
 		}
@@ -390,13 +400,14 @@ public:
             outputFile = File();
             String textoo = String(CharPointer_UTF8 ("Para conocer m\xc3\xa1s de este proyecto y asistir a socializaciones visita: laboratoriodelsonido.com.co"));
             text->setText(textoo, dontSendNotification);
-            text->setFont(45.0f);
+            text->setFont(40.0f);
             text->setJustificationType(Justification::centredBottom);
             text->setBoundsRelative (0.2f, 0.0f, 0.6f, 0.59f);
 			repaint();
             stopTimer();
         }
     }
+	bool changeState = false;
     enum states {firstState, secondState, thirdState, fourthState, fifthState} componentState;
     
 private:

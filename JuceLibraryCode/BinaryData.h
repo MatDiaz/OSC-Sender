@@ -30,7 +30,7 @@ namespace BinaryData
     const int            datos_txtSize = 92;
 
     extern const char*   grabacion_txt;
-    const int            grabacion_txtSize = 227;
+    const int            grabacion_txtSize = 250;
 
     extern const char*   instrucciones_txt;
     const int            instrucciones_txtSize = 250;

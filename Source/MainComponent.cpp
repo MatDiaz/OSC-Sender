@@ -12,103 +12,105 @@ using namespace std;
 //==============================================================================
 MainComponent::MainComponent()
 {
-    tptr = Typeface::createSystemTypefaceFor(BinaryData::SharpGroteskLight15_otf, BinaryData::SharpGroteskLight15_otfSize);
-    
-    LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypeface(tptr);
-    
-    auto defaultFont = Font(tptr);
-    defaultFont.setExtraKerningFactor(0.5f);
-    defaultFont.setHorizontalScale(1.0f);
-    defaultFont.setHeight(40.0f);
-    
-    addMouseListener(this, true);
+	tptr = Typeface::createSystemTypefaceFor(BinaryData::SharpGroteskLight15_otf, BinaryData::SharpGroteskLight15_otfSize);
 
-	date.reset (new Label());
+	LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypeface(tptr);
+
+	auto defaultFont = Font(tptr);
+	defaultFont.setExtraKerningFactor(0.5f);
+	defaultFont.setHorizontalScale(1.0f);
+	defaultFont.setHeight(40.0f);
+
+	addMouseListener(this, true);
+
+	date.reset(new Label());
 	addAndMakeVisible(date.get());
 	date->setText("Fecha:--", dontSendNotification);
-    date->setColour(Label::textColourId, projectColours.naranja);
+	date->setColour(Label::textColourId, projectColours.naranja);
 	date->setJustificationType(Justification::centred);
 	date->setFont(defaultFont);
-    
+
 	//=============================================================================
 
-	playbackSpeedSlider.reset (new Slider());
+	playbackSpeedSlider.reset(new Slider());
 	addAndMakeVisible(playbackSpeedSlider.get());
-	playbackSpeedSlider->setTextBoxStyle (Slider::NoTextBox, false, 0, 0);
-	playbackSpeedSlider->setColour (Slider::thumbColourId, Colour(Colours::grey));
-	playbackSpeedSlider->setColour (Slider::trackColourId, Colour(Colours::darkgrey));
-	playbackSpeedSlider->setColour (Slider::ColourIds::rotarySliderFillColourId, Colour(Colours::grey));	
-	playbackSpeedSlider->setRange (0.25, 4, 0);
+	playbackSpeedSlider->setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+	playbackSpeedSlider->setColour(Slider::thumbColourId, Colour(Colours::grey));
+	playbackSpeedSlider->setColour(Slider::trackColourId, Colour(Colours::darkgrey));
+	playbackSpeedSlider->setColour(Slider::ColourIds::rotarySliderFillColourId, Colour(Colours::grey));
+	playbackSpeedSlider->setRange(0.25, 4, 0);
 	playbackSpeedSlider->setSkewFactorFromMidPoint(1.0f);
 	playbackSpeedSlider->setValue(1.0f, dontSendNotification);
 	playbackSpeedSlider->setVisible(false);
-    
-    //==============================================================================
 
-	speedLabel.reset (new Label());
-	addAndMakeVisible (speedLabel.get());
-	speedLabel->setText ("Lento", dontSendNotification);
-	speedLabel->setColour (Label::textColourId, Colour(Colours::white));
-	speedLabel->setJustificationType (juce::Justification::centred);
+	//==============================================================================
+
+	speedLabel.reset(new Label());
+	addAndMakeVisible(speedLabel.get());
+	speedLabel->setText("Lento", dontSendNotification);
+	speedLabel->setColour(Label::textColourId, Colour(Colours::white));
+	speedLabel->setJustificationType(juce::Justification::centred);
 	speedLabel->setVisible(false);
 
-	speedLabel_Two.reset (new Label());
-	addAndMakeVisible (speedLabel_Two.get());
-	speedLabel_Two->setText ("Velocidad", dontSendNotification);
-    speedLabel_Two->setFont (Font(20.0f));
-	speedLabel_Two->setColour (Label::textColourId, Colour(Colours::white));
-	speedLabel_Two->setJustificationType (juce::Justification::centred);
+	speedLabel_Two.reset(new Label());
+	addAndMakeVisible(speedLabel_Two.get());
+	speedLabel_Two->setText("Velocidad", dontSendNotification);
+	speedLabel_Two->setFont(Font(20.0f));
+	speedLabel_Two->setColour(Label::textColourId, Colour(Colours::white));
+	speedLabel_Two->setJustificationType(juce::Justification::centred);
 	speedLabel_Two->setVisible(false);
 
-	speedLabel_Three.reset (new Label());
-	addAndMakeVisible (speedLabel_Three.get());
-	speedLabel_Three->setText (CharPointer_UTF8 ("R\xc3\xa1pido"), dontSendNotification);
-	speedLabel_Three->setColour (Label::textColourId, Colour(Colours::white));
-	speedLabel_Three->setJustificationType (juce::Justification::centred);
+	speedLabel_Three.reset(new Label());
+	addAndMakeVisible(speedLabel_Three.get());
+	speedLabel_Three->setText(CharPointer_UTF8("R\xc3\xa1pido"), dontSendNotification);
+	speedLabel_Three->setColour(Label::textColourId, Colour(Colours::white));
+	speedLabel_Three->setJustificationType(juce::Justification::centred);
 	speedLabel_Three->setVisible(false);
 
 	//==============================================================================
 
-	addAndMakeVisible (mainPlot);
+	addAndMakeVisible(mainPlot);
 	mainPlot.setEnabled(true);
 	mainPlot.setBackgroundColour(projectColours.azulOscuro);
 	mainPlot.setPlotName("Suicidio");
 	mainPlot.setOffset(0.15f);
 	mainPlot.setEnabled(false);
-	
-    addAndMakeVisible(secondPlot);
-    secondPlot.setEnabled(false);
+
+	addAndMakeVisible(secondPlot);
+	secondPlot.setEnabled(false);
 	secondPlot.setBackgroundColour(projectColours.amarillo);
 	secondPlot.setPlotName("Homicidio");
 	secondPlot.setOffset(0.15f);
 	secondPlot.setEnabled(false);
-	    
-    addAndMakeVisible(thirdPlot);
-    thirdPlot.setEnabled(false);
+
+	addAndMakeVisible(thirdPlot);
+	thirdPlot.setEnabled(false);
 	thirdPlot.setBackgroundColour(projectColours.naranja);
 	thirdPlot.setOffset(0.15f);
-	thirdPlot.setPlotName(String(CharPointer_UTF8 ("Muertes por accidentes de tr\xc3\xa1""fico")));
+	thirdPlot.setPlotName(String(CharPointer_UTF8("Muertes por accidentes de tr\xc3\xa1""fico")));
 	thirdPlot.setEnabled(false);
 
-    // =============================================================================
-    juce::Rectangle<int> r = Desktop::getInstance().getDisplays().getMainDisplay().userArea;
-    auto x = r.getWidth();
-    auto y = r.getHeight();
-    setSize(x, y);
-    //==============================================================================
-    
+	// =============================================================================
+	juce::Rectangle<int> r = Desktop::getInstance().getDisplays().getMainDisplay().userArea;
+	auto x = r.getWidth();
+	auto y = r.getHeight();
+	setSize(x, y);
+	//==============================================================================
+
 	readTextFileData(BinaryData::suicidio_txt, BinaryData::suicidio_txtSize, mainPlot, firstArray);
 	readTextFileData(BinaryData::transporte_txt, BinaryData::transporte_txtSize, thirdPlot, thirdArray);
 	readTextFileData(BinaryData::homicidio_txt, BinaryData::homicidio_txtSize, secondPlot, secondArray);
-    
-    readLocationFileData(BinaryData::_2019_grp2_txt, BinaryData::_2019_grp2_txtSize, false);
-    readLocationFileData(BinaryData::_2019_grp2_datos_txt, BinaryData::_2019_grp2_datos_txtSize, true);
 
-	setAudioChannels (2, 2);
-    
-    selector.reset(new AudioDeviceSelectorComponent(deviceManager, 2, 10, 2, 10, false, false, true, false));
-    addAndMakeVisible(selector.get());
-    selector->centreWithSize(400, 400);
+	readLocationFileData(BinaryData::_2019_grp2_txt, BinaryData::_2019_grp2_txtSize, false);
+	readLocationFileData(BinaryData::_2019_grp2_datos_txt, BinaryData::_2019_grp2_datos_txtSize, true);
+
+	setAudioChannels(2, 2);
+
+	#if JUCE_LINUX
+		deviceManager.setCurrentAudioDeviceType("JACK", true);
+	#endif
+
+	DBG(deviceManager.getCurrentAudioDeviceType());
 
     sender.connect("127.0.0.1", 9001);
 
@@ -298,15 +300,18 @@ void MainComponent::changeListenerCallback(ChangeBroadcaster *source)
         {
             sender.send("/toggle3", 1.0f);
             sender.send("/toggle4", 1.0f);
+			if (secondComponent->changeState)
+			{
+				sender.send("/toggle", 0.0f);
+				sender.send("/toggle2", 0.0f);
+				sender.send("/toggle3", 0.0f);
+				sender.send("/toggle4", 0.0f);
+			}
         }
         else
         {
             secondComponent.reset();
             initialWindow.deleteAndZero();
-            sender.send("/toggle", 0.0f);
-            sender.send("/toggle2", 0.0f);
-            sender.send("/toggle3", 0.0f);
-            sender.send("/toggle4", 0.0f);
             executeSequence(true);
         }
     }
@@ -324,6 +329,7 @@ void MainComponent::executeSequence (bool init)
         initialWindow = new InitialWindow("!Escucha!", true, initialComponent.get());
         initialWindow->setVisible (true);
         initialWindow->centreWithSize(x, y);
+		initialWindow->toFront(true);
         initialWindow->addChangeListener(this);
     }
     else if (initialWindow == nullptr && !init)
@@ -335,6 +341,7 @@ void MainComponent::executeSequence (bool init)
         secondComponent.reset (new SecondComponent(&deviceManager, currentGender, deathNum, locationId));
         initialWindow = new InitialWindow("!Escucha!", true, secondComponent.get());
         initialWindow->setVisible (true);
+		initialWindow->toFront(true);
         initialWindow->centreWithSize(x, y);
         initialWindow->addChangeListener(this);
     }
