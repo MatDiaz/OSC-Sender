@@ -281,7 +281,8 @@ void MainComponent::changeListenerCallback(ChangeBroadcaster *source)
     {
         currentGender = initialComponent->selectedSex;
         currentId = initialComponent->selectedId;
-        findData(currentId);
+        deathNum = findData(currentId);
+        locationId = initialComponent->location;
         initialComponent.reset();
         initialWindow.deleteAndZero();
         startTimer(30);
@@ -325,7 +326,7 @@ void MainComponent::executeSequence (bool init)
         juce::Rectangle<int> r = Desktop::getInstance().getDisplays().getMainDisplay().userArea;
         auto x = r.getWidth();
         auto y = r.getHeight();
-        secondComponent.reset (new SecondComponent(&deviceManager));
+        secondComponent.reset (new SecondComponent(&deviceManager, currentGender, deathNum, locationId));
         initialWindow = new InitialWindow("!Escucha!", true, secondComponent.get());
         initialWindow->setVisible (true);
         initialWindow->setSize(x, y);

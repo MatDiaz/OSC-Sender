@@ -209,6 +209,7 @@ public:
                         introText->setText(text, dontSendNotification);
                         introText->setBoundsRelative (0.15f, 0.3f, 0.60f, 0.30f);
                         selectedId = getId();
+                        location = lugaresMenu->getSelectedId();
                         initialStates = states::thirdState;
                     }
                 break;
@@ -224,6 +225,7 @@ public:
 	}
     
     String selectedSex, selectedId;
+    int location;
 	
 private:
 	ComboboxModified lookandf;
