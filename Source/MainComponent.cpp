@@ -328,7 +328,7 @@ void MainComponent::executeSequence (bool init)
         initialComponent.reset (new InsideComponent());
         initialWindow = new InitialWindow("!Escucha!", true, initialComponent.get());
         initialWindow->setVisible (true);
-        initialWindow->centreWithSize(x, y);
+        initialWindow->setSize(x, y);
 		initialWindow->toFront(true);
         initialWindow->addChangeListener(this);
     }
@@ -342,7 +342,7 @@ void MainComponent::executeSequence (bool init)
         initialWindow = new InitialWindow("!Escucha!", true, secondComponent.get());
         initialWindow->setVisible (true);
 		initialWindow->toFront(true);
-        initialWindow->centreWithSize(x, y);
+        initialWindow->setSize(x, y);
         initialWindow->addChangeListener(this);
     }
 }
