@@ -55,6 +55,8 @@ OBJECTS_APP := \
   $(JUCE_OBJDIR)/BinaryData4_fa406caa.o \
   $(JUCE_OBJDIR)/BinaryData5_fa4e842b.o \
   $(JUCE_OBJDIR)/BinaryData6_fa5c9bac.o \
+  $(JUCE_OBJDIR)/BinaryData7_fa6ab32d.o \
+  $(JUCE_OBJDIR)/BinaryData8_fa78caae.o \
   $(JUCE_OBJDIR)/include_juce_audio_basics_8a4e984a.o \
   $(JUCE_OBJDIR)/include_juce_audio_devices_63111d02.o \
   $(JUCE_OBJDIR)/include_juce_audio_formats_15f82001.o \
@@ -122,6 +124,16 @@ $(JUCE_OBJDIR)/BinaryData5_fa4e842b.o: ../../JuceLibraryCode/BinaryData5.cpp
 $(JUCE_OBJDIR)/BinaryData6_fa5c9bac.o: ../../JuceLibraryCode/BinaryData6.cpp
 	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling BinaryData6.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/BinaryData7_fa6ab32d.o: ../../JuceLibraryCode/BinaryData7.cpp
+	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling BinaryData7.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/BinaryData8_fa78caae.o: ../../JuceLibraryCode/BinaryData8.cpp
+	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling BinaryData8.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/include_juce_audio_basics_8a4e984a.o: ../../JuceLibraryCode/include_juce_audio_basics.cpp

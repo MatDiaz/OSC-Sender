@@ -63,16 +63,16 @@ namespace BinaryData
     const int            sentidos_pngSize = 1979441;
 
     extern const char*   grabar_png;
-    const int            grabar_pngSize = 2607191;
+    const int            grabar_pngSize = 3147420;
 
     extern const char*   Final_png;
-    const int            Final_pngSize = 2726739;
+    const int            Final_pngSize = 3377902;
 
     extern const char*   intro_png;
-    const int            intro_pngSize = 2622974;
+    const int            intro_pngSize = 3127721;
 
     extern const char*   Fondo_png;
-    const int            Fondo_pngSize = 1331488;
+    const int            Fondo_pngSize = 3138083;
 
     extern const char*   registro_png;
     const int            registro_pngSize = 1371531;
