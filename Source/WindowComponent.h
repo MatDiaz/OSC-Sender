@@ -50,7 +50,7 @@ public:
 
 		StringArray sexArray = { "Hombre", "Mujer" };
 		StringArray ageArray = {"0 - 5", "6 - 11", "12 - 17", "18 - 28", "29 - 59", String(CharPointer_UTF8 ("60 o m\xc3\xa1s"))};
-        StringArray comunaArray = { "Comuna 1: Popular", "Comuna 2: Santa Cruz", "Comuna 3: Manrique", "Comuna 4: Aranjuez", "Comuna 5: Castilla", "Comuna 6: 12 de Octubre", "Comuna 7: Robledo ", "Comuna 8: Villa Hermosa", "Comuna 9: Buenos Aires", "Comuna 10: La Candelaria", "Comuna 11: Laureles - Estadio", String(CharPointer_UTF8 ("Comuna 12: La Am\xc3\xa9rica")), "Comuna 13: San Javier", "Comuna 14: El Poblado", "Comuna 15: Guayabal", String(CharPointer_UTF8 ("Comuna 16: Bel\xc3\xa9n")), CharPointer_UTF8 ("\"Corregimiento 50: San Sebasti\xc3\xa1n de Palmitas\""), "Corregimiento 60: San Cristobal", "Corregimiento 70: Altavista", "Corregimiento 80: San Antonio de Prado", "Corregimiento 90: Santa Elena"};
+        StringArray comunaArray = { "Comuna 1: Popular", "Comuna 2: Santa Cruz", "Comuna 3: Manrique", "Comuna 4: Aranjuez", "Comuna 5: Castilla", "Comuna 6: 12 de Octubre", "Comuna 7: Robledo ", "Comuna 8: Villa Hermosa", "Comuna 9: Buenos Aires", "Comuna 10: La Candelaria", "Comuna 11: Laureles - Estadio", String(CharPointer_UTF8 ("Comuna 12: La Am\xc3\xa9rica")), "Comuna 13: San Javier", "Comuna 14: El Poblado", "Comuna 15: Guayabal", String(CharPointer_UTF8 ("Comuna 16: Bel\xc3\xa9n")), CharPointer_UTF8 ("Corregimiento 50: San Sebasti\xc3\xa1n de Palmitas"), "Corregimiento 60: San Cristobal", "Corregimiento 70: Altavista", "Corregimiento 80: San Antonio de Prado", "Corregimiento 90: Santa Elena"};
         StringArray lugaresArray = {"Parque de los sentidos", "Parque del Amor", "Biblioteca la la Floresta", "Parque Biblioteca San Javier"};
 		// ============================================================================
 		        
@@ -84,7 +84,7 @@ public:
         ageMenu.reset (new ComboBox());
         addAndMakeVisible (ageMenu.get());
         ageMenu->addItemList (ageArray, 1);
-        ageMenu->setTextWhenNothingSelected ("Seleccionad tu rango de edad");
+        ageMenu->setTextWhenNothingSelected ("Selecciona tu rango de edad");
         ageMenu->setVisible(false);
 
         comunaMenu.reset (new ComboBox());
@@ -356,6 +356,9 @@ public:
             parentDir = File::getSpecialLocation(File::SpecialLocationType::userDesktopDirectory);
             outputFile = parentDir.getNonexistentChildFile(Time::getCurrentTime().toISO8601(false), ".wav");
             audioRecorder.startRecording(outputFile);
+            text->setText("Grabando!", dontSendNotification);
+            text->setJustificationType(Justification::centred);
+            text->setFont(120.0f);
             startTimer(1000);
             break;
 		}
@@ -372,17 +375,21 @@ public:
     {
         if(counter-- >= 1)
         {
-            nextButton->setButtonText("Grabando... " + String(counter));
+            nextButton->setButtonText(String(counter));
         }
         else
         {
             componentState = states::fourthState;
-			text->setVisible(false);
             nextButton->setButtonText("Terminar");
             nextButton->setEnabled(true);
             counter = 0;
             audioRecorder.stop();
             outputFile = File();
+            String textoo = String(CharPointer_UTF8 ("Para conocer m\xc3\xa1s de este proyecto y asistir a socializaciones visita: laboratoriodelsonido.com.co"));
+            text->setText(textoo, dontSendNotification);
+            text->setFont(45.0f);
+            text->setJustificationType(Justification::centredBottom);
+            text->setBoundsRelative (0.2f, 0.0f, 0.6f, 0.59f);
 			repaint();
             stopTimer();
         }

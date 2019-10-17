@@ -71,23 +71,23 @@ MainComponent::MainComponent()
 
 	addAndMakeVisible (mainPlot);
 	mainPlot.setEnabled(true);
-	mainPlot.setBackgroundColour(projectColours.naranja);
-	mainPlot.setPlotName("Homicidio");
+	mainPlot.setBackgroundColour(projectColours.azulOscuro);
+	mainPlot.setPlotName("Suicidio");
 	mainPlot.setOffset(0.15f);
 	mainPlot.setEnabled(false);
 	
     addAndMakeVisible(secondPlot);
     secondPlot.setEnabled(false);
 	secondPlot.setBackgroundColour(projectColours.amarillo);
-	secondPlot.setPlotName("Suicidio");
+	secondPlot.setPlotName("Homicidio");
 	secondPlot.setOffset(0.15f);
 	secondPlot.setEnabled(false);
 	    
     addAndMakeVisible(thirdPlot);
     thirdPlot.setEnabled(false);
-	thirdPlot.setBackgroundColour(projectColours.azulOscuro);
+	thirdPlot.setBackgroundColour(projectColours.naranja);
 	thirdPlot.setOffset(0.15f);
-	thirdPlot.setPlotName("Transporte");
+	thirdPlot.setPlotName(String(CharPointer_UTF8 ("Muertes por accidentes de tr\xc3\xa1""fico")));
 	thirdPlot.setEnabled(false);
 
     // =============================================================================
@@ -97,14 +97,18 @@ MainComponent::MainComponent()
     setSize(x, y);
     //==============================================================================
     
-	readTextFileData(BinaryData::homicidio_txt, BinaryData::homicidio_txtSize, mainPlot, firstArray);
+	readTextFileData(BinaryData::suicidio_txt, BinaryData::suicidio_txtSize, mainPlot, firstArray);
 	readTextFileData(BinaryData::transporte_txt, BinaryData::transporte_txtSize, thirdPlot, thirdArray);
-	readTextFileData(BinaryData::suicidio_txt, BinaryData::suicidio_txtSize, secondPlot, secondArray);
+	readTextFileData(BinaryData::homicidio_txt, BinaryData::homicidio_txtSize, secondPlot, secondArray);
     
     readLocationFileData(BinaryData::_2019_grp2_txt, BinaryData::_2019_grp2_txtSize, false);
     readLocationFileData(BinaryData::_2019_grp2_datos_txt, BinaryData::_2019_grp2_datos_txtSize, true);
 
 	setAudioChannels (2, 2);
+    
+    selector.reset(new AudioDeviceSelectorComponent(deviceManager, 2, 10, 2, 10, false, false, true, false));
+    addAndMakeVisible(selector.get());
+    selector->centreWithSize(400, 400);
 
     sender.connect("127.0.0.1", 9001);
 
@@ -293,6 +297,7 @@ void MainComponent::changeListenerCallback(ChangeBroadcaster *source)
         if (secondComponent->componentState == SecondComponent::states::thirdState)
         {
             sender.send("/toggle3", 1.0f);
+            sender.send("/toggle4", 1.0f);
         }
         else
         {
@@ -301,6 +306,7 @@ void MainComponent::changeListenerCallback(ChangeBroadcaster *source)
             sender.send("/toggle", 0.0f);
             sender.send("/toggle2", 0.0f);
             sender.send("/toggle3", 0.0f);
+            sender.send("/toggle4", 0.0f);
             executeSequence(true);
         }
     }

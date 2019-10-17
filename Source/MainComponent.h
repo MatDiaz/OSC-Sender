@@ -64,6 +64,7 @@ private:
 	std::unique_ptr<Label> speedLabel, speedLabel_Two, speedLabel_Three, date;
     std::unique_ptr<InsideComponent> initialComponent;
     std::unique_ptr<SecondComponent> secondComponent;
+    std::unique_ptr<AudioDeviceSelectorComponent> selector;
     ProjectColours projectColours;
     
     Typeface::Ptr tptr;
