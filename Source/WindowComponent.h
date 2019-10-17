@@ -209,7 +209,7 @@ public:
                         String text = String::fromUTF8(BinaryData::instrucciones_txt, BinaryData::instrucciones_txtSize);
                         introText->setText(text, dontSendNotification);
                         introText->setFont(50.0f);
-                        introText->setBoundsRelative (0.2f, 0.3f, 0.60f, 0.30f);
+                        introText->setBoundsRelative (0.2f, 0.3f, 0.60f, 0.35f);
                         selectedId = getId();
                         location = lugaresMenu->getSelectedId();
                         initialStates = states::thirdState;
@@ -253,8 +253,11 @@ public:
         String texto = String(CharPointer_UTF8 ("Detr\xc3\xa1s de cada dato hay una historia,\n"
                                                 "un nombre, una voz,\n"
                                                 "como la tuya.\n \n"));
+        
+        String plural = gender == "Hombre" ? "s" : "es";
+        String femeninos = gender == "Hombre" ? "asesinados" : "asesinadas";
                               
-        texto = texto + String(deaths) + " " + gender + "s" + " de tu edad, en tu comuna \nfueron asesinados";
+        texto = texto + String(deaths) + " " + gender + plural + " de tu edad, en tu comuna \nfueron " + femeninos;
         
         texto = texto + String(CharPointer_UTF8 (" en el \xc3\xbaltimo a\xc3\xb1o."));
         
