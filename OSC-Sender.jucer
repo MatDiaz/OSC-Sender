@@ -12,6 +12,9 @@
               file="Assets/SharpGrotesk-Thin15.otf"/>
       </GROUP>
       <GROUP id="{DC880943-0044-2E93-B373-AF9DF60EC9A5}" name="Text">
+        <FILE id="ickLaB" name="2019_grp2_datos.txt" compile="0" resource="1"
+              file="Assets/2019_grp2_datos.txt"/>
+        <FILE id="JPJPi5" name="2019_grp2.txt" compile="0" resource="1" file="Assets/2019_grp2.txt"/>
         <FILE id="zFUyLF" name="cadadato.txt" compile="0" resource="1" file="Assets/cadadato.txt"/>
         <FILE id="h6hpTm" name="datos.txt" compile="0" resource="1" file="Assets/datos.txt"/>
         <FILE id="mWRT9V" name="grabacion.txt" compile="0" resource="1" file="Assets/grabacion.txt"/>
@@ -24,17 +27,18 @@
         <FILE id="UMAiJI" name="TextEx.txt" compile="0" resource="1" file="Source/TextEx.txt"/>
       </GROUP>
       <GROUP id="{96C0CB7D-9861-7598-5EE5-CABA96F6A3B0}" name="Images">
+        <FILE id="DAbfQu" name="grabar.png" compile="0" resource="1" file="Assets/grabar.png"/>
+        <FILE id="dJ8RlO" name="Final.png" compile="0" resource="1" file="Assets/Final.png"/>
+        <FILE id="RKGiMZ" name="intro.png" compile="0" resource="1" file="Assets/intro.png"/>
+        <FILE id="OOnf6w" name="Fondo.png" compile="0" resource="1" file="Assets/Fondo.png"/>
+        <FILE id="vE7rTS" name="registro.png" compile="0" resource="1" file="Assets/registro.png"/>
         <FILE id="TJJL01" name="comotu.jpeg" compile="0" resource="1" file="Assets/comotu.jpeg"/>
         <FILE id="wBtPiD" name="datos.jpeg" compile="0" resource="1" file="Assets/datos.jpeg"/>
         <FILE id="doRC7w" name="distancia.jpeg" compile="0" resource="1" file="Assets/distancia.jpeg"/>
-        <FILE id="nNODdW" name="grabar.jpeg" compile="0" resource="1" file="Assets/grabar.jpeg"/>
-        <FILE id="kZtDih" name="gracias.jpeg" compile="0" resource="1" file="Assets/gracias.jpeg"/>
         <FILE id="bglBnY" name="instrucciones.jpeg" compile="0" resource="1"
               file="Assets/instrucciones.jpeg"/>
-        <FILE id="slxHv4" name="intro.jpeg" compile="0" resource="1" file="Assets/intro.jpeg"/>
         <FILE id="dTeaxl" name="mapa.jpeg" compile="0" resource="1" file="Assets/mapa.jpeg"/>
         <FILE id="NSkFhZ" name="mensaje.jpeg" compile="0" resource="1" file="Assets/mensaje.jpeg"/>
-        <FILE id="PZhq5y" name="registro.jpeg" compile="0" resource="1" file="Assets/registro.jpeg"/>
       </GROUP>
     </GROUP>
     <GROUP id="{A5E1BE68-76D8-4E05-D26F-C2A28D542409}" name="Source">

@@ -49,8 +49,9 @@ public:
 		getLookAndFeel().setColour(PopupMenu::ColourIds::textColourId, projectColours.amarillo);
 
 		StringArray sexArray = { "Hombre", "Mujer" };
-		StringArray ageArray = {"0 - 5", "6 - 11", "12 - 17", "18 - 28", "29 - 50", String(CharPointer_UTF8 ("60 o m\xc3\xa1s"))};
+		StringArray ageArray = {"0 - 5", "6 - 11", "12 - 17", "18 - 28", "29 - 59", String(CharPointer_UTF8 ("60 o m\xc3\xa1s"))};
         StringArray comunaArray = { "Comuna 1: Popular", "Comuna 2: Santa Cruz", "Comuna 3: Manrique", "Comuna 4: Aranjuez", "Comuna 5: Castilla", "Comuna 6: 12 de Octubre", "Comuna 7: Robledo ", "Comuna 8: Villa Hermosa", "Comuna 9: Buenos Aires", "Comuna 10: La Candelaria", "Comuna 11: Laureles - Estadio", String(CharPointer_UTF8 ("Comuna 12: La Am\xc3\xa9rica")), "Comuna 13: San Javier", "Comuna 14: El Poblado", "Comuna 15: Guayabal", String(CharPointer_UTF8 ("Comuna 16: Bel\xc3\xa9n")), CharPointer_UTF8 ("\"Corregimiento 50: San Sebasti\xc3\xa1n de Palmitas\""), "Corregimiento 60: San Cristobal", "Corregimiento 70: Altavista", "Corregimiento 80: San Antonio de Prado", "Corregimiento 90: Santa Elena"};
+        StringArray lugaresArray = {"Parque de los sentidos", "Parque del Amor", "Biblioteca la la Floresta", "Parque Biblioteca San Javier"};
 		// ============================================================================
 		        
         String introMessage = String::fromUTF8(BinaryData::intro_txt, BinaryData::intro_txtSize);
@@ -79,21 +80,24 @@ public:
         sexMenu->addItemList (sexArray, 1);
         sexMenu->setTextWhenNothingSelected ("Selecciona tu sexo");
         sexMenu->setVisible(false);
-		sexMenu->setLookAndFeel(&lookandf);
 
         ageMenu.reset (new ComboBox());
         addAndMakeVisible (ageMenu.get());
         ageMenu->addItemList (ageArray, 1);
         ageMenu->setTextWhenNothingSelected ("Seleccionad tu rango de edad");
         ageMenu->setVisible(false);
-		ageMenu->setLookAndFeel(&lookandf);
 
         comunaMenu.reset (new ComboBox());
         addAndMakeVisible (comunaMenu.get());
         comunaMenu->addItemList (comunaArray, 1);
         comunaMenu->setTextWhenNothingSelected ("Selecciona tu comuna");
         comunaMenu->setVisible(false);
-		comunaMenu->setLookAndFeel(&lookandf);
+        
+        lugaresMenu.reset (new ComboBox());
+        addAndMakeVisible (lugaresMenu.get());
+        lugaresMenu->addItemList (lugaresArray, 1);
+        lugaresMenu->setTextWhenNothingSelected ("Selecciona donde te encuentras en este momento");
+        lugaresMenu->setVisible(false);
         
         initialStates = states::firstState;
 	}
@@ -116,17 +120,17 @@ public:
         {
             case firstState:
             {
-                backgroundImage = ImageFileFormat::loadFrom (BinaryData::intro_jpeg, BinaryData::intro_jpegSize);
+                backgroundImage = ImageFileFormat::loadFrom (BinaryData::intro_png, BinaryData::intro_pngSize);
                 break;
             }
             case secondState:
             {
-                backgroundImage = ImageFileFormat::loadFrom (BinaryData::registro_jpeg, BinaryData::registro_jpegSize);
+                backgroundImage = ImageFileFormat::loadFrom (BinaryData::Fondo_png, BinaryData::Fondo_pngSize);
                 break;
             }
             case thirdState:
             {
-                backgroundImage =ImageFileFormat::loadFrom (BinaryData::instrucciones_jpeg, BinaryData::instrucciones_jpegSize);
+                backgroundImage = ImageFileFormat::loadFrom (BinaryData::Fondo_png, BinaryData::Fondo_pngSize);
             }
             default:
                 break;
@@ -140,38 +144,73 @@ public:
         introText->setBoundsRelative (0.2f, 0.45f, 0.60f, 0.30f);
         initialButton->setBoundsRelative (0.425, 0.8f, 0.15f, 0.075f);
 		        
-        sexMenu->setBoundsRelative (0.025f, 0.45f, 0.3f, 0.065f);
-        ageMenu->setBoundsRelative (0.35f, 0.45f, 0.3f, 0.065f);
-        comunaMenu->setBoundsRelative (0.675f, 0.45f, 0.3f, 0.065f);
+        sexMenu->setBoundsRelative (0.025f, 0.40f, 0.3f, 0.065f);
+        ageMenu->setBoundsRelative (0.35f, 0.40f, 0.3f, 0.065f);
+        comunaMenu->setBoundsRelative (0.675f, 0.40f, 0.3f, 0.065f);
+        lugaresMenu->setBoundsRelative (0.35f, 0.55f, 0.3f, 0.065f);
 	}
+    
+    String getId()
+    {
+        selectedSex = sexMenu->getSelectedId() == 1 ? "Hombre" : "Mujer";
+        
+        int ageRank = ageMenu->getSelectedId();
+        String ageRankString;
+        
+        if (ageRank == 1) ageRankString = "(0, 5]";
+        else if (ageRank == 2) ageRankString = "(5, 11]";
+        else if (ageRank == 3) ageRankString = "(11, 17]";
+        else if (ageRank == 4) ageRankString = "(17, 28]";
+        else if (ageRank == 5) ageRankString = "(28, 59]";
+        else if (ageRank == 6) ageRankString = "(59, 100]";
+        else ageRankString = "(11, 17]";
+        
+        int comunaRank = comunaMenu->getSelectedId();
+        String comunaRankString;
+        
+        if (comunaRank <= 16) comunaRankString = String(comunaRank) + ".0";
+        else if (comunaRank == 17) comunaRankString = "60.0";
+        else if (comunaRank == 18) comunaRankString = "70.0";
+        else if (comunaRank == 19) comunaRankString = "80.0";
+        else if (comunaRank == 20) comunaRankString = "90.0";
+        else comunaRankString = "10.0";
+     
+        return (selectedSex + ageRankString + comunaRankString);
+    }
 
 	void buttonClicked(Button* buttonThatWasClicked) override
 	{
         if (buttonThatWasClicked == initialButton.get())
-        {	
-			
+        {
             switch (initialStates) {
             case firstState:
                 {
                     sexMenu->setVisible (true);
                     ageMenu->setVisible (true);
                     comunaMenu->setVisible (true);
+                    lugaresMenu->setVisible (true);
                     String text = String::fromUTF8(BinaryData::datos_txt, BinaryData::datos_txtSize);
                     introText->setBoundsRelative (0.15f, 0.2f, 0.60f, 0.30f);
                     introText->setText(text, dontSendNotification);
+                    introText->setJustificationType(Justification::horizontallyCentred);
                     initialButton->setButtonText ("Siguiente");
                     initialStates = states::secondState;
                 break;
                 }
             case secondState:
                 {
-                    sexMenu->setVisible (false);
-                    ageMenu->setVisible (false);
-                    comunaMenu->setVisible (false);
-                    String text = String::fromUTF8(BinaryData::instrucciones_txt, BinaryData::instrucciones_txtSize);
-                    introText->setText(text, dontSendNotification);
-                    introText->setBoundsRelative (0.15f, 0.3f, 0.60f, 0.30f);
-                    initialStates = states::thirdState;
+                    if (sexMenu->getSelectedId() && ageMenu->getSelectedId() && comunaMenu->getSelectedId() && lugaresMenu->getSelectedId())
+                    {
+                        sexMenu->setVisible (false);
+                        ageMenu->setVisible (false);
+                        comunaMenu->setVisible (false);
+                        lugaresMenu->setVisible (false);
+                        String text = String::fromUTF8(BinaryData::instrucciones_txt, BinaryData::instrucciones_txtSize);
+                        introText->setText(text, dontSendNotification);
+                        introText->setBoundsRelative (0.15f, 0.3f, 0.60f, 0.30f);
+                        selectedId = getId();
+                        initialStates = states::thirdState;
+                    }
                 break;
                 }
                 case thirdState:
@@ -183,11 +222,13 @@ public:
             repaint();
         }
 	}
+    
+    String selectedSex, selectedId;
 	
 private:
 	ComboboxModified lookandf;
     std::unique_ptr<RoundedButton> initialButton;
-    std::unique_ptr<ComboBox> sexMenu, ageMenu, comunaMenu;
+    std::unique_ptr<ComboBox> sexMenu, ageMenu, comunaMenu, lugaresMenu;
     std::unique_ptr<Label> introText;
     ProjectColours projectColours;
     Image backgroundImage;
@@ -236,16 +277,16 @@ public:
 		switch (componentState)
 		{
 		case firstState:
-			backgroundImage = ImageFileFormat::loadFrom(BinaryData::distancia_jpeg, BinaryData::distancia_jpegSize);
+                backgroundImage = ImageFileFormat::loadFrom(BinaryData::Fondo_png, BinaryData::Fondo_pngSize);
 			break;
 		case secondState:
-			backgroundImage = ImageFileFormat::loadFrom(BinaryData::datos_jpeg, BinaryData::datos_jpegSize);
+                backgroundImage = ImageFileFormat::loadFrom(BinaryData::Fondo_png, BinaryData::Fondo_pngSize);
 			break;
 		case thirdState:
-			backgroundImage = ImageFileFormat::loadFrom(BinaryData::grabar_jpeg, BinaryData::grabar_jpegSize);
+                backgroundImage = ImageFileFormat::loadFrom(BinaryData::grabar_png, BinaryData::grabar_pngSize);
 			break;
 		case fourthState:
-                backgroundImage = ImageFileFormat::loadFrom(BinaryData::gracias_jpeg, BinaryData::gracias_jpegSize);
+                backgroundImage = ImageFileFormat::loadFrom(BinaryData::Final_png, BinaryData::Final_pngSize);
 			break;
 		default:
 			break;
@@ -315,7 +356,7 @@ public:
     enum states {firstState, secondState, thirdState, fourthState, fifthState} componentState;
     
 private:
-    int counter = 6;
+    int counter = 10;
     File outputFile;
     File parentDir;
     Image backgroundImage;

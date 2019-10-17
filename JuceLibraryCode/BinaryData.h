@@ -17,20 +17,26 @@ namespace BinaryData
     extern const char*   SharpGroteskThin15_otf;
     const int            SharpGroteskThin15_otfSize = 50984;
 
+    extern const char*   _2019_grp2_datos_txt;
+    const int            _2019_grp2_datos_txtSize = 433;
+
+    extern const char*   _2019_grp2_txt;
+    const int            _2019_grp2_txtSize = 2526;
+
     extern const char*   cadadato_txt;
     const int            cadadato_txtSize = 101;
 
     extern const char*   datos_txt;
-    const int            datos_txtSize = 92;
+    const int            datos_txtSize = 91;
 
     extern const char*   grabacion_txt;
-    const int            grabacion_txtSize = 227;
+    const int            grabacion_txtSize = 223;
 
     extern const char*   instrucciones_txt;
-    const int            instrucciones_txtSize = 250;
+    const int            instrucciones_txtSize = 249;
 
     extern const char*   intro_txt;
-    const int            intro_txtSize = 499;
+    const int            intro_txtSize = 496;
 
     extern const char*   homicidio_txt;
     const int            homicidio_txtSize = 718;
@@ -44,6 +50,21 @@ namespace BinaryData
     extern const char*   TextEx_txt;
     const int            TextEx_txtSize = 421;
 
+    extern const char*   grabar_png;
+    const int            grabar_pngSize = 2607191;
+
+    extern const char*   Final_png;
+    const int            Final_pngSize = 2726739;
+
+    extern const char*   intro_png;
+    const int            intro_pngSize = 2622974;
+
+    extern const char*   Fondo_png;
+    const int            Fondo_pngSize = 1331488;
+
+    extern const char*   registro_png;
+    const int            registro_pngSize = 1371531;
+
     extern const char*   comotu_jpeg;
     const int            comotu_jpegSize = 379794;
 
@@ -53,17 +74,8 @@ namespace BinaryData
     extern const char*   distancia_jpeg;
     const int            distancia_jpegSize = 308315;
 
-    extern const char*   grabar_jpeg;
-    const int            grabar_jpegSize = 321512;
-
-    extern const char*   gracias_jpeg;
-    const int            gracias_jpegSize = 359606;
-
     extern const char*   instrucciones_jpeg;
     const int            instrucciones_jpegSize = 366256;
-
-    extern const char*   intro_jpeg;
-    const int            intro_jpegSize = 417565;
 
     extern const char*   mapa_jpeg;
     const int            mapa_jpegSize = 222994;
@@ -71,11 +83,8 @@ namespace BinaryData
     extern const char*   mensaje_jpeg;
     const int            mensaje_jpegSize = 379745;
 
-    extern const char*   registro_jpeg;
-    const int            registro_jpegSize = 270205;
-
     // Number of elements in the namedResourceList and originalFileNames arrays.
-    const int namedResourceListSize = 22;
+    const int namedResourceListSize = 25;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];

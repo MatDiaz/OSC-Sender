@@ -50,6 +50,8 @@ public:
     
     void interpolateData (float inValue, bool isNormalized, Array<float> nArray, const String& Message);
     
+    void readLocationFileData (const char *textFileData, int textFileSize, bool isData);
+    
     void readTextFileData (const char *textFileData, int textFileSize, Plot& plotToAdd, Array<float>& nArray);
     
     void executeSequence(bool init);
@@ -66,7 +68,10 @@ private:
     
     juce::Component::SafePointer<InitialWindow> initialWindow;
     
-    Array<float> firstArray, secondArray, thirdArray;
+    Array<float> firstArray, secondArray, thirdArray, locationArray;
+    StringArray idArray;
+    String currentGender;
+    String currentId;
     OSCSender sender;
 	Plot mainPlot, secondPlot, thirdPlot;
     float normFactor = 1;

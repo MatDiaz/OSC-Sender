@@ -100,6 +100,9 @@ MainComponent::MainComponent()
 	readTextFileData(BinaryData::homicidio_txt, BinaryData::homicidio_txtSize, mainPlot, firstArray);
 	readTextFileData(BinaryData::transporte_txt, BinaryData::transporte_txtSize, thirdPlot, thirdArray);
 	readTextFileData(BinaryData::suicidio_txt, BinaryData::suicidio_txtSize, secondPlot, secondArray);
+    
+    readLocationFileData(BinaryData::_2019_grp2_txt, BinaryData::_2019_grp2_txtSize, false);
+    readLocationFileData(BinaryData::_2019_grp2_datos_txt, BinaryData::_2019_grp2_datos_txtSize, true);
 
 	setAudioChannels (2, 2);
 
@@ -142,6 +145,31 @@ void MainComponent::interpolateData (float inValue, bool isNormalized, Array<flo
     findMinAndMax (nArray.getRawDataPointer(), nArray.size(), Min, Max);
     float normFactor = jmax (abs(Min), Max);
     sender.send (Message, (value / normFactor));
+}
+
+
+void MainComponent::readLocationFileData(const char *textFileData, int textFileSize, bool isData)
+{
+    String inputFile = String::fromUTF8(textFileData, textFileSize);
+    std::stringstream stringStream (inputFile.toStdString());
+    std::string token;
+    
+    while (std::getline (stringStream, token, '\n'))
+    {
+        std::string idData;
+        std::istringstream inLine(token);
+        float inValue;
+        if (!isData)
+        {
+            inLine >> idData;
+            idArray.add(idData);
+        }
+        else
+        {
+            inLine >> inValue;
+            locationArray.add(inValue);
+        }
+    }
 }
 
 void MainComponent::mouseDrag (const MouseEvent& e)
@@ -237,6 +265,8 @@ void MainComponent::changeListenerCallback(ChangeBroadcaster *source)
 {
     if (source == initialWindow && initialComponent != nullptr)
     {
+        currentGender = initialComponent->selectedSex;
+        currentId = initialComponent->selectedId;
         initialComponent.reset();
         initialWindow.deleteAndZero();
         startTimer(30);

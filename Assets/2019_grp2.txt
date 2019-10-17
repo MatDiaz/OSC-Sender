@@ -1,0 +1,130 @@
+Hombre(0,5]2.0	
+Hombre(0,5]7.0	
+Hombre(0,5]15.0	
+Hombre(0,5]16.0	
+Hombre(5,11]13.0	
+Hombre(5,11]60.0	
+Hombre(11,17]3.0	
+Hombre(11,17]4.0	
+Hombre(11,17]5.0	
+Hombre(11,17]6.0	
+Hombre(11,17]7.0	
+Hombre(11,17]8.0	
+Hombre(11,17]10.0	
+Hombre(11,17]11.0	
+Hombre(11,17]12.0	
+Hombre(11,17]13.0	
+Hombre(11,17]14.0	
+Hombre(11,17]15.0	
+Hombre(11,17]16.0	
+Hombre(11,17]60.0	
+Hombre(11,17]70.0	
+Hombre(11,17]80.0	
+Hombre(11,17]90.0	
+Hombre(17,28]1.0	
+Hombre(17,28]2.0	
+Hombre(17,28]3.0	
+Hombre(17,28]4.0	
+Hombre(17,28]5.0	
+Hombre(17,28]6.0	
+Hombre(17,28]7.0	
+Hombre(17,28]8.0	
+Hombre(17,28]9.0	
+Hombre(17,28]10.0	
+Hombre(17,28]11.0	
+Hombre(17,28]12.0	
+Hombre(17,28]13.0	
+Hombre(17,28]14.0	
+Hombre(17,28]15.0	
+Hombre(17,28]16.0	
+Hombre(17,28]60.0	
+Hombre(17,28]70.0	
+Hombre(17,28]80.0	
+Hombre(17,28]90.0	
+Hombre(28,59]1.0	
+Hombre(28,59]2.0	
+Hombre(28,59]3.0	
+Hombre(28,59]4.0	
+Hombre(28,59]5.0	
+Hombre(28,59]6.0	
+Hombre(28,59]7.0	
+Hombre(28,59]8.0	
+Hombre(28,59]9.0	
+Hombre(28,59]10.0	
+Hombre(28,59]11.0	
+Hombre(28,59]12.0	
+Hombre(28,59]13.0	
+Hombre(28,59]14.0	
+Hombre(28,59]15.0	
+Hombre(28,59]16.0	
+Hombre(28,59]50.0	
+Hombre(28,59]60.0	
+Hombre(28,59]70.0	
+Hombre(28,59]80.0	
+Hombre(28,59]90.0	
+Hombre(59,100]1.0	
+Hombre(59,100]2.0	
+Hombre(59,100]4.0	
+Hombre(59,100]5.0	
+Hombre(59,100]7.0	
+Hombre(59,100]8.0	
+Hombre(59,100]9.0	
+Hombre(59,100]10.0	
+Hombre(59,100]11.0	
+Hombre(59,100]12.0	
+Hombre(59,100]13.0	
+Hombre(59,100]15.0	
+Hombre(59,100]16.0	
+Hombre(59,100]50.0	
+Hombre(59,100]60.0	
+Hombre(59,100]70.0	
+Hombre(59,100]80.0	
+Mujer(0,5]3.0	1
+Mujer(11,17]1.0	2
+Mujer(11,17]4.0	1
+Mujer(11,17]7.0	1
+Mujer(11,17]8.0	2
+Mujer(11,17]10.0	
+Mujer(11,17]13.0	
+Mujer(11,17]15.0	
+Mujer(11,17]70.0	
+Mujer(17,28]1.0	1
+Mujer(17,28]2.0	2
+Mujer(17,28]4.0	2
+Mujer(17,28]5.0	2
+Mujer(17,28]7.0	1
+Mujer(17,28]8.0	1
+Mujer(17,28]10.0	
+Mujer(17,28]11.0	
+Mujer(17,28]13.0	
+Mujer(17,28]16.0	
+Mujer(17,28]60.0	
+Mujer(17,28]70.0	
+Mujer(17,28]80.0	
+Mujer(17,28]90.0	
+Mujer(28,59]1.0	1
+Mujer(28,59]2.0	2
+Mujer(28,59]3.0	3
+Mujer(28,59]4.0	6
+Mujer(28,59]5.0	2
+Mujer(28,59]6.0	2
+Mujer(28,59]7.0	2
+Mujer(28,59]8.0	3
+Mujer(28,59]9.0	1
+Mujer(28,59]10.0	
+Mujer(28,59]11.0	
+Mujer(28,59]12.0	
+Mujer(28,59]13.0	
+Mujer(28,59]14.0	
+Mujer(28,59]15.0	
+Mujer(28,59]16.0	
+Mujer(28,59]60.0	
+Mujer(28,59]70.0	
+Mujer(28,59]80.0	
+Mujer(59,100]1.0	
+Mujer(59,100]6.0	
+Mujer(59,100]8.0	
+Mujer(59,100]11.0	
+Mujer(59,100]12.0	
+Mujer(59,100]13.0	
+Mujer(59,100]16.0	 
