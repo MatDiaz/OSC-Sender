@@ -317,7 +317,7 @@ void MainComponent::executeSequence (bool init)
         initialComponent.reset (new InsideComponent());
         initialWindow = new InitialWindow("!Escucha!", true, initialComponent.get());
         initialWindow->setVisible (true);
-        initialWindow->setSize(x, y);
+        initialWindow->centreWithSize(x, y);
         initialWindow->addChangeListener(this);
     }
     else if (initialWindow == nullptr && !init)
@@ -329,7 +329,7 @@ void MainComponent::executeSequence (bool init)
         secondComponent.reset (new SecondComponent(&deviceManager, currentGender, deathNum, locationId));
         initialWindow = new InitialWindow("!Escucha!", true, secondComponent.get());
         initialWindow->setVisible (true);
-        initialWindow->setSize(x, y);
+        initialWindow->centreWithSize(x, y);
         initialWindow->addChangeListener(this);
     }
 }

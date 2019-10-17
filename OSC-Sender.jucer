@@ -27,6 +27,11 @@
         <FILE id="UMAiJI" name="TextEx.txt" compile="0" resource="1" file="Source/TextEx.txt"/>
       </GROUP>
       <GROUP id="{96C0CB7D-9861-7598-5EE5-CABA96F6A3B0}" name="Images">
+        <FILE id="e3ib9v" name="bib_floresta.png" compile="0" resource="1"
+              file="Assets/bib_floresta.png"/>
+        <FILE id="sRZgfB" name="parque_amor.png" compile="0" resource="1" file="Assets/parque_amor.png"/>
+        <FILE id="b7d8As" name="san_javier.png" compile="0" resource="1" file="Assets/san_javier.png"/>
+        <FILE id="WRaUjU" name="sentidos.png" compile="0" resource="1" file="Assets/sentidos.png"/>
         <FILE id="DAbfQu" name="grabar.png" compile="0" resource="1" file="Assets/grabar.png"/>
         <FILE id="dJ8RlO" name="Final.png" compile="0" resource="1" file="Assets/Final.png"/>
         <FILE id="RKGiMZ" name="intro.png" compile="0" resource="1" file="Assets/intro.png"/>
@@ -171,5 +176,5 @@
     <OSX/>
     <WINDOWS/>
   </LIVE_SETTINGS>
-  <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1"/>
+  <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_JACK="1" JUCE_ALSA="1"/>
 </JUCERPROJECT>

@@ -190,7 +190,8 @@ public:
                     comunaMenu->setVisible (true);
                     lugaresMenu->setVisible (true);
                     String text = String::fromUTF8(BinaryData::datos_txt, BinaryData::datos_txtSize);
-                    introText->setBoundsRelative (0.15f, 0.2f, 0.60f, 0.30f);
+                    introText->setFont(50.0f);
+                    introText->setBoundsRelative (0.20f, 0.2f, 0.60f, 0.30f);
                     introText->setText(text, dontSendNotification);
                     introText->setJustificationType(Justification::horizontallyCentred);
                     initialButton->setButtonText ("Siguiente");
@@ -207,7 +208,8 @@ public:
                         lugaresMenu->setVisible (false);
                         String text = String::fromUTF8(BinaryData::instrucciones_txt, BinaryData::instrucciones_txtSize);
                         introText->setText(text, dontSendNotification);
-                        introText->setBoundsRelative (0.15f, 0.3f, 0.60f, 0.30f);
+                        introText->setFont(50.0f);
+                        introText->setBoundsRelative (0.2f, 0.3f, 0.60f, 0.30f);
                         selectedId = getId();
                         location = lugaresMenu->getSelectedId();
                         initialStates = states::thirdState;
@@ -247,8 +249,14 @@ public:
     {
         auto desktopArea = Desktop::getInstance().getDisplays().getMainDisplay().totalArea;
         float desktopSize = desktopArea.getWidth() * desktopArea.getHeight();
+        Location = location;
+        String texto = String(CharPointer_UTF8 ("Detr\xc3\xa1s de cada dato hay una historia,\n"
+                                                "un nombre, una voz,\n"
+                                                "como la tuya.\n \n"));
+                              
+        texto = texto + String(deaths) + " " + gender + "s" + " de tu edad, en tu comuna \nfueron asesinados";
         
-        String texto = "Tantas personas han sido asesinadas al rededor";
+        texto = texto + String(CharPointer_UTF8 (" en el \xc3\xbaltimo a\xc3\xb1o."));
         
         nextButton.reset (new RoundedButton ());
 		nextButton->setButtonText("Continuar");
@@ -257,10 +265,11 @@ public:
         
         text.reset (new Label());
         addAndMakeVisible(text.get());
-        text->setFont (Font(desktopSize * 0.000012));
+        text->setFont (Font(desktopSize * 0.00003));
         text->setText (texto, dontSendNotification);
-        text->setJustificationType(Justification::horizontallyJustified);
+        text->setJustificationType(Justification::centred);
         text->setColour(juce::Label::textColourId, projectColours.amarillo);
+        text->setJustificationType(Justification::centredTop);
 		text->setVisible(true);
         componentState = states::firstState; 
 
@@ -293,26 +302,49 @@ public:
 		default:
 			break;
 		}
+        
 		juce::Rectangle<int> area = getLocalBounds();
 		g.drawImage(backgroundImage, area.toFloat());
+        
+        if (imageIsCreated)
+        {
+            Image mapImage;
+            if (Location == 1)
+                mapImage = ImageFileFormat::loadFrom(BinaryData::sentidos_png, BinaryData::sentidos_pngSize);
+            else if (Location == 2)
+                mapImage = ImageFileFormat::loadFrom(BinaryData::parque_amor_png, BinaryData::parque_amor_pngSize);
+            else if (Location == 3)
+                mapImage = ImageFileFormat::loadFrom(BinaryData::bib_floresta_png, BinaryData::bib_floresta_pngSize);
+            else if (Location == 4)
+                mapImage = ImageFileFormat::loadFrom(BinaryData::san_javier_png, BinaryData::san_javier_pngSize);
+            
+            juce::Rectangle<float> imageRec(area.getWidth()*0.15, area.getHeight()*0.15, area.getWidth()*0.7, area.getHeight()*0.65);
+            
+            g.drawImage(mapImage, imageRec);
+
+            imageIsCreated = false;
+        }
     }
     void resized() override
     {
-        text->setBoundsRelative (0.20f, 0.2f, 0.6f, 0.5f);
-        nextButton->setBoundsRelative (0.425, 0.8f, 0.15f, 0.075f);;
+        text->setBoundsRelative (0.10f, 0.2f, 0.8f, 0.6f);
+        nextButton->setBoundsRelative (0.425, 0.85f, 0.15f, 0.075f);
     }
     void buttonClicked (Button* buttonThatWasClicked) override
     {
         switch (componentState)
         {
         case firstState:
-                text->setText ("Numero de personas de tu edad han sido asesinadas", dontSendNotification);
+                text->setText ("Estas son las personas asesinadas 300 metros alrededor tuyo", dontSendNotification);
+                text->setBoundsRelative(0.0f, 0.05f, 1.0f, 0.15f);
+                imageIsCreated = true;
                 componentState = states::secondState;
             break;
         case secondState:
             {
                 String texto = String::fromUTF8(BinaryData::grabacion_txt, BinaryData::grabacion_txtSize);
                 text->setText (texto, dontSendNotification);
+                text->setBoundsRelative(0.2f, 0.05f, 0.6f, 0.70f);
                 componentState = states::thirdState;
                 nextButton->setButtonText("Grabar");
                 sendChangeMessage();
@@ -338,7 +370,7 @@ public:
     
     void timerCallback() override
     {
-        if(--counter >= 1)
+        if(counter-- >= 1)
         {
             nextButton->setButtonText("Grabando... " + String(counter));
         }
@@ -366,7 +398,8 @@ private:
     std::unique_ptr<Label>  text;
     ProjectColours projectColours;
     AudioRecorder audioRecorder;
-	
+    bool imageIsCreated = false;
+    int Location;
     std::unique_ptr<AudioDeviceManager> audioDeviceManager;
 };
 

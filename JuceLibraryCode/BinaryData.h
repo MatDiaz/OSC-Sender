@@ -50,6 +50,18 @@ namespace BinaryData
     extern const char*   TextEx_txt;
     const int            TextEx_txtSize = 421;
 
+    extern const char*   bib_floresta_png;
+    const int            bib_floresta_pngSize = 2421287;
+
+    extern const char*   parque_amor_png;
+    const int            parque_amor_pngSize = 2382208;
+
+    extern const char*   san_javier_png;
+    const int            san_javier_pngSize = 2227055;
+
+    extern const char*   sentidos_png;
+    const int            sentidos_pngSize = 1979441;
+
     extern const char*   grabar_png;
     const int            grabar_pngSize = 2607191;
 
@@ -84,7 +96,7 @@ namespace BinaryData
     const int            mensaje_jpegSize = 379745;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
-    const int namedResourceListSize = 25;
+    const int namedResourceListSize = 29;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];
