@@ -87,7 +87,7 @@ MainComponent::MainComponent()
 	thirdPlot.setEnabled(false);
 	thirdPlot.setBackgroundColour(projectColours.naranja);
 	thirdPlot.setOffset(0.15f);
-	thirdPlot.setPlotName(String(CharPointer_UTF8("Muertes por accidentes de tr\xc3\xa1""fico")));
+	thirdPlot.setPlotName(String(CharPointer_UTF8("Muertes de tr\xc3\xa1""fico")));
 	thirdPlot.setEnabled(false);
 
 	// =============================================================================
@@ -114,7 +114,7 @@ MainComponent::MainComponent()
 
     sender.connect("127.0.0.1", 9001);
 
-	startTimer(500);
+	startTimer(1000);
 }
 
 MainComponent::~MainComponent()
@@ -327,6 +327,7 @@ void MainComponent::executeSequence (bool init)
         auto y = r.getHeight();
         initialComponent.reset (new InsideComponent());
         initialWindow = new InitialWindow("!Escucha!", true, initialComponent.get());
+		this->toBack();
         initialWindow->setVisible (true);
         initialWindow->setSize(x, y);
 		initialWindow->toFront(true);
@@ -340,6 +341,7 @@ void MainComponent::executeSequence (bool init)
         auto y = r.getHeight();
         secondComponent.reset (new SecondComponent(&deviceManager, currentGender, deathNum, locationId));
         initialWindow = new InitialWindow("!Escucha!", true, secondComponent.get());
+		this->toBack();
         initialWindow->setVisible (true);
 		initialWindow->toFront(true);
         initialWindow->setSize(x, y);
@@ -372,7 +374,7 @@ void MainComponent::timerCallback()
 
 		cursorPosition += 1.0f / (float)cycleTime;
 
-		if (cursorPosition >= (1 - (1.0f / (float)cycleTime)))
+		if (cursorPosition >= (1 - (1.0f / (float)cycleTime) * 5))
 		{
 			cursorPosition = 0;
 			executeSequence(false);

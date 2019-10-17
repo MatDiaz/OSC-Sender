@@ -204,7 +204,7 @@ public:
         repaint();
         xDataLabel->setBoundsRelative (0.7f, 0.9f, 0.3f, 0.1f);
 		yDataLabel->setBoundsRelative(0.0f, 0.5f, 0.15f, 0.5f);
-		plotNameLabel->setBoundsRelative (0.0f, 0.0f, 0.15f, 0.5f);
+		plotNameLabel->setBoundsRelative (0.0f, 0.0f, 0.15f, 0.6f);
     }
     
     void addYDataToPlot (StringArray newDataToPlot)

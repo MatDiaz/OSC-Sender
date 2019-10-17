@@ -63,7 +63,7 @@ public:
         introText.reset (new Label());
         addAndMakeVisible (introText.get());
         introText->setText (introMessage, dontSendNotification);
-        introText->setFont (Font(desktopSize * 0.000015));
+        introText->setFont (Font(50.0f));
         introText->setColour (Label::ColourIds::textColourId, projectColours.amarillo);
         introText->setJustificationType(Justification::horizontallyJustified);
         introText->setVisible(true);
@@ -191,7 +191,7 @@ public:
                     lugaresMenu->setVisible (true);
                     String text = String::fromUTF8(BinaryData::datos_txt, BinaryData::datos_txtSize);
                     introText->setFont(50.0f);
-                    introText->setBoundsRelative (0.20f, 0.2f, 0.60f, 0.30f);
+                    introText->setBoundsRelative (0.20f, 0.2f, 0.60f, 0.60f);
                     introText->setText(text, dontSendNotification);
                     introText->setJustificationType(Justification::horizontallyCentred);
                     initialButton->setButtonText ("Siguiente");
@@ -209,7 +209,7 @@ public:
                         String text = String::fromUTF8(BinaryData::instrucciones_txt, BinaryData::instrucciones_txtSize);
                         introText->setText(text, dontSendNotification);
                         introText->setFont(50.0f);
-                        introText->setBoundsRelative (0.2f, 0.3f, 0.60f, 0.35f);
+                        introText->setBoundsRelative (0.2f, 0.3f, 0.60f, 0.4f);
                         selectedId = getId();
                         location = lugaresMenu->getSelectedId();
                         initialStates = states::thirdState;
@@ -268,7 +268,7 @@ public:
         
         text.reset (new Label());
         addAndMakeVisible(text.get());
-        text->setFont (Font(desktopSize * 0.00003));
+        text->setFont (Font(70.0f));
         text->setText (texto, dontSendNotification);
         text->setJustificationType(Justification::centred);
         text->setColour(juce::Label::textColourId, projectColours.amarillo);
@@ -343,7 +343,7 @@ public:
 			if (Location == 1) deathCount = 4;
 			else if (Location == 2) deathCount = 2;
 			else if (Location == 3) deathCount = 4;
-			else if (Location = 4) deathCount = 5;
+			else if (Location == 4) deathCount = 5;
 			String outText = String(CharPointer_UTF8("Aqu\xc3\xad. \n A 300 metros de distancia fueron asesinadas ")) + String(deathCount) + String(CharPointer_UTF8(" personas en el \xc3\xbaltimo a\xc3\xb1o"));
 			text->setText(outText, dontSendNotification);
 			text->setBoundsRelative(0.0f, 0.05f, 1.0f, 0.15f);
@@ -400,9 +400,9 @@ public:
             outputFile = File();
             String textoo = String(CharPointer_UTF8 ("Para conocer m\xc3\xa1s de este proyecto y asistir a socializaciones visita: laboratoriodelsonido.com.co"));
             text->setText(textoo, dontSendNotification);
-            text->setFont(40.0f);
+            text->setFont(35.0f);
             text->setJustificationType(Justification::centredBottom);
-            text->setBoundsRelative (0.2f, 0.0f, 0.6f, 0.59f);
+            text->setBoundsRelative (0.2f, 0.0f, 0.6f, 0.60f);
 			repaint();
             stopTimer();
         }
