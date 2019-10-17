@@ -180,6 +180,20 @@ void MainComponent::mouseDrag (const MouseEvent& e)
 	}
 }
 
+int MainComponent::findData(const String idToSearch)
+{
+    int deathAmount = 0;
+    for (auto i = 0; i < idArray.size(); ++i)
+    {
+        if (idArray[i] == idToSearch)
+        {
+            deathAmount = locationArray[i];
+            break;
+        }
+    }
+    return deathAmount;
+}
+
 void MainComponent::buttonClicked(Button *button)
 {
 
@@ -267,6 +281,7 @@ void MainComponent::changeListenerCallback(ChangeBroadcaster *source)
     {
         currentGender = initialComponent->selectedSex;
         currentId = initialComponent->selectedId;
+        findData(currentId);
         initialComponent.reset();
         initialWindow.deleteAndZero();
         startTimer(30);

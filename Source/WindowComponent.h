@@ -70,7 +70,7 @@ public:
         
 		initialButton.reset (new RoundedButton());
 		addAndMakeVisible (initialButton.get());
-		initialButton->setButtonText ("Comenzar!");
+		initialButton->setButtonText ("Comenzar");
 		initialButton->addListener (this);
 		        
 		// =============================================================================
@@ -158,11 +158,11 @@ public:
         String ageRankString;
         
         if (ageRank == 1) ageRankString = "(0, 5]";
-        else if (ageRank == 2) ageRankString = "(5, 11]";
-        else if (ageRank == 3) ageRankString = "(11, 17]";
-        else if (ageRank == 4) ageRankString = "(17, 28]";
-        else if (ageRank == 5) ageRankString = "(28, 59]";
-        else if (ageRank == 6) ageRankString = "(59, 100]";
+        else if (ageRank == 2) ageRankString = "(5,11]";
+        else if (ageRank == 3) ageRankString = "(11,17]";
+        else if (ageRank == 4) ageRankString = "(17,28]";
+        else if (ageRank == 5) ageRankString = "(28,59]";
+        else if (ageRank == 6) ageRankString = "(59,100]";
         else ageRankString = "(11, 17]";
         
         int comunaRank = comunaMenu->getSelectedId();
@@ -241,7 +241,7 @@ class SecondComponent: public GenericWindowComponent,
                        private Timer
 {
 public:
-    SecondComponent(AudioDeviceManager* deviceManager)
+    SecondComponent(AudioDeviceManager* deviceManager, String gender, int deaths, int location)
     {
         auto desktopArea = Desktop::getInstance().getDisplays().getMainDisplay().totalArea;
         float desktopSize = desktopArea.getWidth() * desktopArea.getHeight();

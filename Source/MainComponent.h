@@ -54,6 +54,8 @@ public:
     
     void readTextFileData (const char *textFileData, int textFileSize, Plot& plotToAdd, Array<float>& nArray);
     
+    int findData (String idToSearch);
+    
     void executeSequence(bool init);
 
 private:
@@ -72,6 +74,7 @@ private:
     StringArray idArray;
     String currentGender;
     String currentId;
+    int deathNum, locationId;
     OSCSender sender;
 	Plot mainPlot, secondPlot, thirdPlot;
     float normFactor = 1;
