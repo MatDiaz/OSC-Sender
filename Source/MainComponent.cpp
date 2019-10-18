@@ -327,10 +327,9 @@ void MainComponent::executeSequence (bool init)
         auto y = r.getHeight();
         initialComponent.reset (new InsideComponent());
         initialWindow = new InitialWindow("!Escucha!", true, initialComponent.get());
-		this->toBack();
         initialWindow->setVisible (true);
         initialWindow->setSize(x, y);
-		initialWindow->toFront(true);
+		initialWindow->toFront(false);
         initialWindow->addChangeListener(this);
     }
     else if (initialWindow == nullptr && !init)
@@ -341,9 +340,8 @@ void MainComponent::executeSequence (bool init)
         auto y = r.getHeight();
         secondComponent.reset (new SecondComponent(&deviceManager, currentGender, deathNum, locationId));
         initialWindow = new InitialWindow("!Escucha!", true, secondComponent.get());
-		this->toBack();
         initialWindow->setVisible (true);
-		initialWindow->toFront(true);
+		initialWindow->toFront(false);
         initialWindow->setSize(x, y);
         initialWindow->addChangeListener(this);
     }

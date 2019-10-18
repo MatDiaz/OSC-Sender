@@ -134,7 +134,7 @@
     </VS2019>
     <LINUX_MAKE targetFolder="Builds/LinuxMakefile">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="0" name="Release"/>
+        <CONFIGURATION isDebug="0" name="Release" optimisation="1"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_osc"/>
