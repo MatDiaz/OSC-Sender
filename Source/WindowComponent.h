@@ -63,7 +63,7 @@ public:
         introText.reset (new Label());
         addAndMakeVisible (introText.get());
         introText->setText (introMessage, dontSendNotification);
-        introText->setFont (Font(50.0f));
+        introText->setFont (Font(40.0f));
         introText->setColour (Label::ColourIds::textColourId, projectColours.amarillo);
         introText->setJustificationType(Justification::horizontallyJustified);
         introText->setVisible(true);
@@ -190,8 +190,8 @@ public:
                     comunaMenu->setVisible (true);
                     lugaresMenu->setVisible (true);
                     String text = String::fromUTF8(BinaryData::datos_txt, BinaryData::datos_txtSize);
-                    introText->setFont(50.0f);
-                    introText->setBoundsRelative (0.20f, 0.2f, 0.60f, 0.60f);
+                    introText->setFont(45.0f);
+                    introText->setBoundsRelative (0.20f, 0.2f, 0.60f, 0.65f);
                     introText->setText(text, dontSendNotification);
                     introText->setJustificationType(Justification::horizontallyCentred);
                     initialButton->setButtonText ("Siguiente");
@@ -208,7 +208,7 @@ public:
                         lugaresMenu->setVisible (false);
                         String text = String::fromUTF8(BinaryData::instrucciones_txt, BinaryData::instrucciones_txtSize);
                         introText->setText(text, dontSendNotification);
-                        introText->setFont(50.0f);
+                        introText->setFont(45.0f);
                         introText->setBoundsRelative (0.2f, 0.3f, 0.60f, 0.4f);
                         selectedId = getId();
                         location = lugaresMenu->getSelectedId();
@@ -268,7 +268,7 @@ public:
         
         text.reset (new Label());
         addAndMakeVisible(text.get());
-        text->setFont (Font(70.0f));
+        text->setFont (Font(50.0f));
         text->setText (texto, dontSendNotification);
         text->setJustificationType(Justification::centred);
         text->setColour(juce::Label::textColourId, projectColours.amarillo);

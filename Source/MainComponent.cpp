@@ -114,7 +114,7 @@ MainComponent::MainComponent()
 
     sender.connect("127.0.0.1", 9001);
 
-	startTimer(1000);
+	startTimer(1500);
 }
 
 MainComponent::~MainComponent()
@@ -341,7 +341,6 @@ void MainComponent::executeSequence (bool init)
         secondComponent.reset (new SecondComponent(&deviceManager, currentGender, deathNum, locationId));
         initialWindow = new InitialWindow("!Escucha!", true, secondComponent.get());
         initialWindow->setVisible (true);
-		initialWindow->toFront(false);
         initialWindow->setSize(x, y);
         initialWindow->addChangeListener(this);
     }
