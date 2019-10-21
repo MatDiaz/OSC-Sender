@@ -141,7 +141,7 @@ public:
 
 	void resized() override
 	{
-        introText->setBoundsRelative (0.2f, 0.45f, 0.60f, 0.30f);
+        introText->setBoundsRelative (0.1f, 0.45f, 0.80f, 0.30f);
         initialButton->setBoundsRelative (0.425, 0.8f, 0.15f, 0.075f);
 		        
         sexMenu->setBoundsRelative (0.025f, 0.40f, 0.3f, 0.065f);
