@@ -50,7 +50,7 @@ public:
 		StringArray sexArray = { "Hombre", "Mujer" };
 		StringArray ageArray = {"0 - 5", "6 - 11", "12 - 17", "18 - 28", "29 - 59", String(CharPointer_UTF8 ("60 o m\xc3\xa1s"))};
         StringArray comunaArray = { "Comuna 1: Popular", "Comuna 2: Santa Cruz", "Comuna 3: Manrique", "Comuna 4: Aranjuez", "Comuna 5: Castilla", "Comuna 6: 12 de Octubre", "Comuna 7: Robledo ", "Comuna 8: Villa Hermosa", "Comuna 9: Buenos Aires", "Comuna 10: La Candelaria", "Comuna 11: Laureles - Estadio", String(CharPointer_UTF8 ("Comuna 12: La Am\xc3\xa9rica")), "Comuna 13: San Javier", "Comuna 14: El Poblado", "Comuna 15: Guayabal", String(CharPointer_UTF8 ("Comuna 16: Bel\xc3\xa9n")), CharPointer_UTF8 ("Corregimiento 50: San Sebasti\xc3\xa1n de Palmitas"), "Corregimiento 60: San Cristobal", "Corregimiento 70: Altavista", "Corregimiento 80: San Antonio de Prado", "Corregimiento 90: Santa Elena"};
-        StringArray lugaresArray = {"Parque de los sentidos", "Parque del Amor", "Biblioteca la la Floresta", "Parque Biblioteca San Javier"};
+        StringArray lugaresArray = {"Parque de los sentidos", "Parque del Amor", "Biblioteca de la Floresta", "Parque Biblioteca San Javier"};
 		// ============================================================================
 		        
         String introMessage = String::fromUTF8(BinaryData::intro_txt, BinaryData::intro_txtSize);
