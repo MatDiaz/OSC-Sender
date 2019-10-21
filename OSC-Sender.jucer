@@ -66,6 +66,8 @@
       <FILE id="ijAhRK" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
       <FILE id="u6sxGg" name="ProjectColours.cpp" compile="1" resource="0"
             file="Source/ProjectColours.cpp"/>
+      <FILE id="qPhLtI" name="WindowComponent.h" compile="0" resource="0"
+            file="Source/WindowComponent.h"/>
       <FILE id="bIBDjr" name="InsideComponent.h" compile="0" resource="0"
             file="Source/InsideComponent.h"/>
     </GROUP>
@@ -142,10 +144,12 @@
     </VS2019>
     <LINUX_MAKE targetFolder="Builds/LinuxMakefile">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="0" name="Release" optimisation="1"/>
+        <CONFIGURATION isDebug="0" name="Release"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
+        <MODULEPATH id="juce_video"/>
         <MODULEPATH id="juce_osc"/>
+        <MODULEPATH id="juce_opengl"/>
         <MODULEPATH id="juce_gui_extra"/>
         <MODULEPATH id="juce_gui_basics"/>
         <MODULEPATH id="juce_graphics"/>
@@ -158,8 +162,6 @@
         <MODULEPATH id="juce_audio_formats"/>
         <MODULEPATH id="juce_audio_devices"/>
         <MODULEPATH id="juce_audio_basics"/>
-        <MODULEPATH id="juce_opengl" path="../../../../../Applications/JUCE/modules"/>
-        <MODULEPATH id="juce_video" path="../../../../../Applications/JUCE/modules"/>
       </MODULEPATHS>
     </LINUX_MAKE>
   </EXPORTFORMATS>
