@@ -147,7 +147,7 @@ public:
 		float value = (nArray[nextPosition] * fraction) + (nArray[prevPosition] * (1 - fraction));
 		float Min, Max;
 		findMinAndMax(nArray.getRawDataPointer(), nArray.size(), Min, Max);
-		float normFactor = jmax(abs(Min), Max);
+		float normFactor = jmax(std::abs(Min), Max);
 		sender->send(Message, (value / normFactor));
 	}
 
