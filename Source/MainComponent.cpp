@@ -143,6 +143,10 @@ void MainComponent::changeListenerCallback(ChangeBroadcaster* source)
 		else
 		{
 			secondComponent.reset();
+			sender.send("/toggle", 0.0f);
+			sender.send("/toggle2", 0.0f);
+			sender.send("/toggle3", 0.0f);
+			sender.send("/toggle4", 0.0f);
 			executeSequence(firstWindow);
 		}
 	}
