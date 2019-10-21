@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="pb7gqQ" name="OSC-Sender" projectType="guiapp" jucerVersion="5.4.3">
-  <MAINGROUP id="U6XrTf" name="OSC-Sender">
+<JUCERPROJECT id="pb7gqQ" name="Manifiesto Sonoro" projectType="guiapp" jucerVersion="5.4.3"
+              companyName="Laboratorio del Sonido" companyWebsite="laboratoriodelsonido.co"
+              version="0.9.0">
+  <MAINGROUP id="U6XrTf" name="Manifiesto Sonoro">
     <GROUP id="{69C9BAE9-C440-2CBF-0516-557B72F2E2AF}" name="Assets">
       <GROUP id="{5CC642CD-0B01-4E34-2B13-65F6744E262A}" name="Fonts">
         <FILE id="Z1rmra" name="Sharp Grotesk Black 05 Regular.otf" compile="0"
@@ -47,19 +49,25 @@
       </GROUP>
     </GROUP>
     <GROUP id="{A5E1BE68-76D8-4E05-D26F-C2A28D542409}" name="Source">
+      <FILE id="Ak6Sq1" name="MainWindowComponent.h" compile="0" resource="0"
+            file="Source/MainWindowComponent.h"/>
+      <FILE id="hRFdzh" name="SecondComponent.h" compile="0" resource="0"
+            file="Source/SecondComponent.h"/>
       <FILE id="tQ5VPO" name="ProjectColours.h" compile="0" resource="0"
             file="Source/ProjectColours.h"/>
       <FILE id="QibCiK" name="RoundedButton.h" compile="0" resource="0" file="Source/RoundedButton.h"/>
       <FILE id="xJJk4C" name="DataCursor.h" compile="0" resource="0" file="Source/DataCursor.h"/>
       <FILE id="KNOoY5" name="Plot.h" compile="0" resource="0" file="Source/Plot.h"/>
       <FILE id="JRczSg" name="WindowClass.h" compile="0" resource="0" file="Source/WindowClass.h"/>
-      <FILE id="w0Q5fU" name="WindowComponent.h" compile="0" resource="0"
-            file="Source/WindowComponent.h"/>
       <FILE id="NjiHYJ" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
       <FILE id="O4ygIz" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
       <FILE id="o9qHaB" name="AudioRecorder.h" compile="0" resource="0" file="Source/AudioRecorder.h"/>
       <FILE id="ijAhRK" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+      <FILE id="u6sxGg" name="ProjectColours.cpp" compile="1" resource="0"
+            file="Source/ProjectColours.cpp"/>
+      <FILE id="bIBDjr" name="InsideComponent.h" compile="0" resource="0"
+            file="Source/InsideComponent.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>

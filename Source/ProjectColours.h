@@ -13,8 +13,8 @@
 
 struct ProjectColours
 {
-    Colour azulOscuro = Colour(0xff004c7e);
-    Colour naranja = Colour(0xfff0511d);
-    Colour amarillo = Colour(0xfff6af43);
-    Colour crema = Colour(0xfffaebd3);
+	static Colour azulOscuro;
+    static Colour naranja;
+    static Colour amarillo;
+	static Colour crema;
 };

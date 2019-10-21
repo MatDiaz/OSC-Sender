@@ -11,6 +11,7 @@
 #pragma once
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "RoundedButton.h"
+#include "ProjectColours.h"
 
 class GenericWindowComponent: public Component,
                              public Button::Listener,
@@ -19,7 +20,7 @@ class GenericWindowComponent: public Component,
 public:
     GenericWindowComponent(){}
     ~GenericWindowComponent(){}
-    
+	void buttonClicked(Button* buttonThatWasClicked) override {}
 };
 
 class InitialWindow: public ResizableWindow,

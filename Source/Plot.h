@@ -40,7 +40,7 @@ public:
 
 		yDataLabel.reset (new Label());
 		addAndMakeVisible (yDataLabel.get());
-		yDataLabel->setColour (Label::textColourId, Colour(Colours::black));
+		yDataLabel->setColour (Label::textColourId, Colour(Colours::white));
 		yDataLabel->setFont (50.0f);
 		yDataLabel->setJustificationType (Justification::centred);
 
@@ -64,9 +64,6 @@ public:
         // Set data to plot colour
         if (!imageCreated)
         {
-            g.setColour (Colour((uint8)220, (uint8)220, (uint8)220, (uint8)15));
-            Rectangle<float> area(0, 0, getWidth(), getHeight());
-            g.drawRect (0, 0, getWidth(), getHeight(), 2);
 			g.setColour (backgroundColour);
 			g.fillRect (getLocalBounds().toFloat());
             if (isLoaded)
@@ -95,13 +92,14 @@ public:
     }
 
     // This method will receive data from parent component
-	void updatePlot (float* dataSet, int dataSize, bool Loaded, const Array<float>& ndataArray)
+	void updatePlot(float* dataSet, int dataSize, bool Loaded, const Array<float>& ndataArray)
 	{
 		isLoaded = Loaded;
 		dataSetSize = dataSize;
 		dataSetToPlot = dataSet;
 		dataArray = ndataArray;
-        
+	
+
 		float divX = (getWidth() * (1 - offset)) / ((float) dataSetSize - 1);
 		float Xoffset = getWidth() * offset;
 
@@ -203,7 +201,7 @@ public:
     {
         repaint();
         xDataLabel->setBoundsRelative (0.7f, 0.9f, 0.3f, 0.1f);
-		yDataLabel->setBoundsRelative(0.0f, 0.5f, 0.15f, 0.5f);
+		yDataLabel->setBoundsRelative(0.0f, 0.4f, 0.15f, 0.5f);
 		plotNameLabel->setBoundsRelative (0.0f, 0.0f, 0.15f, 0.6f);
     }
     

@@ -9,83 +9,58 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "WindowClass.h"
-#include "WindowComponent.h"
 #include "Plot.h"
 #include "ProjectColours.h"
+#include "InsideComponent.h"
+#include "MainWindowComponent.h"
+#include "SecondComponent.h"
 
 //==============================================================================
 /*
     This component lives inside our window, and this is where you should put all
     your controls and content.
 */
-class MainComponent   : public AudioAppComponent,
-                        public Button::Listener,
-                        private ChangeListener,
-                        public Timer
+class MainComponent : public AudioAppComponent,
+					  private ChangeListener
 {
 public:
-    //==============================================================================
-    MainComponent();
-    ~MainComponent();
+	//==============================================================================
+	MainComponent();
+	~MainComponent();
 
-    //==============================================================================
-    void prepareToPlay (int samplesPerBlockExpected, double sampleRate) override;
-    void getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill) override;
-    void releaseResources() override;
+	//==============================================================================
+	void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override;
+	void getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill) override;
+	void releaseResources() override;
 
-    //==============================================================================
-    void paint (Graphics& g) override;
-    void resized() override;
-    
-    void buttonClicked (Button *button) override;
-    
-    void mouseDrag (const MouseEvent& e) override;
-    
-    void timerCallback() override;
-    
-    void changeListenerCallback (ChangeBroadcaster* source) override;
-    
-    //==============================================================================
-    
-    void interpolateData (float inValue, bool isNormalized, Array<float> nArray, const String& Message);
-    
-    void readLocationFileData (const char *textFileData, int textFileSize, bool isData);
-    
-    void readTextFileData (const char *textFileData, int textFileSize, Plot& plotToAdd, Array<float>& nArray);
-    
-    int findData (String idToSearch);
-    
-    void executeSequence(bool init);
+	//==============================================================================
+	void paint(Graphics& g) override;
+	void resized() override;
+
+	void changeListenerCallback(ChangeBroadcaster* source) override;
+
+	//==============================================================================
+
+	void readLocationFileData(const char* textFileData, int textFileSize, bool isData);
+
+	int findData(String idToSearch);
+
+	enum sequenceOrder { firstWindow, secondWindow, thirdWindow } order;
+
+	void executeSequence(sequenceOrder actualPosition);
 
 private:
-    
-	std::unique_ptr<Slider> playbackSpeedSlider;
-	std::unique_ptr<Label> speedLabel, speedLabel_Two, speedLabel_Three, date;
+
+	Typeface::Ptr tptr;
     std::unique_ptr<InsideComponent> initialComponent;
     std::unique_ptr<SecondComponent> secondComponent;
-    ProjectColours projectColours;
+	std::unique_ptr<MainWindowComponent> mainWindowComponent;
     
-    Typeface::Ptr tptr;
-    
-    juce::Component::SafePointer<InitialWindow> initialWindow;
-    
-    Array<float> firstArray, secondArray, thirdArray, locationArray;
+    Array<float> locationArray;
     StringArray idArray;
-    String currentGender;
-    String currentId;
+    String currentGender, currentId;
     int deathNum, locationId;
     OSCSender sender;
-	Plot mainPlot, secondPlot, thirdPlot;
-    float normFactor = 1;
-	bool isConnected = false;
-	bool isLoaded = false;
-    bool isAuto = false;
-	bool init = false;
-    float cursorPosition = 0;
-	int numCycles = 0;
-	int dataSetTam = 1;
-    
-    
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

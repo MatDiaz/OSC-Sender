@@ -68,7 +68,7 @@
 #X restore 29 7 pd oscRcvr;
 #N canvas 348 23 932 755 SequencerWind 0;
 #X obj 268 277 hradio 20 1 0 16 empty empty empty 0 -8 0 10 -262144
--1 -1 6;
+-1 -1 5;
 #X obj 8 199 r tempo;
 #X obj 8 230 int;
 #X obj 36 230 + 1;
@@ -567,7 +567,7 @@
 #X restore 343 334 pd subsample1.4;
 #X obj 255 408 s~ samples1;
 #X obj 107 145 hsl 60 15 0 1 0 0 empty empty volume -2 -8 0 10 -262144
--1 -1 4591 1;
+-1 -1 5310 1;
 #X obj 257 365 *~;
 #X obj 23 45 loadbang;
 #X msg 32 130 1;
@@ -632,7 +632,7 @@
 #X obj 482 207 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 107 178 hsl 60 15 0.3 1.6 0 0 empty empty pitch -2 -8 0 10 -262144
--1 -1 3511 0;
+-1 -1 3177 0;
 #X obj 371 172 random 4;
 #X msg 102 255 set Instrumento2;
 #X obj 371 89 tabread Instrumento2;
@@ -860,7 +860,7 @@
 #X restore 343 334 pd subsample2.4;
 #X obj 224 401 s~ samples2;
 #X obj 107 147 hsl 60 15 0 1 0 0 empty empty volume -2 -8 0 10 -262144
--1 -1 2852 1;
+-1 -1 1180 1;
 #X obj 233 361 *~;
 #X obj 21 34 loadbang;
 #X msg 48 126 1;
@@ -869,7 +869,7 @@
 #X text 116 103 2 Gunshot;
 #X obj 315 412 lop~;
 #X obj 339 388 hsl 80 15 20 20000 1 0 empty empty empty -2 -8 0 10
--262144 -1 -1 6486 1;
+-262144 -1 -1 0 1;
 #X obj 336 365 r lopsample2;
 #X obj 171 72 r pitchsample2;
 #X connect 0 0 15 0;
@@ -934,10 +934,10 @@
 #X obj 482 207 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 107 178 hsl 60 15 0.3 1.6 0 0 empty empty pitch -2 -8 0 10 -262144
--1 -1 2078 0;
+-1 -1 3177 0;
 #X obj 371 172 random 4;
 #X obj 107 147 hsl 60 15 0 1 0 0 empty empty volume -2 -8 0 10 -262144
--1 -1 1621 1;
+-1 -1 1180 1;
 #X obj 233 361 *~;
 #X msg 102 255 set Instrumento3;
 #X obj 222 406 s~ samples3;
@@ -1171,7 +1171,7 @@
 #X text 106 103 3 car crash;
 #X obj 315 412 lop~;
 #X obj 339 388 hsl 80 15 20 20000 1 0 empty empty empty -2 -8 0 10
--262144 -1 -1 5685 1;
+-262144 -1 -1 0 1;
 #X obj 336 365 r lopsample3;
 #X obj 189 71 r pitchsample3;
 #X connect 0 0 18 0;
@@ -1236,10 +1236,10 @@
 #X obj 482 207 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 107 178 hsl 60 15 0.3 1.6 0 0 empty empty pitch -2 -8 0 10 -262144
--1 -1 4388 0;
+-1 -1 3177 0;
 #X obj 371 172 random 4;
 #X obj 107 147 hsl 60 15 0 1 0 0 empty empty volume -2 -8 0 10 -262144
--1 -1 2852 1;
+-1 -1 1180 1;
 #X obj 233 361 *~;
 #X msg 102 255 set Instrumento4;
 #X obj 371 89 tabread Instrumento4;
@@ -1473,7 +1473,7 @@
 #X text 104 104 4 Gun burst;
 #X obj 315 412 lop~;
 #X obj 339 388 hsl 80 15 20 20000 1 0 empty empty empty -2 -8 0 10
--262144 -1 -1 6486 1;
+-262144 -1 -1 0 1;
 #X obj 336 365 r lopsample4;
 #X obj 201 76 r pitchsample4;
 #X connect 0 0 17 0;
@@ -1538,10 +1538,10 @@
 #X obj 482 207 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 108 177 hsl 60 15 0.8 2.5 0 0 empty empty pitch -2 -8 0 10 -262144
--1 -1 1589 0;
+-1 -1 694 0;
 #X obj 371 172 random 4;
 #X obj 107 147 hsl 60 15 0 1 0 0 empty empty volume -2 -8 0 10 -262144
--1 -1 4621 1;
+-1 -1 1180 1;
 #X obj 233 361 *~;
 #X obj 19 75 loadbang;
 #X msg 18 128 1;
@@ -2060,7 +2060,7 @@
 #X connect 21 0 15 0;
 #X restore 343 334 pd subsample1.4;
 #X obj 107 145 hsl 60 15 0 1 0 0 empty empty volume -2 -8 0 10 -262144
--1 -1 4591 1;
+-1 -1 5310 1;
 #X obj 257 365 *~;
 #X obj 23 45 loadbang;
 #X msg 32 130 1;
@@ -2072,7 +2072,7 @@
 #X text 101 102 6 Heartbeat2;
 #X obj 315 412 lop~;
 #X obj 339 388 hsl 80 15 20 20000 1 0 empty empty empty -2 -8 0 10
--262144 -1 -1 5685 1;
+-262144 -1 -1 0 1;
 #X obj 336 365 r lopsample6;
 #X connect 0 0 23 0;
 #X connect 1 0 4 0;
@@ -2135,7 +2135,7 @@
 #X obj 482 207 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 107 178 hsl 60 15 0.6 2 0 0 empty empty pitch -2 -8 0 10 -262144
--1 -1 666 0;
+-1 -1 1686 0;
 #X obj 371 172 random 4;
 #N canvas 629 23 599 635 subsample1.1 0;
 #X obj 287 299 soundfiler;
@@ -2360,7 +2360,7 @@
 #X connect 21 0 19 0;
 #X restore 343 334 pd subsample1.4;
 #X obj 107 145 hsl 60 15 0 1 0 0 empty empty volume -2 -8 0 10 -262144
--1 -1 1891 1;
+-1 -1 1180 1;
 #X obj 257 365 *~;
 #X obj 23 45 loadbang;
 #X msg 32 130 1;
@@ -2371,7 +2371,7 @@
 #X msg 65 75 0.2;
 #X obj 315 412 lop~;
 #X obj 339 388 hsl 80 15 20 20000 1 0 empty empty empty -2 -8 0 10
--262144 -1 -1 5685 1;
+-262144 -1 -1 0 1;
 #X text 114 104 7 beep;
 #X obj 336 365 r lopsample7;
 #X obj 194 66 r pitchsample7;
@@ -2437,7 +2437,7 @@
 #X obj 482 207 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 107 178 hsl 60 15 0.6 2 0 0 empty empty pitch -2 -8 0 10 -262144
--1 -1 666 0;
+-1 -1 1686 0;
 #X obj 371 172 random 4;
 #N canvas 629 23 599 635 subsample1.1 0;
 #X obj 287 299 soundfiler;
@@ -2662,7 +2662,7 @@
 #X connect 21 0 19 0;
 #X restore 343 334 pd subsample1.4;
 #X obj 107 145 hsl 60 15 0 1 0 0 empty empty volume -2 -8 0 10 -262144
--1 -1 1891 1;
+-1 -1 1180 1;
 #X obj 257 365 *~;
 #X obj 23 45 loadbang;
 #X msg 32 130 1;
@@ -2674,7 +2674,7 @@
 #X text 111 105 8 knife;
 #X obj 337 409 lop~;
 #X obj 361 385 hsl 80 15 20 20000 1 0 empty empty empty -2 -8 0 10
--262144 -1 -1 5685 1;
+-262144 -1 -1 0 1;
 #X obj 358 362 r lopsample8;
 #X obj 179 78 r pitchsample8;
 #X connect 0 0 23 0;
@@ -2754,7 +2754,7 @@
 #X obj 109 176 hsl 80 15 0 1 0 0 empty empty Pitch -2 -8 0 10 -262144
 -1 -1 0 0;
 #X obj 207 120 vsl 15 70 0 1 0 0 empty empty Volume 0 -9 0 10 -262144
--1 -1 632 0;
+-1 -1 690 0;
 #X obj 198 575 *~;
 #X obj 149 119 bng 15 250 50 0 empty empty Triger 17 7 0 10 -262144
 -1 -1;
@@ -2837,15 +2837,15 @@
 #X msg 389 370 0;
 #X obj 283 462 phasor~;
 #N canvas 0 23 450 278 (subpatch) 0;
-#X array pad2 1.16343e+06 float 2;
-#X coords 0 1 1.16343e+06 -1 200 140 1 0 0;
+#X array pad2 1.16343e+006 float 2;
+#X coords 0 1 1.16343e+006 -1 200 140 1 0 0;
 #X restore 120 665 graph;
 #X obj 280 596 outlet~;
 #X obj 225 324 inlet;
 #X obj 109 176 hsl 80 15 0 1 0 0 empty empty Pitch -2 -8 0 10 -262144
--1 -1 7639 0;
+-1 -1 0 0;
 #X obj 207 120 vsl 15 70 0 1 0 0 empty empty Volume 0 -9 0 10 -262144
--1 -1 5337 0;
+-1 -1 1380 0;
 #X obj 198 575 *~;
 #X msg 286 253 read -resize \$1 pad2;
 #X obj 283 531 tabread4~ pad2;
@@ -2936,9 +2936,9 @@
 #X obj 280 596 outlet~;
 #X obj 225 324 inlet;
 #X obj 109 176 hsl 80 15 0 1 0 0 empty empty Pitch -2 -8 0 10 -262144
--1 -1 7639 0;
+-1 -1 0 0;
 #X obj 207 120 vsl 15 70 0 1 0 0 empty empty Volume 0 -9 0 10 -262144
--1 -1 4670 0;
+-1 -1 1380 0;
 #X obj 198 575 *~;
 #X obj 149 119 bng 15 250 50 0 empty empty Triger 17 7 0 10 -262144
 -1 -1;
@@ -3029,9 +3029,9 @@
 #X obj 280 596 outlet~;
 #X obj 225 324 inlet;
 #X obj 109 176 hsl 80 15 0 1 0 0 empty empty Pitch -2 -8 0 10 -262144
--1 -1 3618 0;
+-1 -1 0 0;
 #X obj 207 120 vsl 15 70 0 1 0 0 empty empty Volume 0 -9 0 10 -262144
--1 -1 1580 0;
+-1 -1 1380 0;
 #X obj 198 575 *~;
 #X obj 149 119 bng 15 250 50 0 empty empty Triger 17 7 0 10 -262144
 -1 -1;
@@ -3103,23 +3103,23 @@
 #X obj 268 507 lop~;
 #X obj 432 506 lop~;
 #X obj 452 486 hsl 128 15 20 20000 1 0 empty empty empty -2 -8 0 10
--262144 -1 -1 10425 0;
+-262144 -1 -1 12700 0;
 #X obj 7 100 r~ samples1;
 #X obj 24 121 r~ samples2;
 #X obj 46 143 r~ samples3;
 #X obj 62 165 r~ samples4;
 #X obj 288 487 hsl 128 15 20 20000 1 0 empty empty empty -2 -8 0 10
--262144 -1 -1 9058 0;
+-262144 -1 -1 12700 0;
 #X obj 603 511 lop~;
 #X obj 623 488 hsl 128 15 20 20000 1 0 empty empty empty -2 -8 0 10
--262144 -1 -1 10425 0;
+-262144 -1 -1 12700 0;
 #X obj 769 510 lop~;
 #X obj 790 489 hsl 128 15 20 20000 1 0 empty empty empty -2 -8 0 10
--262144 -1 -1 9058 0;
+-262144 -1 -1 12700 0;
 #X obj 212 383 loadbang;
 #X msg 212 470 20000;
 #X obj 74 186 r~ samples5;
-#N canvas 222 244 678 303 modulation 1;
+#N canvas 222 244 678 303 modulation 0;
 #X obj 342 24 inlet;
 #X obj 342 45 s toggle;
 #X floatatom 16 134 5 0 0 0 - - -;
@@ -3129,7 +3129,7 @@
 #X obj 16 20 inlet;
 #X obj 121 20 inlet;
 #X obj 228 22 inlet;
-#N canvas 260 251 314 268 musicmod 1;
+#N canvas 260 251 314 249 musicmod 0;
 #X obj 111 106 s volmusic;
 #X obj 105 133 s lopmusic;
 #X obj 56 157 s revmusic;
@@ -3194,7 +3194,7 @@
 #X connect 22 0 3 0;
 #X connect 23 0 0 0;
 #X restore 272 265 pd padmod;
-#N canvas 146 46 1025 694 sequencermod 0;
+#N canvas 583 113 1025 694 sequencermod 0;
 #N canvas 263 155 450 300 secuencia1 0;
 #X msg 50 38 1;
 #X obj 50 60 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
@@ -3699,7 +3699,7 @@
 #X connect 18 0 20 0;
 #X connect 19 0 21 0;
 #X restore 19 38 pd modulation;
-#N canvas 250 90 553 348 music 1;
+#N canvas 250 121 567 472 music 0;
 #X msg 208 59 open Muestras/m/m1.wav;
 #X obj 208 105 readsf~;
 #X msg 232 79 1;
@@ -3709,7 +3709,7 @@
 #X obj 143 172 hsl 50 15 0 1 0 0 empty empty wet -2 -8 0 10 -262144
 -1 -1 4900 1;
 #X obj 144 204 hsl 50 15 0 1 0 0 empty empty roomsize -2 -8 0 10 -262144
--1 -1 2244 1;
+-1 -1 0 1;
 #X obj 209 22 r toggle;
 #X obj 209 42 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
@@ -3724,11 +3724,11 @@
 #X obj 226 242 *~;
 #X obj 210 270 lop~;
 #X obj 109 260 hsl 80 15 20 20000 1 0 empty empty LOP -2 -8 0 10 -262144
--1 -1 6828 1;
+-1 -1 7900 1;
 #X msg 107 60 1;
 #X obj 107 34 loadbang;
 #X msg 136 60 20000;
-#X obj 18 77 r volmusic;
+#X obj 16 17 r volmusic;
 #X obj 19 103 r lopmusic;
 #X obj 20 126 r revmusic;
 #X obj 10 172 -;
@@ -3737,16 +3737,12 @@
 #X obj 362 95 delay;
 #X obj 334 198 line~;
 #X msg 348 176 1;
-#X obj 361 271 snapshot~;
-#X floatatom 310 295 0 0 0 0 - - -;
-#X obj 371 244 metro 100;
-#X obj 384 214 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
 #X obj 366 49 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
 #X msg 386 71 2000;
-#X msg 336 158 0 2000;
 #X floatatom 44 234 5 0 0 0 - - -;
+#X msg 336 158 0 500;
+#X obj 31 61 pow 0.25;
 #X connect 0 0 1 0;
 #X connect 0 0 2 0;
 #X connect 1 0 13 0;
@@ -3760,7 +3756,6 @@
 #X connect 12 0 13 1;
 #X connect 13 0 14 0;
 #X connect 14 0 15 0;
-#X connect 14 0 29 0;
 #X connect 15 0 9 0;
 #X connect 16 0 15 1;
 #X connect 17 0 4 0;
@@ -3770,25 +3765,23 @@
 #X connect 18 0 19 0;
 #X connect 18 0 8 0;
 #X connect 19 0 16 0;
-#X connect 20 0 12 0;
-#X connect 20 0 36 0;
+#X connect 20 0 31 0;
+#X connect 20 0 33 0;
 #X connect 21 0 16 0;
 #X connect 22 0 6 0;
 #X connect 22 0 23 1;
 #X connect 23 0 4 0;
 #X connect 24 0 23 0;
-#X connect 25 0 33 0;
+#X connect 25 0 29 0;
 #X connect 26 0 3 0;
 #X connect 27 0 14 1;
 #X connect 28 0 27 0;
+#X connect 29 0 26 0;
+#X connect 29 0 32 0;
 #X connect 29 0 30 0;
-#X connect 31 0 29 0;
-#X connect 32 0 31 0;
-#X connect 33 0 26 0;
-#X connect 33 0 35 0;
-#X connect 33 0 34 0;
-#X connect 34 0 26 1;
-#X connect 35 0 27 0;
+#X connect 30 0 26 1;
+#X connect 32 0 27 0;
+#X connect 33 0 12 0;
 #X coords 0 -1 1 1 100 180 1 100 100;
 #X restore 595 658 pd music;
 #X obj 85 206 r~ samples6;
@@ -3801,20 +3794,16 @@
 #X msg 336 37 \; pd dsp 0;
 #X obj 336 9 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
-#N canvas 564 28 503 350 music 1;
+#N canvas 564 28 503 350 music 0;
 #X obj 208 105 readsf~;
 #X msg 232 79 1;
 #X msg 264 79 0;
-#X obj 363 134 freeverb~;
-#X msg 372 173 dry \$1;
 #X obj 144 140 hsl 50 15 0 1 0 0 empty empty Dry -2 -8 0 10 -262144
 -1 -1 4900 1;
 #X obj 143 172 hsl 50 15 0 1 0 0 empty empty wet -2 -8 0 10 -262144
 -1 -1 4900 1;
 #X obj 144 204 hsl 50 15 0 1 0 0 empty empty roomsize -2 -8 0 10 -262144
--1 -1 2244 1;
-#X msg 433 175 wet \$1;
-#X msg 372 216 roomsize \$1;
+-1 -1 0 1;
 #X obj 209 42 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
 #X obj 211 295 outlet~;
@@ -3824,14 +3813,14 @@
 -1 -1;
 #X obj 106 129 vsl 15 90 0 1 0 0 empty empty volume 0 -9 0 10 -262144
 -1 -1 8900 1;
-#X obj 211 249 *~;
+#X obj 212 235 *~;
 #X obj 211 271 lop~;
 #X obj 109 260 hsl 80 15 20 20000 1 0 empty empty LOP -2 -8 0 10 -262144
--1 -1 6828 1;
+-1 -1 7900 1;
 #X msg 107 60 1;
 #X obj 107 34 loadbang;
 #X msg 136 60 20000;
-#X obj 18 77 r volmusic;
+#X obj 18 11 r volmusic;
 #X obj 19 103 r lopmusic;
 #X obj 20 126 r revmusic;
 #X obj 10 172 -;
@@ -3841,40 +3830,37 @@
 #X obj 289 19 r toggle;
 #X obj 242 18 delay;
 #X msg 274 -7 1500;
-#X connect 0 0 15 0;
+#X obj 47 300;
+#X obj 48 49 pow 0.25;
+#X connect 0 0 11 0;
 #X connect 1 0 0 0;
 #X connect 2 0 0 0;
-#X connect 4 0 3 0;
-#X connect 5 0 4 0;
-#X connect 6 0 8 0;
-#X connect 7 0 9 0;
-#X connect 8 0 3 0;
-#X connect 9 0 3 0;
-#X connect 10 0 26 0;
-#X connect 12 0 2 0;
-#X connect 13 0 10 0;
-#X connect 14 0 15 1;
+#X connect 6 0 22 0;
+#X connect 8 0 2 0;
+#X connect 9 0 6 0;
+#X connect 10 0 11 1;
+#X connect 11 0 12 0;
+#X connect 12 0 7 0;
+#X connect 13 0 12 1;
+#X connect 14 0 3 0;
+#X connect 14 0 4 0;
+#X connect 14 0 10 0;
+#X connect 15 0 14 0;
 #X connect 15 0 16 0;
-#X connect 16 0 11 0;
-#X connect 17 0 16 1;
-#X connect 18 0 5 0;
-#X connect 18 0 6 0;
-#X connect 18 0 14 0;
-#X connect 19 0 18 0;
-#X connect 19 0 20 0;
-#X connect 20 0 17 0;
-#X connect 21 0 14 0;
-#X connect 22 0 17 0;
-#X connect 23 0 7 0;
-#X connect 23 0 24 1;
-#X connect 24 0 5 0;
-#X connect 25 0 24 0;
-#X connect 26 0 0 0;
-#X connect 26 0 1 0;
-#X connect 27 0 29 0;
-#X connect 28 0 2 0;
-#X connect 29 0 10 0;
-#X connect 30 0 29 1;
+#X connect 16 0 13 0;
+#X connect 17 0 28 0;
+#X connect 18 0 13 0;
+#X connect 19 0 5 0;
+#X connect 19 0 20 1;
+#X connect 20 0 3 0;
+#X connect 21 0 20 0;
+#X connect 22 0 0 0;
+#X connect 22 0 1 0;
+#X connect 23 0 25 0;
+#X connect 24 0 2 0;
+#X connect 25 0 6 0;
+#X connect 26 0 25 1;
+#X connect 28 0 10 0;
 #X coords 0 -1 1 1 100 180 1 100 100;
 #X restore 715 656 pd music 2;
 #X connect 1 0 23 0;
