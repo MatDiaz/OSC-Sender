@@ -117,8 +117,9 @@ public:
 			else if (Location == 2) deathCount = 2;
 			else if (Location == 3) deathCount = 4;
 			else if (Location == 4) deathCount = 5;
-			String outText = String(CharPointer_UTF8("Aqu\xc3\xad. \n A 300 metros de distancia fueron asesinadas ")) + String(deathCount) + String(CharPointer_UTF8(" personas en el \xc3\xbaltimo a\xc3\xb1o"));
+			String outText = String(CharPointer_UTF8("Aqu\xc3\xad. \n A 300 metros de distancia fueron asesinadas ")) + String(deathCount) + String(CharPointer_UTF8(" personas en el \xc3\xbaltimo a\xc3\xb1o")); 
 			text->setText(outText, dontSendNotification);
+			text->setFont(40.0f);
 			text->setBoundsRelative(0.0f, 0.05f, 1.0f, 0.15f);
 			imageIsCreated = true;
 			componentState = states::secondState;
@@ -141,7 +142,7 @@ public:
 			outputFile = parentDir.getNonexistentChildFile(Time::getCurrentTime().toISO8601(false), ".wav");
 			audioRecorder.startRecording(outputFile);
 			text->setText("Grabando!", dontSendNotification);
-			text->setJustificationType(Justification::centred);
+			text->setJustificationType(Justification::verticallyCentred);
 			text->setFont(120.0f);
 			changeState = true;
 			sendChangeMessage();

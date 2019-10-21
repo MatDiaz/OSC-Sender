@@ -41,7 +41,7 @@
 #if ! JUCE_DONT_DECLARE_PROJECTINFO
 namespace ProjectInfo
 {
-    const char* const  projectName    = "Manifiesto Sonoro";
+    const char* const  projectName    = "ManifiestoSonoro";
     const char* const  companyName    = "Laboratorio del Sonido";
     const char* const  versionString  = "0.9.0";
     const int          versionNumber  = 0x900;
