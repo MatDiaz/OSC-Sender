@@ -14,6 +14,7 @@
               file="Assets/SharpGrotesk-Thin15.otf"/>
       </GROUP>
       <GROUP id="{DC880943-0044-2E93-B373-AF9DF60EC9A5}" name="Text">
+        <FILE id="dApqiP" name="intro2.txt" compile="0" resource="1" file="Assets/intro2.txt"/>
         <FILE id="ickLaB" name="2019_grp2_datos.txt" compile="0" resource="1"
               file="Assets/2019_grp2_datos.txt"/>
         <FILE id="JPJPi5" name="2019_grp2.txt" compile="0" resource="1" file="Assets/2019_grp2.txt"/>

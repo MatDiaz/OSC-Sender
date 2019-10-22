@@ -46,6 +46,12 @@ public:
 		getLookAndFeel().setColour(ComboBox::ColourIds::buttonColourId, Colour(uint8(243), uint8(74), uint8(40)));
         getLookAndFeel().setColour(ComboBox::ColourIds::textColourId, projectColours.amarillo);
 		getLookAndFeel().setColour(PopupMenu::ColourIds::textColourId, projectColours.amarillo);
+        
+        String introString = String(CharPointer_UTF8 ("R\xc3\xa9quiem es una propuesta de aproximaci\xc3\xb3n a los datos sobre muerte en la ciudad desde una perspectiva"
+                                                       " emotiva y emp\xc3\xa1tica, una escucha que invita a reflexionar desde la evocaci\xc3\xb3n individual y la sensibi"
+                                                       "lidad propia, sin banalizar ni ponderar los casos particulares, pero dando una voz a la realidad col"
+                                                       "ectiva:\n"
+                                                      "Asi nos estamos matando."));
 
 		StringArray sexArray = { "Hombre", "Mujer" };
 		StringArray ageArray = {"0 - 5", "6 - 11", "12 - 17", "18 - 28", "29 - 59", String(CharPointer_UTF8 ("60 o m\xc3\xa1s"))};
@@ -53,7 +59,7 @@ public:
         StringArray lugaresArray = {"Parque de los sentidos", "Parque del Amor", "Biblioteca de la Floresta", "Parque Biblioteca San Javier"};
 		// ============================================================================
 		        
-        String introMessage = String::fromUTF8(BinaryData::intro_txt, BinaryData::intro_txtSize);
+        String introMessage = String::fromUTF8(BinaryData::intro2_txt, BinaryData::intro2_txtSize);
 		// =============================================================================
 		        
 		auto desktopArea = Desktop::getInstance().getDisplays().getMainDisplay().totalArea;
@@ -61,7 +67,7 @@ public:
         
         introText.reset (new Label());
         addAndMakeVisible (introText.get());
-        introText->setText (introMessage, dontSendNotification);
+        introText->setText (introString, dontSendNotification);
         introText->setFont (Font(35.0f));
         introText->setColour (Label::ColourIds::textColourId, projectColours.amarillo);
         introText->setJustificationType(Justification::horizontallyJustified);
