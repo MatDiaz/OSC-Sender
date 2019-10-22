@@ -66,6 +66,14 @@ public:
         introText->setColour (Label::ColourIds::textColourId, projectColours.amarillo);
         introText->setJustificationType(Justification::horizontallyJustified);
         introText->setVisible(true);
+
+		warningText.reset (new Label());
+		addAndMakeVisible (warningText.get());
+		warningText->setText("Termina de Ingresar los datos para continuar", dontSendNotification);
+		warningText->setFont(Font(40.0f));
+		warningText->setColour(Label::ColourIds::textColourId, Colour(Colours::red));
+		warningText->setJustificationType(Justification::centred);
+		warningText->setVisible(false);
         
 		initialButton.reset (new RoundedButton());
 		addAndMakeVisible (initialButton.get());
@@ -142,6 +150,7 @@ public:
 	void resized() override
 	{
         introText->setBoundsRelative (0.1f, 0.45f, 0.80f, 0.30f);
+		warningText->setBoundsRelative (0.0f, 0.9f, 1.0f, 0.1f);
         initialButton->setBoundsRelative (0.425, 0.8f, 0.15f, 0.075f);
 		        
         sexMenu->setBoundsRelative (0.025f, 0.40f, 0.3f, 0.065f);
@@ -157,7 +166,7 @@ public:
         int ageRank = ageMenu->getSelectedId();
         String ageRankString;
         
-        if (ageRank == 1) ageRankString = "(0, 5]";
+        if (ageRank == 1) ageRankString = "(0,5]";
         else if (ageRank == 2) ageRankString = "(5,11]";
         else if (ageRank == 3) ageRankString = "(11,17]";
         else if (ageRank == 4) ageRankString = "(17,28]";
@@ -212,8 +221,13 @@ public:
                         introText->setBoundsRelative (0.2f, 0.3f, 0.60f, 0.4f);
                         selectedId = getId();
                         location = lugaresMenu->getSelectedId();
+						warningText->setVisible(false);
                         initialStates = states::thirdState;
                     }
+					else
+					{
+						warningText->setVisible(true);
+					}
                 break;
                 }
                 case thirdState:
@@ -233,7 +247,7 @@ private:
 	ComboboxModified lookandf;
     std::unique_ptr<RoundedButton> initialButton;
     std::unique_ptr<ComboBox> sexMenu, ageMenu, comunaMenu, lugaresMenu;
-    std::unique_ptr<Label> introText;
+    std::unique_ptr<Label> introText, warningText;
     ProjectColours projectColours;
     Image backgroundImage;
     enum states {firstState, secondState, thirdState} initialStates;
