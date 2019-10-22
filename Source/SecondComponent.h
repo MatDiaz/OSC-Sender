@@ -138,31 +138,18 @@ public:
 		case thirdState:
 		{
 			nextButton->setEnabled(false);
-
-			String newDirectory = File::getSpecialLocation(File::SpecialLocationType::userDesktopDirectory).getFullPathName();
-
-			#if	JUCE_WINDOWS
-				newDirectory  += "\\ManifiestoAudio";
-			#else
-				newDirectory += "//ManifiestoAudio";
-			#endif
-
-			parentDir = File(newDirectory);
-			parentDir.createDirectory();
-
+			parentDir = File::getSpecialLocation(File::SpecialLocationType::userDesktopDirectory);
 			outputFile = parentDir.getNonexistentChildFile(Time::getCurrentTime().toISO8601(false), ".wav");
 			audioRecorder.startRecording(outputFile);
 			text->setText("Grabando!", dontSendNotification);
 			text->setJustificationType(Justification::verticallyCentred);
 			text->setFont(120.0f);
 			changeState = true;
-			isRecording = true;
 			sendChangeMessage();
 			startTimer(1000);
 			break;
 		}
 		case fourthState:
-			stopTimer();
 			sendChangeMessage();
 			break;
 		default:
@@ -173,43 +160,33 @@ public:
 
 	void timerCallback() override
 	{
-		if (isRecording)
+		if (counter-- >= 1)
 		{
-			if (counter-- >= 1)
-			{
-				nextButton->setButtonText(String(counter));
-			}
-			else
-			{
-				componentState = states::fourthState;
-				nextButton->setButtonText("Terminar");
-				nextButton->setEnabled(true);
-				counter = 0;
-				audioRecorder.stop();
-				outputFile = File();
-				String textoo = String(CharPointer_UTF8("Para conocer m\xc3\xa1s de este proyecto y asistir a socializaciones visita: laboratoriodelsonido.com.co"));
-				text->setText(textoo, dontSendNotification);
-				text->setFont(35.0f);
-				text->setJustificationType(Justification::centredBottom);
-				text->setBoundsRelative(0.2f, 0.0f, 0.6f, 0.60f);
-				repaint();
-				changeState = false;
-				isRecording = false;
-			}
+			nextButton->setButtonText(String(counter));
 		}
 		else
 		{
-			if (++counter >= 5)
-			{
-				buttonClicked(nextButton.get());
-			}
+			componentState = states::fourthState;
+			nextButton->setButtonText("Terminar");
+			nextButton->setEnabled(true);
+			counter = 0;
+			audioRecorder.stop();
+			outputFile = File();
+			changeState = false;
+			String textoo = String(CharPointer_UTF8("Para conocer m\xc3\xa1s de este proyecto y asistir a socializaciones visita: laboratoriodelsonido.com.co"));
+			text->setText(textoo, dontSendNotification);
+			text->setFont(35.0f);
+			text->setJustificationType(Justification::centredBottom);
+			text->setBoundsRelative(0.2f, 0.0f, 0.6f, 0.60f);
+			repaint();
+			stopTimer();
 		}
 	}
 	bool changeState = false;
 	enum states { firstState, secondState, thirdState, fourthState, fifthState } componentState;
 
 private:
-	int counter = 10, counterOut = 0;
+	int counter = 10;
 	File outputFile;
 	File parentDir;
 	Image backgroundImage;
@@ -217,7 +194,7 @@ private:
 	std::unique_ptr<Label>  text;
 	ProjectColours projectColours;
 	AudioRecorder audioRecorder;
-	bool imageIsCreated = false, isRecording = false;
+	bool imageIsCreated = false;
 	int Location;
 	std::unique_ptr<AudioDeviceManager> audioDeviceManager;
 };

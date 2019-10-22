@@ -36,7 +36,7 @@ namespace BinaryData
     const int            instrucciones_txtSize = 250;
 
     extern const char*   intro_txt;
-    const int            intro_txtSize = 502;
+    const int            intro_txtSize = 499;
 
     extern const char*   homicidio_txt;
     const int            homicidio_txtSize = 718;

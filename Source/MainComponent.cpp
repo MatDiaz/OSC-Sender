@@ -118,25 +118,6 @@ void MainComponent::changeListenerCallback(ChangeBroadcaster* source)
 		currentId = initialComponent->selectedId;
 		deathNum = findData(currentId);
 		locationId = initialComponent->location;
-
-		File parentDir;
-
-		String newDirectory = File::getSpecialLocation(File::SpecialLocationType::userDesktopDirectory).getFullPathName();
-
-	#if	JUCE_WINDOWS
-		newDirectory += "\\ManifiestoDatos";
-	#else
-		newDirectory += "//ManifiestoDatos";
-	#endif
-
-		parentDir = File(newDirectory);
-		parentDir.createDirectory();
-
-		if (!parentDir.getChildFile("datos.txt").existsAsFile())
-			parentDir.getChildFile("datos.txt").create();
-
-		parentDir.getChildFile("datos.txt").appendText(currentId + " Time:" + Time::getCurrentTime().toString(true, true, true) + "\n");
-	
 		initialComponent.reset();
 		executeSequence(secondWindow);
 	}
