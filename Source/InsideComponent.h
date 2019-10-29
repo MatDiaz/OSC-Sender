@@ -61,9 +61,6 @@ public:
 		        
         String introMessage = String::fromUTF8(BinaryData::intro2_txt, BinaryData::intro2_txtSize);
 		// =============================================================================
-		        
-		auto desktopArea = Desktop::getInstance().getDisplays().getMainDisplay().totalArea;
-		float desktopSize = desktopArea.getWidth() * desktopArea.getHeight();
         
         introText.reset (new Label());
         addAndMakeVisible (introText.get());
@@ -122,6 +119,8 @@ public:
         sexMenu = nullptr;
         ageMenu = nullptr;
         comunaMenu = nullptr;
+        lugaresMenu = nullptr;
+        
         introText = nullptr;
         initialButton = nullptr;
     }

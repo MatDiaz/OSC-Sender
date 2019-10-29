@@ -18,11 +18,9 @@ class SecondComponent : public GenericWindowComponent,
 						private Timer
 {
 public:
-	SecondComponent(AudioDeviceManager* deviceManager, String gender, int deaths, int location)
+    SecondComponent(AudioDeviceManager* deviceManager, String gender, int deaths, int location):
+    Location(location)
 	{
-		auto desktopArea = Desktop::getInstance().getDisplays().getMainDisplay().totalArea;
-		float desktopSize = desktopArea.getWidth() * desktopArea.getHeight();
-		Location = location;
 		String texto = String(CharPointer_UTF8("Detr\xc3\xa1s de cada dato hay una historia,\n"
 			"un nombre, una voz,\n"
 			"como la tuya.\n \n"));
@@ -54,10 +52,11 @@ public:
 	}
 	~SecondComponent()
 	{
-		nextButton = nullptr;
-		text = nullptr;
 		audioDeviceManager->removeAudioCallback(&audioRecorder);
 		audioDeviceManager.release();
+        audioDeviceManager = nullptr;
+        nextButton = nullptr;
+        text = nullptr;
 	}
 	void paint(Graphics& g) override
 	{
@@ -149,7 +148,6 @@ public:
 
 			parentDir = File(newDirectory);
 			parentDir.createDirectory();
-
 			outputFile = parentDir.getNonexistentChildFile(Time::getCurrentTime().toISO8601(false), ".wav");
 			audioRecorder.startRecording(outputFile);
 			text->setText("Grabando!", dontSendNotification);
@@ -215,9 +213,9 @@ private:
 	Image backgroundImage;
 	std::unique_ptr<RoundedButton> nextButton;
 	std::unique_ptr<Label>  text;
+    std::unique_ptr<AudioDeviceManager> audioDeviceManager;
 	ProjectColours projectColours;
 	AudioRecorder audioRecorder;
 	bool imageIsCreated = false, isRecording = false;
-	int Location;
-	std::unique_ptr<AudioDeviceManager> audioDeviceManager;
+    int Location;
 };

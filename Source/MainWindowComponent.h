@@ -51,9 +51,9 @@ public:
 
 		setSize(getParentWidth(), getParentHeight());
 
-		readTextFileData(BinaryData::suicidio_txt, BinaryData::suicidio_txtSize, mainPlot, firstArray);
-		readTextFileData(BinaryData::transporte_txt, BinaryData::transporte_txtSize, thirdPlot, thirdArray);
-		readTextFileData(BinaryData::homicidio_txt, BinaryData::homicidio_txtSize, secondPlot, secondArray);
+        readTextFileData(BinaryData::suicidio_2018_txt, BinaryData::suicidio_2018_txtSize, mainPlot, firstArray);
+        readTextFileData(BinaryData::transporte_2018_txt, BinaryData::transporte_2018_txtSize, thirdPlot, thirdArray);
+        readTextFileData(BinaryData::homicidio_2018_txt, BinaryData::homicidio_2018_txtSize, secondPlot, secondArray);
 
 		sender.reset(oscControl);
 		startTimer(30);
@@ -163,11 +163,11 @@ public:
 
 		date->setText(mainPlot.yDataToPlot[(int)round(cursorPosition * mainPlot.dataSetSize)], dontSendNotification);
 
-		const float cycleTime = (2000 * 60) / 30;
+		const float cycleTime = (1500 * 60) / 30;
 
 		cursorPosition += 1.0f / (float)cycleTime;
 
-		if (cursorPosition >= (1 - (1.0f / (float)cycleTime) * 5))
+		if (cursorPosition >= 1)
 		{
 			cursorPosition = 0;
 			sender->send("/toggle2", 1.0f);

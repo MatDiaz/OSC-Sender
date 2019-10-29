@@ -17,6 +17,24 @@ namespace BinaryData
     extern const char*   SharpGroteskThin15_otf;
     const int            SharpGroteskThin15_otfSize = 50984;
 
+    extern const char*   homicidio_20172018_txt;
+    const int            homicidio_20172018_txtSize = 360;
+
+    extern const char*   suicidio_20172018_txt;
+    const int            suicidio_20172018_txtSize = 359;
+
+    extern const char*   transporte_20172018_txt;
+    const int            transporte_20172018_txtSize = 360;
+
+    extern const char*   homicidio_2018_txt;
+    const int            homicidio_2018_txtSize = 180;
+
+    extern const char*   suicidio_2018_txt;
+    const int            suicidio_2018_txtSize = 180;
+
+    extern const char*   transporte_2018_txt;
+    const int            transporte_2018_txtSize = 180;
+
     extern const char*   intro2_txt;
     const int            intro2_txtSize = 499;
 
@@ -102,7 +120,7 @@ namespace BinaryData
     const int            mensaje_jpegSize = 379745;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
-    const int namedResourceListSize = 31;
+    const int namedResourceListSize = 37;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];

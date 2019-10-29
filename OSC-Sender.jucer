@@ -14,6 +14,18 @@
               file="Assets/SharpGrotesk-Thin15.otf"/>
       </GROUP>
       <GROUP id="{DC880943-0044-2E93-B373-AF9DF60EC9A5}" name="Text">
+        <FILE id="AwwQVx" name="homicidio_2017-2018.txt" compile="0" resource="1"
+              file="Assets/homicidio_2017-2018.txt"/>
+        <FILE id="p01HTf" name="suicidio_2017-2018.txt" compile="0" resource="1"
+              file="Assets/suicidio_2017-2018.txt"/>
+        <FILE id="oiumrp" name="transporte_2017-2018.txt" compile="0" resource="1"
+              file="Assets/transporte_2017-2018.txt"/>
+        <FILE id="Nrsu1i" name="homicidio_2018.txt" compile="0" resource="1"
+              file="Assets/homicidio_2018.txt"/>
+        <FILE id="iXNqSQ" name="suicidio_2018.txt" compile="0" resource="1"
+              file="Assets/suicidio_2018.txt"/>
+        <FILE id="hdemBb" name="transporte_2018.txt" compile="0" resource="1"
+              file="Assets/transporte_2018.txt"/>
         <FILE id="dApqiP" name="intro2.txt" compile="0" resource="1" file="Assets/intro2.txt"/>
         <FILE id="ickLaB" name="2019_grp2_datos.txt" compile="0" resource="1"
               file="Assets/2019_grp2_datos.txt"/>
