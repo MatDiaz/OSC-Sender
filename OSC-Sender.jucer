@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="pb7gqQ" name="ManifiestoSonoro" projectType="guiapp" jucerVersion="5.4.3"
+<JUCERPROJECT id="pb7gqQ" name="ManifiestoSonoro" projectType="guiapp" jucerVersion="5.4.5"
               companyName="Laboratorio del Sonido" companyWebsite="laboratoriodelsonido.co"
               version="0.9.0">
   <MAINGROUP id="U6XrTf" name="ManifiestoSonoro">
     <GROUP id="{69C9BAE9-C440-2CBF-0516-557B72F2E2AF}" name="Assets">
+      <GROUP id="{580C28B7-90F8-4820-0B7C-FF07CA3E2622}" name="Audios">
+        <FILE id="YEkMYc" name="sonidosvida.wav" compile="0" resource="1" file="Assets/sonidosvida.wav"/>
+      </GROUP>
       <GROUP id="{5CC642CD-0B01-4E34-2B13-65F6744E262A}" name="Fonts">
         <FILE id="Z1rmra" name="Sharp Grotesk Black 05 Regular.otf" compile="0"
               resource="1" file="Assets/Sharp Grotesk Black 05 Regular.otf"/>
