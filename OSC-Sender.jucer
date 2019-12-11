@@ -84,8 +84,6 @@
       <FILE id="ijAhRK" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
       <FILE id="u6sxGg" name="ProjectColours.cpp" compile="1" resource="0"
             file="Source/ProjectColours.cpp"/>
-      <FILE id="qPhLtI" name="WindowComponent.h" compile="0" resource="0"
-            file="Source/WindowComponent.h"/>
       <FILE id="bIBDjr" name="InsideComponent.h" compile="0" resource="0"
             file="Source/InsideComponent.h"/>
     </GROUP>

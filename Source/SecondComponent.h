@@ -18,7 +18,7 @@ class SecondComponent : public GenericWindowComponent,
 						private Timer
 {
 public:
-    SecondComponent(AudioDeviceManager* deviceManager, String gender, int deaths, int location):
+    SecondComponent(String gender, int deaths, int location):
     Location(location)
 	{
 		String texto = String(CharPointer_UTF8("Detr\xc3\xa1s de cada dato hay una historia,\n"
@@ -46,15 +46,9 @@ public:
 		text->setJustificationType(Justification::centredTop);
 		text->setVisible(true);
 		componentState = states::firstState;
-
-		audioDeviceManager.reset(deviceManager);
-		audioDeviceManager->addAudioCallback(&audioRecorder);
 	}
 	~SecondComponent()
 	{
-		audioDeviceManager->removeAudioCallback(&audioRecorder);
-		audioDeviceManager.release();
-        audioDeviceManager = nullptr;
         nextButton = nullptr;
         text = nullptr;
 	}
@@ -138,21 +132,6 @@ public:
 		{
 			nextButton->setEnabled(false);
 
-			String newDirectory = File::getSpecialLocation(File::SpecialLocationType::userDesktopDirectory).getFullPathName();
-
-			#if	JUCE_WINDOWS
-				newDirectory  += "\\ManifiestoAudio";
-			#else
-				newDirectory += "//ManifiestoAudio";
-			#endif
-
-			parentDir = File(newDirectory);
-			parentDir.createDirectory();
-			outputFile = parentDir.getNonexistentChildFile(Time::getCurrentTime().toISO8601(false), ".wav");
-			audioRecorder.startRecording(outputFile);
-			text->setText("Grabando!", dontSendNotification);
-			text->setJustificationType(Justification::verticallyCentred);
-			text->setFont(120.0f);
 			changeState = true;
 			isRecording = true;
 			sendChangeMessage();
@@ -173,17 +152,12 @@ public:
 	{
 		if (isRecording)
 		{
-			if (counter-- >= 1)
-			{
-				nextButton->setButtonText(String(counter));
-			}
-			else
+			if (--counter <= 1)
 			{
 				componentState = states::fourthState;
 				nextButton->setButtonText("Terminar");
 				nextButton->setEnabled(true);
 				counter = 0;
-				audioRecorder.stop();
 				outputFile = File();
 				String textoo = String(CharPointer_UTF8("Para conocer m\xc3\xa1s de este proyecto y asistir a socializaciones visita: laboratoriodelsonido.com.co"));
 				text->setText(textoo, dontSendNotification);
@@ -213,9 +187,7 @@ private:
 	Image backgroundImage;
 	std::unique_ptr<RoundedButton> nextButton;
 	std::unique_ptr<Label>  text;
-    std::unique_ptr<AudioDeviceManager> audioDeviceManager;
 	ProjectColours projectColours;
-	AudioRecorder audioRecorder;
 	bool imageIsCreated = false, isRecording = false;
     int Location;
 };

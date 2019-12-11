@@ -188,7 +188,7 @@ void MainComponent::executeSequence (sequenceOrder actualPosition)
 		mainWindowComponent->setBounds(getBounds());
 		break;
 	case thirdWindow:
-		secondComponent.reset(new SecondComponent(&deviceManager, currentGender, deathNum, locationId));
+		secondComponent.reset(new SecondComponent(currentGender, deathNum, locationId));
 		addAndMakeVisible(secondComponent.get());
 		secondComponent->addChangeListener(this);
 		secondComponent->setBounds(getBounds());
