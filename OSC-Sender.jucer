@@ -45,6 +45,8 @@
         <FILE id="UMAiJI" name="TextEx.txt" compile="0" resource="1" file="Source/TextEx.txt"/>
       </GROUP>
       <GROUP id="{96C0CB7D-9861-7598-5EE5-CABA96F6A3B0}" name="Images">
+        <FILE id="zJpeoD" name="metropolitano.jpeg" compile="0" resource="1"
+              file="Assets/metropolitano.jpeg"/>
         <FILE id="KYWXQc" name="Verdena,_Requiem_(Logo).png" compile="0" resource="1"
               file="Assets/Verdena,_Requiem_(Logo).png"/>
         <FILE id="e3ib9v" name="bib_floresta.png" compile="0" resource="1"

@@ -30,12 +30,20 @@ MainComponent::MainComponent()
 
 	setAudioChannels(2, 2);
 
-	#if JUCE_LINUX
-		deviceManager.setCurrentAudioDeviceType("JACK", true);
-	#endif
-	
-	executeSequence(firstWindow);
+#if JUCE_LINUX
+	deviceManager.setCurrentAudioDeviceType("JACK", true);
+#endif
 
+	executeSequence(firstWindow);
+	MemoryInputStream inputStream(BinaryData::sonidosvida_wav, BinaryData::sonidosvida_wavSize, true);
+	audioFormatManager.registerBasicFormats();
+	AudioFormatReader* audioReader =  audioFormatManager.createReaderFor(&inputStream);
+	audioToRead.setSize(1, audioReader->lengthInSamples);
+	audioReader->read(&audioToRead, 0, audioReader->lengthInSamples, 0, true, false);
+	DBG(audioToRead.getNumChannels());
+	DBG(audioToRead.getNumSamples());
+	isReading = false;
+	sampleIdx = 0;
     sender.connect("127.0.0.1", 9001);
 }
 
@@ -53,7 +61,30 @@ void MainComponent::prepareToPlay (int samplesPerBlockExpected, double sampleRat
 
 void MainComponent::getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill)
 {
-    bufferToFill.clearActiveBufferRegion();
+	if (isReading)
+	{
+		for (auto i = 0; i < bufferToFill.buffer->getNumSamples(); ++i)
+		{
+			for (auto j = 0; j < bufferToFill.buffer->getNumChannels(); ++j)
+			{
+				float* audioSample = bufferToFill.buffer->getWritePointer(j);
+				const float* audioValue = audioToRead.getReadPointer(0);
+
+				audioSample[i] = audioValue[sampleIdx];
+			}
+			++sampleIdx;
+			if (sampleIdx >= (audioToRead.getNumSamples()-1))
+			{
+				sampleIdx = 0;
+				isReading = false;
+				break;
+			}
+		}
+	}
+	else
+	{
+		bufferToFill.clearActiveBufferRegion();
+	}
 }
 
 void MainComponent::releaseResources()
@@ -149,8 +180,9 @@ void MainComponent::changeListenerCallback(ChangeBroadcaster* source)
 	{
 		if (secondComponent->componentState == SecondComponent::thirdState)
 		{
-			sender.send("/toggle3", 1.0f);
-			sender.send("/toggle4", 1.0f);
+			sender.send("/toggle3", 0.0f);
+			sender.send("/toggle4", 0.0f);
+			isReading = true;
 		}
 		else if (secondComponent->changeState)
 		{

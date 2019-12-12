@@ -54,7 +54,7 @@ namespace BinaryData
     const int            datos_txtSize = 92;
 
     extern const char*   grabacion_txt;
-    const int            grabacion_txtSize = 247;
+    const int            grabacion_txtSize = 233;
 
     extern const char*   instrucciones_txt;
     const int            instrucciones_txtSize = 250;
@@ -73,6 +73,9 @@ namespace BinaryData
 
     extern const char*   TextEx_txt;
     const int            TextEx_txtSize = 421;
+
+    extern const char*   metropolitano_jpeg;
+    const int            metropolitano_jpegSize = 559004;
 
     extern const char*   Verdena_Requiem_Logo_png;
     const int            Verdena_Requiem_Logo_pngSize = 126005;
@@ -123,7 +126,7 @@ namespace BinaryData
     const int            mensaje_jpegSize = 379745;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
-    const int namedResourceListSize = 38;
+    const int namedResourceListSize = 39;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];

@@ -52,14 +52,17 @@ public:
 private:
 
 	Typeface::Ptr tptr;
+
+	AudioFormatManager audioFormatManager;
+	AudioBuffer<float> audioToRead;
     std::unique_ptr<InsideComponent> initialComponent;
     std::unique_ptr<SecondComponent> secondComponent;
 	std::unique_ptr<MainWindowComponent> mainWindowComponent;
-    
     Array<float> locationArray;
     StringArray idArray;
     String currentGender, currentId;
-    int deathNum, locationId;
+    int deathNum, locationId, sampleIdx;
+	bool isReading = false;
     OSCSender sender;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)

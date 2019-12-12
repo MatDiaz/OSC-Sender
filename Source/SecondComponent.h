@@ -86,6 +86,8 @@ public:
 				mapImage = ImageFileFormat::loadFrom(BinaryData::bib_floresta_png, BinaryData::bib_floresta_pngSize);
 			else if (Location == 4)
 				mapImage = ImageFileFormat::loadFrom(BinaryData::san_javier_png, BinaryData::san_javier_pngSize);
+			else if (Location == 5)
+				mapImage = ImageFileFormat::loadFrom(BinaryData::metropolitano_jpeg, BinaryData::metropolitano_jpegSize);
 
 			juce::Rectangle<float> imageRec(area.getWidth() * 0.15, area.getHeight() * 0.225, area.getWidth() * 0.7, area.getHeight() * 0.60);
 
@@ -110,7 +112,15 @@ public:
 			else if (Location == 2) deathCount = 2;
 			else if (Location == 3) deathCount = 4;
 			else if (Location == 4) deathCount = 5;
-			String outText = String(CharPointer_UTF8("Aqu\xc3\xad. \n A 300 metros de distancia fueron asesinadas ")) + String(deathCount) + String(CharPointer_UTF8(" personas en el \xc3\xbaltimo a\xc3\xb1o")); 
+			else if (Location == 5) deathCount = 11;
+			String metros;
+
+			if (Location == 5)
+				metros = "600";
+			else
+				metros = "300";
+
+			String outText = String(String(CharPointer_UTF8("Aqu\xc3\xad. \n A ")) + metros + String(" metros de distancia fueron asesinadas ") + String(deathCount) + String(CharPointer_UTF8(" personas en el \xc3\xbaltimo a\xc3\xb1o"))); 
 			text->setText(outText, dontSendNotification);
 			text->setFont(40.0f);
 			text->setBoundsRelative(0.0f, 0.05f, 1.0f, 0.15f);
@@ -122,20 +132,22 @@ public:
 		{
 			String texto = String::fromUTF8(BinaryData::grabacion_txt, BinaryData::grabacion_txtSize);
 			text->setText(texto, dontSendNotification);
-			text->setBoundsRelative(0.2f, 0.05f, 0.6f, 0.70f);
+			text->setBoundsRelative(0.2f, 0.15f, 0.6f, 0.70f);
+			text->setFont(55.0f);
 			componentState = states::thirdState;
 			nextButton->setButtonText("Grabar");
+			changeState = true;
+			isRecording = true;
+			startTimer(1000);
+			nextButton->setVisible(false);
 			sendChangeMessage();
+			
 		}
 		break;
 		case thirdState:
 		{
-			nextButton->setEnabled(false);
-
-			changeState = true;
-			isRecording = true;
+			// Playing...
 			sendChangeMessage();
-			startTimer(1000);
 			break;
 		}
 		case fourthState:
@@ -154,7 +166,9 @@ public:
 		{
 			if (--counter <= 1)
 			{
+				
 				componentState = states::fourthState;
+				nextButton->setVisible(true);
 				nextButton->setButtonText("Terminar");
 				nextButton->setEnabled(true);
 				counter = 0;
@@ -181,7 +195,7 @@ public:
 	enum states { firstState, secondState, thirdState, fourthState, fifthState } componentState;
 
 private:
-	int counter = 10, counterOut = 0;
+	int counter = 70, counterOut = 0;
 	File outputFile;
 	File parentDir;
 	Image backgroundImage;
